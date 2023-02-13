@@ -1,0 +1,10 @@
+.logo-text{
+    font-size: 2.5rem;
+    font-weight: 700;
+    font-family: 'Roboto', 'sans-serif';
+    color: var(--white);
+
+    @media (min-width: 576px){
+        font-size: var(--large-size);
+    }
+}

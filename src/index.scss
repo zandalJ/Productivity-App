@@ -1,0 +1,38 @@
+* {
+	box-sizing: border-box;
+	padding: 0;
+	margin: 0;
+}
+
+html{
+  font-size: 62.5%;
+}
+
+body{
+	font-family: 'Nunito', sans-serif;
+}
+
+::selection{
+	color: white;
+	background-color: var(--main-color);
+}
+
+:root{
+	--main-color: #176EC1;
+	--main-background-color: #171719;
+	--sec-background-color: #29292E;
+	--light-blue: #2192FF;
+	--light-purple: #A555EC;
+	--light-green: #13B57A;
+	--error-red: #DC0000;
+	--light-grey: #BDCDD6;
+	--white: #e3e9ee;
+	--large-size: 3.4rem;
+	--big-size: 2.8rem;
+	--normal-size: 1.7rem;
+	--small-size: 1.2rem
+}
+
+a{
+	text-decoration: none;
+}
