@@ -10,6 +10,8 @@ html{
 
 body{
 	font-family: 'Nunito', sans-serif;
+	background-color: var(--main-background-color);
+	overflow: hidden;
 }
 
 ::selection{
@@ -34,5 +36,10 @@ body{
 }
 
 a{
+	color: var(--white);
 	text-decoration: none;
+}
+
+ul{
+	list-style: none;
 }
