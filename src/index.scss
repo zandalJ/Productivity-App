@@ -9,8 +9,9 @@ html{
 }
 
 body{
-	font-family: 'Nunito', sans-serif;
 	background-color: var(--main-background-color);
+	color: var(--white);
+	font-family: 'Nunito', sans-serif;
 	overflow: hidden;
 }
 
@@ -27,7 +28,7 @@ body{
 	--light-purple: #A555EC;
 	--light-green: #13B57A;
 	--error-red: #DC0000;
-	--light-grey: #BDCDD6;
+	--light-gray: #BDCDD6;
 	--white: #e3e9ee;
 	--large-size: 3.4rem;
 	--big-size: 2.8rem;
@@ -42,4 +43,8 @@ a{
 
 ul{
 	list-style: none;
+}
+
+main{
+	height: 90vh;
 }

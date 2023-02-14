@@ -1,0 +1,19 @@
+.box{
+    display: flex;
+    align-items: center;
+    margin: 2rem 0 4rem;
+}
+
+.names-box{
+    margin-left: 2rem;
+}
+
+.name{
+    font-family: "Roboto" , 'sans-serif';
+    font-size: 23px;
+}
+
+.nickname{
+    font-size: var(--normal-size);
+    color: var(--light-gray);
+}
