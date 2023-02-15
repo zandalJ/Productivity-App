@@ -1,11 +1,13 @@
 import styles from "./NavArrow.module.scss";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { solid } from "@fortawesome/fontawesome-svg-core/import.macro";
-import { motion } from "framer-motion";
+import { motion, transform } from "framer-motion";
 const btnVariants = {
 	opened: width=>({ left: width<576 ? "265px" : "325px", transition: { duration: 0.2 } }),
 	closed: width=>({ left: width<576 ? "100px" : '110px', transition: { duration: 0.4, delay: 0.3 } }),
 };
+
+
 const NavArrow = ({ open, openHandler, width }) => {
 	return (
 		<motion.button
@@ -13,9 +15,12 @@ const NavArrow = ({ open, openHandler, width }) => {
 			onClick={openHandler}
 			animate={open ? "opened" : "closed"}
 			initial={"closed"}
-            custom={width}
+			custom={width}
 			variants={btnVariants}>
-			<FontAwesomeIcon icon={solid("arrow-right")} className={styles.icon} />
+			<FontAwesomeIcon
+				icon={solid("arrow-right")}
+				className={styles.icon}
+			/>
 		</motion.button>
 	);
 };

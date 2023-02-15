@@ -30,6 +30,13 @@ const itemsVariants = {
 	},
 };
 
+const liVariants = {
+	display: open=>({
+		display: !open ? 'flex' : 'block',
+		justifyContent: !open ? 'center' : null
+	})
+}
+
 const SideNav = () => {
 	const [open, setIsOpen] = useState(true);
 	const width = useWidth();
@@ -74,7 +81,11 @@ const SideNav = () => {
 					className={`${styles["links-list"]} ${
 						open ? styles["list-opened"] : styles["list-closed"]
 					}`}>
-					<li>
+					<motion.li
+						animate={"display"}
+						initial={"display"}
+						custom={open}
+						variants={liVariants}>
 						<NavLink
 							to='/test'
 							className={({ isActive }) =>
@@ -90,8 +101,12 @@ const SideNav = () => {
 								Dashboard
 							</SideNavLinkText>
 						</NavLink>
-					</li>
-					<li>
+					</motion.li>
+					<motion.li
+						animate={"display"}
+						initial={"display"}
+						custom={open}
+						variants={liVariants}>
 						<NavLink
 							to='/test'
 							className={({ isActive }) =>
@@ -107,8 +122,12 @@ const SideNav = () => {
 								Tasks
 							</SideNavLinkText>
 						</NavLink>
-					</li>
-					<li>
+					</motion.li>
+					<motion.li
+						animate={"display"}
+						initial={"display"}
+						custom={open}
+						variants={liVariants}>
 						<NavLink
 							to='/test'
 							className={({ isActive }) =>
@@ -124,8 +143,12 @@ const SideNav = () => {
 								Habits
 							</SideNavLinkText>
 						</NavLink>
-					</li>
-					<li>
+					</motion.li>
+					<motion.li
+						animate={"display"}
+						initial={"display"}
+						custom={open}
+						variants={liVariants}>
 						<NavLink
 							to='/test'
 							className={({ isActive }) =>
@@ -141,7 +164,7 @@ const SideNav = () => {
 								Team Members
 							</SideNavLinkText>
 						</NavLink>
-					</li>
+					</motion.li>
 				</ul>
 			</motion.nav>
 		</Fragment>
