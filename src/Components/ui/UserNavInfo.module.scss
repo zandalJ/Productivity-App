@@ -1,7 +1,11 @@
 .box{
     display: flex;
     align-items: center;
-    margin: 2rem 0 4rem;
+    margin: 2rem 0;
+
+    @media(min-width: 576px){
+        margin: 2rem 0 4rem;
+    }
 }
 
 .names-box{
@@ -10,10 +14,19 @@
 
 .name{
     font-family: "Roboto" , 'sans-serif';
-    font-size: 23px;
+    font-size: 2rem;
+
+    @media(min-width: 576px){
+        font-size: 2.3rem;
+    }
 }
 
 .nickname{
     font-size: var(--normal-size);
     color: var(--light-gray);
+
+    font-size: 1.4rem;
+     @media(min-width: 576px){
+        font-size: var(--normal-size);
+    }
 }

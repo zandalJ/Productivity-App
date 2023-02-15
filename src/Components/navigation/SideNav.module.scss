@@ -6,20 +6,37 @@
 }
 
 .menu-text {
-	margin-bottom: 4rem;
-	font-size: 2rem;
+	margin-bottom: 2rem;
+	font-size: var(--normal-size);
 	font-family: "roboto", "sans-serif";
+
+	@media(min-width:576px){
+		font-size: 2rem;
+		margin-bottom: 4rem;
+	}
 }
 
 .links-list {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
 	li {
 		margin-bottom: 2rem;
-		font-size: 2rem;
+		font-size: var(--normal-size);
 
 		.icon {
-			margin-right: 2rem;
-			width: 22px;
+			margin-right: 1rem;
+			width: 18px;
 			height: auto;
+
+			@media(min-width:576px){
+				margin-right: 2rem;
+				width: 22px;
+			}
+		}
+
+		@media(min-width:576px){
+			font-size: 2rem;
 		}
 	}
 }
