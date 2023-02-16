@@ -5,7 +5,7 @@ import UserDropdown from "../user/UserDropdown";
 const HeaderNav = () => {
 	return (
 		<nav className={styles.nav}>
-			<NavigationLink>
+			<NavigationLink href="/">
 				<Logo />
 			</NavigationLink>
                 <UserDropdown/>

@@ -9,7 +9,7 @@ const HomePage = () => {
 			<div className={styles.box}>
 				<h1>Best productivity app for everyone!</h1>
 				<p>Increase your efficiency</p>
-				<Link to="/test">
+				<Link to="/dashboard">
 					<Button>Get started</Button>
 				</Link>
 			</div>
