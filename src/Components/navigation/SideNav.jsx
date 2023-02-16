@@ -11,11 +11,13 @@ import NavArrow from "./NavArrow";
 
 const navVariants = {
 	open: width => ({
-		width: width >= 576 ? "300px" : "240px",
+		minWidth: width >= 576 ? "300px" : "240px",
+		maxWidth: width >= 576 ? "300px" : "240px",
 		transition: { duration: 0.3 },
 	}),
 	closed: width => ({
-		width: width >= 576 ? "85px" : "75px",
+		maxWidth: width >= 576 ? "85px" : "75px",
+		minWidth: width >= 576 ? "85px" : "75px",
 		transition: { duration: 0.3, delay: 0.1 },
 	}),
 };
