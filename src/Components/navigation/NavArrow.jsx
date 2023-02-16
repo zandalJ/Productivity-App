@@ -1,11 +1,16 @@
 import styles from "./NavArrow.module.scss";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { solid } from "@fortawesome/fontawesome-svg-core/import.macro";
-import { motion, transform } from "framer-motion";
+import { motion } from "framer-motion";
+
 const btnVariants = {
 	opened: width=>({ left: width<576 ? "265px" : "325px", transition: { duration: 0.2 } }),
 	closed: width=>({ left: width<576 ? "100px" : '110px', transition: { duration: 0.4, delay: 0.3 } }),
 };
+
+const arrowStyle = ({open}) => ({
+	transform:`rotate(${open ? 180 : 0}deg)`
+})
 
 
 const NavArrow = ({ open, openHandler, width }) => {
@@ -20,6 +25,7 @@ const NavArrow = ({ open, openHandler, width }) => {
 			<FontAwesomeIcon
 				icon={solid("arrow-right")}
 				className={styles.icon}
+				style={arrowStyle({open})}
 			/>
 		</motion.button>
 	);
