@@ -57,6 +57,11 @@
 .link {
 	display: flex;
 	align-items: center;
+	transition: color .3s;
+
+	&:hover{
+		color: var(--light-blue);
+	}
 }
 
 .active-link {
