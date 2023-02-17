@@ -1,0 +1,21 @@
+.box{
+    margin-bottom: 4rem;
+    p{
+        font-size: 1.5rem;
+        color: var(--light-gray);
+        margin-bottom: .5rem;
+
+        @media(min-width: 576px){
+            font-size: var(--normal-size);
+        }
+    }
+
+    h1{
+        font-size: 2.5rem;
+        font-family: "Roboto", sans-serif;
+
+        @media(min-width: 576px){
+            font-size: var(--big-size);
+        }
+    }
+}
