@@ -1,13 +1,15 @@
-.main-wrapper{
-    display: flex;
-    flex-direction: column;
+.main-wrapper {
+	display: flex;
+	flex-direction: column;
 }
 
-.sec-wrapper{
-    display: flex;
+.sec-wrapper {
+	display: flex;
 }
 
-.main{
+.main {
     width: 100%;
-    overflow-y: scroll;
+	@media (max-width: 992px) {
+		overflow-y: scroll;
+	}
 }
