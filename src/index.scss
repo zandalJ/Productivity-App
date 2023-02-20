@@ -4,44 +4,44 @@
 	margin: 0;
 }
 
-html{
-  font-size: 62.5%;
+html {
+	font-size: 62.5%;
 }
 
-body{
+body {
 	background-color: var(--main-background-color);
 	color: var(--white);
-	font-family: 'Nunito', sans-serif;
+	font-family: "Nunito", sans-serif;
 	overflow: hidden;
 }
 
-::selection{
+::selection {
 	color: white;
 	background-color: var(--main-color);
 }
 
-:root{
-	--main-color: #176EC1;
+:root {
+	--main-color: #176ec1;
 	--main-background-color: #171719;
-	--sec-background-color: #29292E;
-	--light-blue: #2192FF;
-	--light-purple: #A555EC;
-	--light-green: #13B57A;
-	--error-red: #DC0000;
-	--light-gray: #BDCDD6;
+	--sec-background-color: #29292e;
+	--light-blue: #2192ff;
+	--light-purple: #a555ec;
+	--light-green: #13b57a;
+	--error-red: #dc0000;
+	--light-gray: #bdcdd6;
 	--white: #e3e9ee;
 	--large-size: 3.4rem;
 	--big-size: 2.8rem;
 	--normal-size: 1.7rem;
 	--medium-size: 1.4rem;
-	--small-size: 1.2rem
+	--small-size: 1.2rem;
 }
 
-a{
+a {
 	color: var(--white);
 	text-decoration: none;
 }
 
-ul{
+ul {
 	list-style: none;
 }

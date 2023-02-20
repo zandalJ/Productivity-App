@@ -1,0 +1,20 @@
+.member {
+		display: flex;
+		justify-content: flex-start;
+		align-items: center;
+		width: 100%;
+		margin-top: 2rem;
+		font-size: var(--small-size);
+
+		&:nth-of-type(1) {
+			margin: 0;
+		}
+
+		@media (min-width: 576px) {
+			font-size: var(--normal-size);
+		}
+
+		&__data {
+			margin-left: 1rem;
+		}
+	}

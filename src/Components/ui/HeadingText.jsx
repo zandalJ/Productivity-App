@@ -53,6 +53,7 @@ const HeadingText = () => {
 		return days[dayNum];
 	}
 
+
 	useEffect(() => {
 		let lastTimeout = 0;
 		let setReload = function () {
