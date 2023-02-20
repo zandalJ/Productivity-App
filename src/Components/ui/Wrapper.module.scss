@@ -3,10 +3,14 @@
     max-width: 1400px;
     width: 100%;
     margin: 0 auto;
-    padding: 0 5rem;
+    padding: 7rem 2rem;
 
-    @media(max-width:576px){
-        padding: 0 2rem;
+    @media(min-width:576px){
+        padding: 8rem 2rem;
+    }
+
+    @media(min-width:992px){
+        padding: 5rem;
     }
 }
 

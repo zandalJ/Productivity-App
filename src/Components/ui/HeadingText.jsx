@@ -29,7 +29,7 @@ const HeadingText = () => {
 		return () => {
 			clearInterval(lastTimeout);
 		};
-	}, []);
+	}, [date]);
 
 	function getMonthName(monthNum) {
 		const date = new Date();
@@ -84,7 +84,7 @@ const HeadingText = () => {
 		return () => {
 			clearInterval(lastTimeout);
 		};
-	}, []);
+	}, [date]);
 
 	return (
 		<div className={styles.box}>
