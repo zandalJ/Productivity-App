@@ -1,6 +1,7 @@
-import { Fragment } from "react"
-import styles from './Dashboard.module.scss'
-import HeadingText from "../ui/HeadingText";
+import { Fragment } from "react";
+import styles from "./Dashboard.module.scss";
+import LayoutHeaderWrapper from "../ui/LayoutHeaderWrapper";
+import LayoutBottomWrapper from "../ui/LayoutBottomWrapper";
 import Card from "../ui/Card";
 import { solid } from "@fortawesome/fontawesome-svg-core/import.macro";
 import GrowthCard from "./GrowthCard";
@@ -8,16 +9,15 @@ import Stats from "./Stats";
 import Members from "./Members";
 
 const Dashboard = () => {
-    return (
-			<Fragment>
-				<div className={styles['section-header-wrapper']}>
-					<HeadingText />
-					<section className={`${styles.section} ${styles.growth}`}>
-						<GrowthCard title='Tasks Completed' color='purple' />
-						<GrowthCard title='New Tasks' color='green' />
-					</section>
-				</div>
-				<div className={styles["section-bottom-wrapper"]}>
+	return (
+		<Fragment>
+			<LayoutHeaderWrapper>
+				<section className={`${styles.section} ${styles.growth}`}>
+					<GrowthCard title='Tasks Completed' color='purple' />
+					<GrowthCard title='New Tasks' color='green' />
+				</section>
+			</LayoutHeaderWrapper>
+			<LayoutBottomWrapper>
 					<section className={`${styles.stats} ${styles.section}`}>
 						<h2 className={styles.subheading}>Tasks & Habits</h2>
 						<Stats title='All Tasks' icon={solid("infinity")} color='blue' />
@@ -49,10 +49,9 @@ const Dashboard = () => {
 							<Members />
 						</Card>
 					</section>
-				</div>
-			</Fragment>
-		);
+			</LayoutBottomWrapper>
+		</Fragment>
+	);
+};
 
-}
-
-export default Dashboard
+export default Dashboard;
