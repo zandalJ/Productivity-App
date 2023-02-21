@@ -110,7 +110,7 @@ const SideNav = () => {
 						custom={open}
 						variants={liVariants}>
 						<NavLink
-							to='/test'
+							to='/tasks'
 							className={({ isActive }) =>
 								[styles.link, isActive ? styles["active-link"] : null]
 									.filter(Boolean)

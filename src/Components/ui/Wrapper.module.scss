@@ -9,6 +9,12 @@
         padding: 8rem 2rem;
     }
 
+    @media(min-width:768px){
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+    }
+
     @media(min-width:992px){
         padding: 5rem;
     }

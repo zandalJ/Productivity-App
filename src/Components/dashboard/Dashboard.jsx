@@ -10,11 +10,13 @@ import Members from "./Members";
 const Dashboard = () => {
     return (
 			<Fragment>
-				<HeadingText />
-				<section className={`${styles.section} ${styles.growth}`}>
-					<GrowthCard title='Tasks Completed' color='purple' />
-					<GrowthCard title='New Tasks' color='green' />
-				</section>
+				<div className={styles['section-header-wrapper']}>
+					<HeadingText />
+					<section className={`${styles.section} ${styles.growth}`}>
+						<GrowthCard title='Tasks Completed' color='purple' />
+						<GrowthCard title='New Tasks' color='green' />
+					</section>
+				</div>
 				<div className={styles["section-bottom-wrapper"]}>
 					<section className={`${styles.stats} ${styles.section}`}>
 						<h2 className={styles.subheading}>Tasks & Habits</h2>
