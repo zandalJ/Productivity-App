@@ -1,0 +1,30 @@
+.button {
+	padding: 1rem 2rem;
+	background-color: transparent;
+	color: var(--white);
+	font-size: 1.4rem;
+	border: 1px solid var(--main-color);
+	border-radius: 6px;
+	transition: background-color 0.3s;
+	cursor: pointer;
+
+	&--blue {
+		border-color: var(--light-blue);
+	}
+
+	&--green {
+		border-color: var(--light-green);
+	}
+
+	&--purple {
+		border-color: var(--light-purple);
+	}
+
+	&:hover {
+		background-color: var(--main-color);
+	}
+
+	@media (min-width: 576px) {
+		font-size: var(--normal-size);
+	}
+}

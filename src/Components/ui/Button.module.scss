@@ -8,6 +8,18 @@
 	transition: transform 0.3s;
     cursor: pointer;
 
+	&--blue{
+		background-color: var(--light-blue);
+	}
+
+	&--green{
+		background-color: var(--light-green);
+	}
+
+	&--purple{
+		background-color: var(--light-purple);
+	}
+
 	&:hover {
 		transform: scale(0.95);
 	}
