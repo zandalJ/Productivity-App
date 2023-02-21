@@ -85,7 +85,7 @@ const HeadingText = () => {
 		return () => {
 			clearInterval(lastTimeout);
 		};
-	}, [date]);
+	}, []);
 
 	return (
 		<div className={styles.box}>
