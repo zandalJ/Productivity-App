@@ -1,3 +1,5 @@
+import { Provider } from "react-redux";
+import store from './store/index'
 import {
 	Route,
 	createBrowserRouter,
@@ -14,13 +16,17 @@ function App() {
 		createRoutesFromElements(
 			<Route path='/' element={<MainLayout />}>
 				<Route index path='/' element={<HomePage />}></Route>
-				<Route path="/dashboard" element={<DashboardPage/>}></Route>
-				<Route path="/tasks" element={<TasksPage/>}></Route>
+				<Route path='/dashboard' element={<DashboardPage />}></Route>
+				<Route path='/tasks' element={<TasksPage />}></Route>
 			</Route>
 		)
 	);
 
-	return <RouterProvider router={router} />;
+	return (
+		<Provider store={store}>
+			<RouterProvider router={router} />
+		</Provider>
+	);
 }
 
 export default App;

@@ -1,0 +1,40 @@
+.wrapper {
+	padding: 1rem;
+	border-radius: 6px;
+	border-color: var(--sec-background-color);
+	margin-bottom: 2rem;
+
+	@media (min-width: 768px) {
+		width: 50%;
+	}
+
+	legend {
+		font-size: var(--normal-size);
+		color: var(--main-background-color);
+		padding: 0 0.5rem;
+		@media (min-width: 768px) {
+			font-size: 2.2rem;
+		}
+	}
+
+	&--option {
+		display: flex;
+		align-items: center;
+		margin-bottom: 1rem;
+
+		input {
+			width: 1.75rem;
+			height: 1.75rem;
+			margin-right: 0.5rem;
+			padding: 0.5rem;
+		}
+
+		label {
+			font-size: var(--medium-size);
+
+			@media (min-width: 768px) {
+				font-size: var(--normal-size);
+			}
+		}
+	}
+}

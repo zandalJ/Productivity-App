@@ -10,6 +10,7 @@
 .main {
 	position: relative;
     width: 100%;
+	overflow-x: hidden;
 	@media (max-width: 992px) {
 		overflow-y: scroll;
 	}

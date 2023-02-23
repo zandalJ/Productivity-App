@@ -1,26 +1,20 @@
-import { Fragment, useState } from "react";
+import { Fragment, useState, useEffect } from "react";
 import styles from "./TasksFilter.module.scss";
 import FilterButtons from "../ui/FilterButtons";
 import SortDropdown from "../ui/SortDropdown";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { solid } from "@fortawesome/fontawesome-svg-core/import.macro";
 import useWidth from "../../hooks/useWidth";
-import { motion } from "framer-motion";
-
-const mobileFiltersVariants = {
-	open: {
-		translateX: 0,
-		transition: { duration: 0.3 },
-	},
-	closed: {
-		translateX: "-100%",
-		transition: { duration: 0.3 },
-	},
-};
-
+import MobileTasksFilters from "./MobileTasksFilters";
+import { useDispatch } from "react-redux";
+import { colorActions } from "../../store/main-color";
 const TasksFilter = () => {
-	const [isClicked, setIsClicked] = useState(false);
+	const dispatch = useDispatch();
 	const width = useWidth();
+	const [isClicked, setIsClicked] = useState(false);
+	useEffect(() => {
+		dispatch(colorActions.colorChanger())
+	}, [isClicked]);
 	const isClickedHandler = () => {
 		setIsClicked(before => !before);
 	};
@@ -37,13 +31,11 @@ const TasksFilter = () => {
 					/>
 				)}
 			</div>
-			<motion.div
-				className={styles['mobile-filters-wrapper']}
-				animate={isClicked ? "open" : "closed"}
-				initial={"closed"}
-				variants={mobileFiltersVariants}>
-				<h1>test</h1>
-			</motion.div>
+			<MobileTasksFilters
+				isClicked={isClicked}
+				clickHandler={isClickedHandler}
+				width={width}
+			/>
 		</Fragment>
 	);
 };
