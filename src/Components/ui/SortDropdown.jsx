@@ -1,4 +1,5 @@
 import { Fragment } from "react";
+import styles from "./SortDropdown.module.scss";
 import Fieldset from "./Fieldset";
 const SortDropdown = ({ mobile, desktop }) => {
 	return (
@@ -15,8 +16,16 @@ const SortDropdown = ({ mobile, desktop }) => {
 					type='sort'
 				/>
 			)}
+			{desktop && (
+				<select name='sort' id='sort' className={styles.select}>
+					<option value='completed-asc'>Completed Ascending</option>
+					<option value='completed-desc'>Completed Descending</option>
+					<option value='completed-asc'>Deadline Ascending</option>
+					<option value='completed-asc'>Deadline Descending</option>
+				</select>
+			)}
 		</Fragment>
 	);
 };
 
-export default SortDropdown;
+export default SortDropdown;    
