@@ -1,6 +1,6 @@
 import { Fragment } from "react";
 import styles from "./FilterButtons.module.scss";
-import Button from "./Button";
+import RadioButtons from "./RadioButtons";
 import Fieldset from "./Fieldset";
 const FilterButtons = ({ mobile, desktop }) => {
 	return (
@@ -8,6 +8,12 @@ const FilterButtons = ({ mobile, desktop }) => {
 			{mobile && (
 				<Fieldset
 					title='Filter by:'
+					options={["All", "Completed", "In Progress"]}
+					type='filter'
+				/>
+			)}
+			{desktop && (
+				<RadioButtons
 					options={["All", "Completed", "In Progress"]}
 					type='filter'
 				/>

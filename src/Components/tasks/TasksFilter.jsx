@@ -13,7 +13,7 @@ const TasksFilter = () => {
 	const width = useWidth();
 	const [isClicked, setIsClicked] = useState(false);
 	useEffect(() => {
-		dispatch(colorActions.colorChanger())
+		dispatch(colorActions.colorChanger());
 	}, [isClicked]);
 	const isClickedHandler = () => {
 		setIsClicked(before => !before);
@@ -21,8 +21,8 @@ const TasksFilter = () => {
 	return (
 		<Fragment>
 			<div className={styles["filter-wrapper"]}>
-				{width >= 768 && <FilterButtons />}
-				{width >= 992 && <SortDropdown />}
+				{width >= 768 && <FilterButtons desktop />}
+				{width >= 992 && <SortDropdown desktop />}
 				{width < 992 && (
 					<FontAwesomeIcon
 						icon={solid("bars-staggered")}
