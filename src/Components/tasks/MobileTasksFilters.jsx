@@ -28,7 +28,7 @@ const MobileTasksFilters = ({ isClicked, clickHandler, width }) => {
 				className={styles["close-btn"]}
 				onClick={clickHandler}
 			/>
-			{width < 576 && <FilterButtons mobile />}
+			{width < 768 && <FilterButtons mobile />}
 			<SortDropdown mobile />
 		</motion.div>
 	);

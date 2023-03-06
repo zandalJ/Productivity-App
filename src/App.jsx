@@ -17,7 +17,7 @@ function App() {
 			<Route path='/' element={<MainLayout />}>
 				<Route index path='/' element={<HomePage />}></Route>
 				<Route path='/dashboard' element={<DashboardPage />}></Route>
-				<Route path='/tasks' element={<TasksPage />}></Route>
+				<Route path='/tasks/*' element={<TasksPage />}></Route>
 			</Route>
 		)
 	);
