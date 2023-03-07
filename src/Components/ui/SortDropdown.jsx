@@ -8,10 +8,10 @@ const SortDropdown = ({ mobile, desktop }) => {
 				<Fieldset
 					title='Sort by'
 					options={[
-						"Completed Ascending",
-						"Completed Descending",
-						"Deadline Ascending",
-						"Deadline Descending",
+						["Completed Ascending", "ca"],
+						["Completed Descending", "cd"],
+						["Deadline Ascending", "da"],
+						["Deadline Descending", 'dd'],
 					]}
 					type='sort'
 				/>
@@ -27,5 +27,4 @@ const SortDropdown = ({ mobile, desktop }) => {
 		</Fragment>
 	);
 };
-
-export default SortDropdown;    
+export default SortDropdown;

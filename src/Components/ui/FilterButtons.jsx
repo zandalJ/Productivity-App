@@ -8,7 +8,11 @@ const FilterButtons = ({ mobile, desktop }) => {
 				<Fieldset
 					title='Filter by:'
 					type='filter'
-					options={["All", "Completed", "In Progress"]}
+					options={[
+						["All", "all"],
+						["Completed", "completed"],
+						["In Progress", "progress"],
+					]}
 				/>
 			)}
 			{desktop && (
