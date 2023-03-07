@@ -16,13 +16,17 @@ let isInitial = true;
 const TasksFilter = () => {
 	const filters = useSelector(state => state.filterSorting);
 	const dispatch = useDispatch();
-	const [previousFilters, setPreviousFilters] = useState({ filter: null });
+	const [filter, setFilter] = useSearchParams();
 	const [isClicked, setIsClicked] = useState(false);
 	const width = useWidth();
 
 	useEffect(() => {
 		dispatch(fetchFilterData());
 	}, [dispatch]);
+
+	useEffect(() => {
+		setFilter({ filter: filters.filter });
+	}, [filters.filter, setFilter]);
 
 	useEffect(() => {
 		if (isInitial) {
