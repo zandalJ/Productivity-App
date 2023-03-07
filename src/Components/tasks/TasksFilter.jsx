@@ -16,7 +16,7 @@ let isInitial = true;
 const TasksFilter = () => {
 	const filters = useSelector(state => state.filterSorting);
 	const dispatch = useDispatch();
-	const [previousFilters, setPreviousFilters] = useState(filters);
+	const [previousFilters, setPreviousFilters] = useState({ filter: null });
 	const [isClicked, setIsClicked] = useState(false);
 	const width = useWidth();
 
@@ -25,20 +25,15 @@ const TasksFilter = () => {
 	}, [dispatch]);
 
 	useEffect(() => {
-		// if (isInitial) {
-		// 	isInitial = false;
-		// 	return;
-		// }
-
-		dispatch(fetchFilterData());
-
-		if (previousFilters.filter === filters.filter) {
+		if (isInitial) {
+			isInitial = false;
 			return;
-		} else {
-			dispatch(sendFilterData(filters));
-			setPreviousFilters(filters);
 		}
-	}, [filters, dispatch, previousFilters.filter]);
+
+		if (filters.isChanged) {
+			dispatch(sendFilterData(filters));
+		}
+	}, [filters, dispatch]);
 
 	useEffect(() => {
 		dispatch(colorActions.colorChanger());

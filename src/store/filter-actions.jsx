@@ -19,7 +19,7 @@ export const fetchFilterData = () => {
 		try {
 			const filterData = await fetchData();
 			dispatch(
-				filterSortingActions.filterSorting({
+				filterSortingActions.filterChanger({
 					filter: filterData.filter,
 					sort: filterData.sort,
 				})
