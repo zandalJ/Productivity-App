@@ -8,11 +8,11 @@ import SortDropdown from "../ui/SortDropdown";
 const mobileFiltersVariants = {
 	open: {
 		translateX: 0,
-		transition: { duration: 0.5 },
+		transition: { duration: 0.75 },
 	},
 	closed: {
-		translateX: "-150%",
-		transition: { duration: 0.5 },
+		translateX: "-200%",
+		transition: { duration: 0.75 },
 	},
 };
 

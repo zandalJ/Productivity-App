@@ -12,8 +12,8 @@ const HeadingText = () => {
 		let lastTimeout = 0;
 		let setReload = function () {
 			const timeUntilMidnight = moment().diff(
-				moment().endOf("day").add(1, "ms"),
-				"ms"
+				moment().endOf("day").add(1, "s"),
+				"s"
 			);
 			return setTimeout(function () {
 				setDate({
@@ -58,8 +58,8 @@ const HeadingText = () => {
 		let lastTimeout = 0;
 		let setReload = function () {
 			const timeUntilNewHour = moment().diff(
-				moment().endOf("hour").add(1, "ms"),
-				"ms"
+				moment().endOf("hour").add(1, "s"),
+				"s"
 			);
 			return setTimeout(function () {
 				if (moment().hour() >= 6 && moment().hour() < 12) {

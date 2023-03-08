@@ -1,0 +1,13 @@
+.tasks-box {
+	width: 100%;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+    flex-wrap: wrap;
+
+    @media(min-width:768px){
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+    }
+}

@@ -1,0 +1,54 @@
+.card {
+	margin-bottom: 2rem;
+	transition: transform 0.3s;
+	cursor: pointer;
+
+	&:hover {
+		transform: scale(0.98);
+	}
+
+	&__title {
+		padding: 0.5rem 1rem;
+		width: fit-content;
+		font-size: var(--medium-size);
+        font-weight: bold;
+		border-radius: 6px;
+
+		&[data-filter-type="all"] {
+			background-color: var(--light-blue);
+		}
+
+		&[data-filter-type="completed"] {
+			background-color: var(--light-purple);
+		}
+
+		&[data-filter-type="progress"] {
+			background-color: var(--light-green);
+		}
+
+        @media(min-width:768px){
+            font-size: var(--normal-size);
+        }
+	}
+
+	&__desc {
+		margin: 1rem 0;
+		font-size: var(--small-size);
+
+        @media(min-width:768px){
+            font-size: var(--medium-size);
+        }
+	}
+
+	@media (min-width: 768px) {
+		width: 45%;
+	}
+
+	@media (min-width: 992px) {
+		width: 30%;
+	}
+
+	@media (min-width: 1400px) {
+		width: 23%;
+	}
+}
