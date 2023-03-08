@@ -27,6 +27,7 @@ const RadioButtons = ({ options, type }) => {
 				defaultChecked={filter === option[1]}
 			/>
 			<label
+				data-type='filter'
 				htmlFor={option[1]}
 				className={option[1]}
 				id={filter}

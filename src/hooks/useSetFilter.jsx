@@ -31,7 +31,7 @@ const useSetFilter = (elements = [], sort = "ca", filter = "all") => {
 				);
 			}
 		}
-	}, [event, elements, sort, dispatch]);
+	}, [event, elements, sort, dispatch, filter]);
 
 	return { setFilterEvent: eventHandler };
 };
