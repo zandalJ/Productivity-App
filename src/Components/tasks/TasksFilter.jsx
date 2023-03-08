@@ -16,7 +16,7 @@ let isInitial = true;
 const TasksFilter = () => {
 	const filters = useSelector(state => state.filterSorting);
 	const dispatch = useDispatch();
-	const [filter, setFilter] = useSearchParams();
+	const [queryFilters, setQueryFilters] = useSearchParams();
 	const [isClicked, setIsClicked] = useState(false);
 	const width = useWidth();
 
@@ -25,8 +25,8 @@ const TasksFilter = () => {
 	}, [dispatch]);
 
 	useEffect(() => {
-		setFilter({ filter: filters.filter });
-	}, [filters.filter, setFilter]);
+		setQueryFilters({ filter: filters.filter, sort: filters.sort });
+	}, [filters.filter, setQueryFilters, filters.sort]);
 
 	useEffect(() => {
 		if (isInitial) {

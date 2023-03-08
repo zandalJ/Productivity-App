@@ -8,10 +8,10 @@ const RadioButtons = ({ options, type }) => {
 	const [filterParams, setFilterParams] = useSearchParams();
 	const filterSorting = useSelector(state => state.filterSorting);
 	const elements = useRef([]);
-	const {setProp} = useSetFilter(elements, filterSorting.sort)
+	const { setFilterEvent } = useSetFilter(elements, filterSorting.sort);
 
 	const clickHandler = e => {
-		setProp(e)
+		setFilterEvent(e);
 	};
 
 	let filter = filterParams.get("filter");
