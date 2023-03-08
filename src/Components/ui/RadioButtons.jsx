@@ -1,28 +1,17 @@
-import { useRef, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { filterSortingActions } from "../../store/filter-sorting";
+import { useRef } from "react";
+import useSetFilter from "../../hooks/useSetFilter";
+import { useSelector } from "react-redux";
 import { useSearchParams } from "react-router-dom";
 import styles from "./RadioButtons.module.scss";
 
 const RadioButtons = ({ options, type }) => {
 	const [filterParams, setFilterParams] = useSearchParams();
 	const filterSorting = useSelector(state => state.filterSorting);
-	const dispatch = useDispatch();
 	const elements = useRef([]);
+	const {setProp} = useSetFilter(elements, filterSorting.sort)
 
 	const clickHandler = e => {
-		let currentEl = elements.current.find(
-			element => element.className === e.target.className
-		);
-
-		currentEl.checked = true;
-
-		dispatch(
-			filterSortingActions.filterChanger({
-				filter: currentEl.value,
-				sort: filterSorting.sort,
-			})
-		);
+		setProp(e)
 	};
 
 	let filter = filterParams.get("filter");

@@ -1,26 +1,17 @@
 import { useRef } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { filterSortingActions } from "../../store/filter-sorting";
+import useSetFilter from "../../hooks/useSetFilter";
+import { useSelector } from "react-redux";
 import { useSearchParams } from "react-router-dom";
 import styles from "./Fieldset.module.scss";
 
 const Fieldset = ({ title, options, type }) => {
 	const filters = useSelector(state => state.filterSorting);
-	const dispatch = useDispatch()
-
 	const elements = useRef([])
-
 	const [filter, setFilter] = useSearchParams()
+	const {setProp} = useSetFilter(elements, filters.sort)
 
-	const clickHandler = (e) => {
-		let currentEl = elements.current.find(
-			element => element.className === e.target.className
-		);
+	const clickHandler = (e) => setProp(e)
 
-		dispatch(
-			filterSortingActions.filterChanger({ filter: currentEl.value, sort: filters.sort })
-		);
-	}
 
     const optionsOutput = options.map((option, index) => (
 			<div className={styles["wrapper--option"]} key={index}>
