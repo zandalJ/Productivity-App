@@ -11,10 +11,20 @@ const HeadingText = () => {
 	useEffect(() => {
 		let lastTimeout = 0;
 		let setReload = function () {
-			const timeUntilMidnight = moment().diff(
-				moment().endOf("day").add(1, "s"),
-				"s"
-			);
+			let timeUntilMidnight;
+			if (moment().hour() >= 23 && moment().hour() < 0) {
+				timeUntilMidnight = moment().diff(
+					moment().endOf("day").add(1, "s"),
+					"s"
+				);
+			}
+
+			if (moment().hour() < 23 && moment().hour() >= 0) {
+				timeUntilMidnight = moment().diff(
+					moment().endOf("day").add(1, "h"),
+					"h"
+				);
+			}
 			return setTimeout(function () {
 				setDate({
 					day: moment().date(),
@@ -52,7 +62,6 @@ const HeadingText = () => {
 
 		return days[dayNum];
 	}
-
 
 	useEffect(() => {
 		let lastTimeout = 0;

@@ -1,3 +1,8 @@
+.wrapper{
+	position: relative;
+	width: fit-content;
+}
+
 .nav {
 	height: 90vh;
 	padding: 2rem;
@@ -72,4 +77,12 @@
 			color: var(--light-blue);
 		}
 	}
+}
+
+.show-btn{
+	position: absolute;
+	bottom: 5%;
+	left: 50%;
+	width: 90%;
+	font-family: 'roboto', sans-serif;
 }

@@ -4,10 +4,11 @@ import useWidth from "../../hooks/useWidth";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { solid } from "@fortawesome/fontawesome-svg-core/import.macro";
 import UserNavInfo from "../ui/UserNavInfo";
-import { NavLink } from "react-router-dom";
+import { NavLink, useLocation } from "react-router-dom";
 import SideNavLinkText from "./SideNavLinkText";
 import { motion } from "framer-motion";
 import NavArrow from "./NavArrow";
+import Button from "../ui/Button";
 
 const navVariants = {
 	open: width => ({
@@ -32,16 +33,36 @@ const itemsVariants = {
 	},
 };
 
+const buttonVariants = {
+	open: {
+		opacity: 1,
+		translateX: "-50%",
+		transition: { transform: 0.3 },
+	},
+	closed: {
+		opacity: 0,
+		translateX: "-50%",
+	},
+	hover: {
+		scale: 0.95,
+		translateX: "-50%",
+	},
+};
+
 const liVariants = {
-	display: open=>({
-		display: !open ? 'flex' : 'block',
-		justifyContent: !open ? 'center' : null
-	})
-}
+	display: open => ({
+		display: !open ? "flex" : "block",
+		justifyContent: !open ? "center" : null,
+	}),
+};
 
 const SideNav = () => {
+	let location = useLocation();
 	const [open, setIsOpen] = useState(true);
 	const width = useWidth();
+
+	const showButton = location.pathname === "/tasks";
+
 	useEffect(() => {
 		if (width >= 992) {
 			setIsOpen(true);
@@ -53,122 +74,136 @@ const SideNav = () => {
 	const navOpenHandler = () => setIsOpen(before => !before);
 	const photoSize = width >= 576 ? 80 : 50;
 
+	const MotionButton = motion(Button);
+
 	return (
 		<Fragment>
 			{width < 992 && (
 				<NavArrow open={open} openHandler={navOpenHandler} width={width} />
 			)}
-			<motion.nav
-				className={`${styles.nav} ${
-					open ? styles["opened-nav"] : styles["closed-nav"]
-				}`}
-				onDoubleClick={navOpenHandler}
-				animate={open ? "open" : "closed"}
-				initial={open ? "open" : "closed"}
-				custom={width}
-				variants={navVariants}>
-				<UserNavInfo
-					open={open}
-					animationVariants={itemsVariants}
-					photoSize={photoSize}
-				/>
-				<motion.p
-					className={styles["menu-text"]}
+			<div className={styles.wrapper}>
+				<motion.nav
+					className={`${styles.nav} ${
+						open ? styles["opened-nav"] : styles["closed-nav"]
+					}`}
+					onDoubleClick={navOpenHandler}
 					animate={open ? "open" : "closed"}
 					initial={open ? "open" : "closed"}
-					variants={itemsVariants}>
-					Menu
-				</motion.p>
-				<ul
-					className={`${styles["links-list"]} ${
-						open ? styles["list-opened"] : styles["list-closed"]
-					}`}>
-					<motion.li
-						animate={"display"}
-						initial={"display"}
-						custom={open}
-						variants={liVariants}>
-						<NavLink
-							to='/dashboard'
-							className={({ isActive }) =>
-								[styles.link, isActive ? styles["active-link"] : null]
-									.filter(Boolean)
-									.join(" ")
-							}>
-							<FontAwesomeIcon
-								icon={solid("table-columns")}
-								className={styles.icon}
-							/>
-							<SideNavLinkText open={open} variants={itemsVariants}>
-								Dashboard
-							</SideNavLinkText>
-						</NavLink>
-					</motion.li>
-					<motion.li
-						animate={"display"}
-						initial={"display"}
-						custom={open}
-						variants={liVariants}>
-						<NavLink
-							to='/tasks'
-							className={({ isActive }) =>
-								[styles.link, isActive ? styles["active-link"] : null]
-									.filter(Boolean)
-									.join(" ")
-							}>
-							<FontAwesomeIcon
-								icon={solid("table-list")}
-								className={styles.icon}
-							/>
-							<SideNavLinkText open={open} variants={itemsVariants}>
-								Tasks
-							</SideNavLinkText>
-						</NavLink>
-					</motion.li>
-					<motion.li
-						animate={"display"}
-						initial={"display"}
-						custom={open}
-						variants={liVariants}>
-						<NavLink
-							to='/test'
-							className={({ isActive }) =>
-								[styles.link, isActive ? styles["active-link"] : null]
-									.filter(Boolean)
-									.join(" ")
-							}>
-							<FontAwesomeIcon
-								icon={solid("arrows-rotate")}
-								className={styles.icon}
-							/>
-							<SideNavLinkText open={open} variants={itemsVariants}>
-								Habits
-							</SideNavLinkText>
-						</NavLink>
-					</motion.li>
-					<motion.li
-						animate={"display"}
-						initial={"display"}
-						custom={open}
-						variants={liVariants}>
-						<NavLink
-							to='/test'
-							className={({ isActive }) =>
-								[styles.link, isActive ? styles["active-link"] : null]
-									.filter(Boolean)
-									.join(" ")
-							}>
-							<FontAwesomeIcon
-								icon={solid("user-group")}
-								className={styles.icon}
-							/>
-							<SideNavLinkText open={open} variants={itemsVariants}>
-								Team Members
-							</SideNavLinkText>
-						</NavLink>
-					</motion.li>
-				</ul>
-			</motion.nav>
+					custom={width}
+					variants={navVariants}>
+					<UserNavInfo
+						open={open}
+						animationVariants={itemsVariants}
+						photoSize={photoSize}
+					/>
+					<motion.p
+						className={styles["menu-text"]}
+						animate={open ? "open" : "closed"}
+						initial={open ? "open" : "closed"}
+						variants={itemsVariants}>
+						Menu
+					</motion.p>
+					<ul
+						className={`${styles["links-list"]} ${
+							open ? styles["list-opened"] : styles["list-closed"]
+						}`}>
+						<motion.li
+							animate={"display"}
+							initial={"display"}
+							custom={open}
+							variants={liVariants}>
+							<NavLink
+								to='/dashboard'
+								className={({ isActive }) =>
+									[styles.link, isActive ? styles["active-link"] : null]
+										.filter(Boolean)
+										.join(" ")
+								}>
+								<FontAwesomeIcon
+									icon={solid("table-columns")}
+									className={styles.icon}
+								/>
+								<SideNavLinkText open={open} variants={itemsVariants}>
+									Dashboard
+								</SideNavLinkText>
+							</NavLink>
+						</motion.li>
+						<motion.li
+							animate={"display"}
+							initial={"display"}
+							custom={open}
+							variants={liVariants}>
+							<NavLink
+								to='/tasks'
+								className={({ isActive }) =>
+									[styles.link, isActive ? styles["active-link"] : null]
+										.filter(Boolean)
+										.join(" ")
+								}>
+								<FontAwesomeIcon
+									icon={solid("table-list")}
+									className={styles.icon}
+								/>
+								<SideNavLinkText open={open} variants={itemsVariants}>
+									Tasks
+								</SideNavLinkText>
+							</NavLink>
+						</motion.li>
+						<motion.li
+							animate={"display"}
+							initial={"display"}
+							custom={open}
+							variants={liVariants}>
+							<NavLink
+								to='/test'
+								className={({ isActive }) =>
+									[styles.link, isActive ? styles["active-link"] : null]
+										.filter(Boolean)
+										.join(" ")
+								}>
+								<FontAwesomeIcon
+									icon={solid("arrows-rotate")}
+									className={styles.icon}
+								/>
+								<SideNavLinkText open={open} variants={itemsVariants}>
+									Habits
+								</SideNavLinkText>
+							</NavLink>
+						</motion.li>
+						<motion.li
+							animate={"display"}
+							initial={"display"}
+							custom={open}
+							variants={liVariants}>
+							<NavLink
+								to='/test'
+								className={({ isActive }) =>
+									[styles.link, isActive ? styles["active-link"] : null]
+										.filter(Boolean)
+										.join(" ")
+								}>
+								<FontAwesomeIcon
+									icon={solid("user-group")}
+									className={styles.icon}
+								/>
+								<SideNavLinkText open={open} variants={itemsVariants}>
+									Team Members
+								</SideNavLinkText>
+							</NavLink>
+						</motion.li>
+					</ul>
+				</motion.nav>
+				{showButton && (
+					<MotionButton
+						className={styles["show-btn"]}
+						variants={buttonVariants}
+						animate={open ? "open" : "closed"}
+						initial={open ? "open" : "closed"}
+						whileHover='hover'>
+						Add New Task <FontAwesomeIcon icon={solid("plus")} />
+					</MotionButton>
+				)}
+			</div>
 		</Fragment>
 	);
 };
