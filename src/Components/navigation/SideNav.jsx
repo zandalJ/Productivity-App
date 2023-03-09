@@ -56,7 +56,7 @@ const liVariants = {
 	}),
 };
 
-const SideNav = () => {
+const SideNav = ({ showModal }) => {
 	let location = useLocation();
 	const [open, setIsOpen] = useState(true);
 	const width = useWidth();
@@ -75,6 +75,10 @@ const SideNav = () => {
 	const photoSize = width >= 576 ? 80 : 50;
 
 	const MotionButton = motion(Button);
+
+	const showModalHandler = () => {
+		showModal()
+	}
 
 	return (
 		<Fragment>
@@ -196,6 +200,7 @@ const SideNav = () => {
 				{showButton && (
 					<MotionButton
 						className={styles["show-btn"]}
+						onClick={showModalHandler}
 						variants={buttonVariants}
 						animate={open ? "open" : "closed"}
 						initial={open ? "open" : "closed"}
