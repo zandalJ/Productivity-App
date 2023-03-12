@@ -1,0 +1,72 @@
+.input-box {
+	display: flex;
+	flex-direction: column;
+	margin-bottom: 1rem;
+
+    &:nth-of-type(2){
+        margin-bottom: 2rem;
+    }
+
+	label {
+		margin-bottom: 0.25rem;
+		color: var(--light-gray);
+
+        @media(min-width:992px){
+            font-size: var(--small-size);
+        }
+	}
+
+	input,
+	textarea {
+		padding: 0.5rem;
+		border-radius: 6px;
+        width: 100%;
+
+		&:focus {
+			outline: none;
+			border: 2px solid var(--main-color);
+		}
+	}
+
+	textarea {
+		resize: vertical;
+		min-height: 50px;
+        max-height: 200px;
+
+        @media(min-width:992px){
+            resize: both;
+            width: 100%;
+            max-width: 100%;
+        }
+	}
+}
+
+.date {
+	width: 100%;
+	background-color: white;
+	border-radius: 6px;
+
+    label{
+        color: var(--main-color);
+    }
+
+	&:focus {
+		outline: none;
+		border: .5px solid var(--main-color);
+	}
+
+	svg {
+		font-size: 2rem;
+		color: var(--main-color);
+	}
+}
+
+.btn{
+    margin-top: 2rem;
+}
+
+.error-msg{
+    margin: .5rem 0 0 .5rem;
+    font-size: var(--small-size);
+    color: var(--main-color);
+}

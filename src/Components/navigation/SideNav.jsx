@@ -4,7 +4,7 @@ import useWidth from "../../hooks/useWidth";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { solid } from "@fortawesome/fontawesome-svg-core/import.macro";
 import UserNavInfo from "../ui/UserNavInfo";
-import { NavLink, useLocation } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import SideNavLinkText from "./SideNavLinkText";
 import { motion } from "framer-motion";
 import NavArrow from "./NavArrow";
@@ -56,12 +56,11 @@ const liVariants = {
 	}),
 };
 
-const SideNav = ({ showModal }) => {
-	let location = useLocation();
+const SideNav = ({ showModal, location }) => {
 	const [open, setIsOpen] = useState(true);
 	const width = useWidth();
 
-	const showButton = location.pathname === "/tasks";
+	const showButton = location === "/tasks";
 
 	useEffect(() => {
 		if (width >= 992) {

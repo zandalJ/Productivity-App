@@ -10,6 +10,8 @@ import MainLayout from "./Pages/MainLayout";
 import HomePage from "./Pages/HomePage";
 import DashboardPage from "./Pages/DashboardPage";
 import TasksPage from "./Pages/TasksPage";
+import { LocalizationProvider } from "@mui/x-date-pickers";
+import { AdapterMoment } from "@mui/x-date-pickers/AdapterMoment";
 
 function App() {
 	const router = createBrowserRouter(
@@ -24,7 +26,9 @@ function App() {
 
 	return (
 		<Provider store={store}>
-			<RouterProvider router={router} />
+			<LocalizationProvider dateAdapter={AdapterMoment}>
+				<RouterProvider router={router} />
+			</LocalizationProvider>
 		</Provider>
 	);
 }
