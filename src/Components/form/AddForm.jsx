@@ -4,7 +4,7 @@ import { useForm, Controller } from "react-hook-form";
 import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
 import moment from "moment";
 import Button from "../ui/Button";
-import SearchUser from "./SearchUser";
+import SearchUser from "../searchUser/SearchUser";
 
 const AddForm = ({ elements }) => {
 	const {

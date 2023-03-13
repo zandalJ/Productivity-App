@@ -1,27 +1,28 @@
 import { useState } from "react";
 import styles from "./SearchUser.module.scss";
+import AddUser from "./AddUser";
 
 const DUMMY_USERS = [
-	{ name: "Fabian" },
-	{ name: "Arek" },
-	{ name: "Lena" },
-	{ name: "Tomek" },
-	{ name: "Fabian" },
-	{ name: "Tomek" },
-	{ name: "Dariusz" },
-	{ name: "Darek" },
+	{ name: "Fabian", mail: "mail@mail.com" },
+	{ name: "Arek", mail: "mail@mail.com" },
+	{ name: "Lena", mail: "mail@mail.com" },
+	{ name: "Tomek", mail: "mail@mail.com" },
+	{ name: "Fabian", mail: "mail@mail.com" },
+	{ name: "Tomek", mail: "mail@mail.com" },
+	{ name: "Dariusz", mail: "mail@mail.com" },
+	{ name: "Darek", mail: "mail@mail.com" },
 ];
 
 const SearchUser = ({ className }) => {
 	const [searchText, setSearchText] = useState("");
-	const [searchEl, setSearchEl] = useState([])
+	const [searchEl, setSearchEl] = useState(DUMMY_USERS);
 	const searchHandler = e => {
 		const inputText = e.target.value.toLowerCase();
 		const outputEl = DUMMY_USERS.filter(user => {
 			return user.name.toLowerCase().includes(inputText);
 		});
-		setSearchText(inputText)
-		setSearchEl(outputEl)
+		setSearchText(inputText);
+		setSearchEl(outputEl);
 	};
 
 	return (
@@ -29,13 +30,12 @@ const SearchUser = ({ className }) => {
 			<label>Add Collaborators</label>
 			<input
 				type='search'
-				placeholder='search by name'
+				placeholder='Search by name'
 				onChange={searchHandler}
 				value={searchText}
 			/>
-			{searchEl && searchEl.map((el, index) => {
-				return <p key={index}>{el.name}</p>
-			})}
+			<p className={styles['users-text']}>Users</p>
+			{searchEl && <AddUser elements={searchEl} />}
 		</div>
 	);
 };

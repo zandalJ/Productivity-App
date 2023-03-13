@@ -1,0 +1,44 @@
+.box {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	margin-bottom: 1.5rem;
+
+	&:nth-of-type(1) {
+		margin-top: 1.5rem;
+	}
+
+	&--left {
+		display: flex;
+		align-items: center;
+	}
+}
+
+.user-data-box {
+	margin-left: 1rem;
+	&--data {
+		font-size: var(--small-size);
+
+        @media(min-width: 768px){
+            font-size: var(--medium-size);
+        }
+	}
+
+    &--mail{
+        font-size: var(--small-size);
+        color: var(--light-gray);
+
+        @media(min-width: 768px){
+            font-size: var(--medium-size);
+        }
+    }
+}
+
+.btn {
+	padding: 0.5rem 1rem;
+	font-size: var(--small-size);
+
+    @media(min-width: 768px){
+        padding: 1rem 1.5rem;
+    }
+}
