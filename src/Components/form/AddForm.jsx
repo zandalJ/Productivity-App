@@ -4,6 +4,7 @@ import { useForm, Controller } from "react-hook-form";
 import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
 import moment from "moment";
 import Button from "../ui/Button";
+import SearchUser from "./SearchUser";
 
 const AddForm = ({ elements }) => {
 	const {
@@ -12,8 +13,6 @@ const AddForm = ({ elements }) => {
 		handleSubmit,
 		control,
 	} = useForm();
-
-	console.log(errors);
 
 	const submitHandler = data => {
 		console.log(data);
@@ -61,8 +60,7 @@ const AddForm = ({ elements }) => {
 						rules={{
 							validate: {
 								min: date =>
-									moment(date).isAfter(moment()) ||
-									"Enter a valid date",
+									moment(date).isAfter(moment()) || "Enter a valid date",
 							},
 						}}
 						render={({ field: { onChange, onBlur, ref } }) => (
@@ -82,10 +80,7 @@ const AddForm = ({ elements }) => {
 				</Fragment>
 			) : null}
 			{elements.membersSelect ? (
-				<div className={styles["input-box"]} style={{ marginTop: "1rem" }}>
-					<label>Add Collaborators</label>
-					<input type='search' {...register("taskSearch")} placeholder="Search..."/>
-				</div>
+				<SearchUser className={styles["input-box"]} />
 			) : null}
 			<Button submit className={styles.btn}>
 				Add Task
