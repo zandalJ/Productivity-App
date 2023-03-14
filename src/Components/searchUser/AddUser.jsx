@@ -1,11 +1,11 @@
 import styles from "./AddUser.module.scss";
 import UserPhoto from "../ui/UserPhoto";
-import Button from "../ui/Button";
-import useWidth from '../../hooks/useWidth'
+import BorderButton from "../ui/BorderButton";
+import useWidth from "../../hooks/useWidth";
 
 const AddUser = ({ elements }) => {
-    const width = useWidth()
-    const photoSize = width<768 ? '30' : '40'
+	const width = useWidth();
+	const photoSize = width < 768 ? "30" : "40";
 	const output = elements.map((el, index) => {
 		return (
 			<div key={index} className={styles.box}>
@@ -24,7 +24,7 @@ const AddUser = ({ elements }) => {
 						</p>
 					</div>
 				</div>
-				<Button className={styles.btn}>Add</Button>
+				<BorderButton className={styles.btn}>Add</BorderButton>
 			</div>
 		);
 	});

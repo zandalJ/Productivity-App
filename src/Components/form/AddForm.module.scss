@@ -1,7 +1,6 @@
 .input-box {
 	display: flex;
 	flex-direction: column;
-	margin-bottom: 1rem;
 
     &:nth-of-type(2){
         margin-bottom: 2rem;
@@ -62,8 +61,7 @@
 }
 
 .btn{
-    margin-top: 2rem;
-	background-color: var(--light-blue);
+    margin-top: 1.5rem;
 }
 
 .error-msg{

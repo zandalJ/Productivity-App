@@ -1,0 +1,12 @@
+.pagination-wrapper {
+	li {
+		button {
+			color: var(--white);
+			border-color: var(--main-color);
+
+			span {
+				background-color: transparent;
+			}
+		}
+	}
+}
