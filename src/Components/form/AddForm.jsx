@@ -14,6 +14,10 @@ const AddForm = ({ elements }) => {
 		control,
 	} = useForm();
 
+	const addUserHandler = (arr) => {
+		// console.log(arr);
+	}
+
 	const submitHandler = data => {
 		console.log(data);
 	};
@@ -83,12 +87,13 @@ const AddForm = ({ elements }) => {
 					</Fragment>
 				) : null}
 				{elements.membersSelect ? (
-					<SearchUser className={styles["input-box"]} />
+					<SearchUser className={styles["input-box"]} addUsers={addUserHandler}/>
 				) : null}
 				<Button submit className={styles.btn}>
 					Add Task
 				</Button>
 			</form>
+			
 		</Fragment>
 	);
 };

@@ -3,12 +3,19 @@ import UserPhoto from "../ui/UserPhoto";
 import BorderButton from "../ui/BorderButton";
 import useWidth from "../../hooks/useWidth";
 
-const AddUser = ({ elements }) => {
+const AddUser = ({ elements, addUsers }) => {
 	const width = useWidth();
 	const photoSize = width < 768 ? "30" : "40";
-	const output = elements.map((el, index) => {
+
+	let addedUsers = []
+	const addUserHandler = e => {
+		addedUsers.push(e.target.dataset.id)
+		addUsers(addedUsers)
+	};
+
+	const output = elements.map((el) => {
 		return (
-			<div key={index} className={styles.box}>
+			<div key={el.id} className={styles.box}>
 				<div className={styles["box--left"]}>
 					<UserPhoto
 						href='https://images.unsplash.com/photo-1633332755192-727a05c4013d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=880&q=80'
@@ -24,7 +31,12 @@ const AddUser = ({ elements }) => {
 						</p>
 					</div>
 				</div>
-				<BorderButton className={styles.btn}>Add</BorderButton>
+				<BorderButton
+					className={styles.btn}
+					dataAttribute={{ key: "id", value: el.id }}
+					onClick={addUserHandler}>
+					Add
+				</BorderButton>
 			</div>
 		);
 	});

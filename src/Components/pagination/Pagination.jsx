@@ -9,6 +9,7 @@ export const ElementsPagination = ({ elementsPerPage, onChange }) => {
 				count={elementsPerPage}
 				onChange={onChange}
 				variant='outlined'
+				shape="rounded"
 			/>
 		</div>
 	);
