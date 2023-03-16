@@ -66,10 +66,10 @@ const SearchUser = ({ className, addUsers }) => {
 			{searchEl && (
 				<AddUser elements={displayedIems} addUsers={addUsersHandler} />
 			)}
-			{addedUsers && <AddedUsers users={addedUsers} />}
 			{searchEl && (
 				<ElementsPagination elementsPerPage={count} onChange={pageHandler} />
 			)}
+			{addedUsers && <AddedUsers users={addedUsers} />}
 		</div>
 	);
 };
