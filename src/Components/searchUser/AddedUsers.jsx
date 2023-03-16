@@ -7,8 +7,8 @@ const AddedUsers = ({ users }) => {
 	const output = users.map(user => {
 		return (
 			<div key={user.id} className={styles["users--user-box"]}>
-				<div className={styles['users--user']}>
-					<button type="button">
+				<div className={styles["users--user"]} data-hover={user.name}>
+					<button type='button'>
 						<FontAwesomeIcon icon={solid("xmark")} />
 					</button>
 					<UserPhoto
