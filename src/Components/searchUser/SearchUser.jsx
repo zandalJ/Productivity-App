@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import styles from "./SearchUser.module.scss";
 import AddUser from "./AddUser";
 import { ElementsPagination } from "../pagination/Pagination";
@@ -18,7 +18,7 @@ const DUMMY_USERS = [
 const SearchUser = ({ className, addUsers }) => {
 	const [searchText, setSearchText] = useState("");
 	const [searchEl, setSearchEl] = useState(DUMMY_USERS);
-	const [addedUsers, setAddedUsers] = useState([])
+	const [addedUsers, setAddedUsers] = useState([]);
 	const searchHandler = e => {
 		const inputText = e.target.value.toLowerCase();
 		const outputEl = DUMMY_USERS.filter(user => {
@@ -39,13 +39,23 @@ const SearchUser = ({ className, addUsers }) => {
 		DUMMY_USERS.forEach(user => {
 			arr.forEach(el => {
 				if (user.id === el) {
-					setAddedUsers(oldArray => [...oldArray, user])
+					setAddedUsers(oldArray => [...oldArray, user]);
 					arr.shift();
 				}
 			});
 		});
-		addUsers(addedUsers);
 	};
+
+	const removeUserHandler = e => {
+		const user = e.target.hasAttribute("data-id")
+			? e.target
+			: e.target.closest("[data-id]");
+		setAddedUsers(addedUsers.filter(el => el.id !== user.dataset.id))
+	};
+
+	useEffect(() => {
+		addUsers(addedUsers);
+	}, [addedUsers]);
 
 	const startIndex = (page - 1) * itemsPerPage;
 	const endIndex = startIndex + itemsPerPage;
@@ -69,7 +79,9 @@ const SearchUser = ({ className, addUsers }) => {
 			{searchEl && (
 				<ElementsPagination elementsPerPage={count} onChange={pageHandler} />
 			)}
-			{addedUsers && <AddedUsers users={addedUsers} />}
+			{addedUsers && (
+				<AddedUsers users={addedUsers} removeUser={removeUserHandler} />
+			)}
 		</div>
 	);
 };

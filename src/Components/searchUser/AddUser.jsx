@@ -7,13 +7,13 @@ const AddUser = ({ elements, addUsers }) => {
 	const width = useWidth();
 	const photoSize = width < 768 ? "30" : "40";
 
-	let addedUsers = []
-	const addUserHandler = e => {
-		addedUsers.push(e.target.dataset.id)
-		addUsers(addedUsers)
+	let addedUsers = [];
+	const addUserHandler = (e) => {
+		addedUsers.push(e.target.dataset.id);
+		addUsers(addedUsers);
 	};
 
-	const output = elements.map((el) => {
+	const output = elements.map(el => {
 		return (
 			<div key={el.id} className={styles.box}>
 				<div className={styles["box--left"]}>
