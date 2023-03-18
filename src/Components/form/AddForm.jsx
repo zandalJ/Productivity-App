@@ -1,4 +1,4 @@
-import { Fragment } from "react";
+import { Fragment, useState } from "react";
 import styles from "./AddForm.module.scss";
 import { useForm, Controller } from "react-hook-form";
 import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
@@ -7,6 +7,7 @@ import Button from "../ui/Button";
 import SearchUser from "../searchUser/SearchUser";
 
 const AddForm = ({ elements }) => {
+	const [selectedUsers, setSelectedUsers] = useState([])
 	const {
 		register,
 		formState: { errors },
@@ -14,13 +15,15 @@ const AddForm = ({ elements }) => {
 		control,
 	} = useForm();
 
-	const addUserHandler = (arr) => {
-		// console.log(arr);
+	const addUserHandler = (user) => {
+		setSelectedUsers([...user])
 	}
 
 	const submitHandler = data => {
-		console.log(data);
+		const formData={...data, selectedUsers:{...selectedUsers}}
+		console.log(formData);
 	};
+	
 
 	return (
 		<Fragment>

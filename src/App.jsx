@@ -22,8 +22,7 @@ function App() {
 				<Route path='/tasks/*' element={<TasksPage />}></Route>
 			</Route>
 		)
-	);
-
+		);
 	return (
 		<Provider store={store}>
 			<LocalizationProvider dateAdapter={AdapterMoment}>
