@@ -1,7 +1,7 @@
 import { Fragment, useState, useEffect } from "react";
 import styles from "./TasksFilter.module.scss";
-import FilterButtons from "../ui/FilterButtons";
-import SortDropdown from "../ui/SortDropdown";
+import FilterButtons from "./FilterButtons";
+import SortDropdown from "./SortDropdown";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { solid } from "@fortawesome/fontawesome-svg-core/import.macro";
 import useWidth from "../../hooks/useWidth";

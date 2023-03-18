@@ -2,7 +2,7 @@ import Wrapper from "../Components/ui/Wrapper";
 import LayoutHeaderWrapper from "../Components/ui/LayoutHeaderWrapper";
 import LayoutBottomWrapper from "../Components/ui/LayoutBottomWrapper";
 import Tasks from "../Components/tasks/Tasks";
-import TasksFilter from "../Components/tasks/TasksFilter";
+import TasksFilter from '../Components/filter/TasksFilter'
 const TasksPage = () => {
 	return (
 		<Wrapper>

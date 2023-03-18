@@ -2,8 +2,8 @@ import styles from "./MobileTasksFilters.module.scss";
 import { motion } from "framer-motion";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { solid } from "@fortawesome/fontawesome-svg-core/import.macro";
-import FilterButtons from "../ui/FilterButtons";
-import SortDropdown from "../ui/SortDropdown";
+import FilterButtons from "./FilterButtons";
+import SortDropdown from "./SortDropdown";
 
 const mobileFiltersVariants = {
 	open: {
