@@ -1,55 +1,27 @@
 import { filterSortingActions } from "./filter-sorting";
 
 export const fetchFilterData = () => {
-	return async dispatch => {
-		const fetchData = async () => {
-			const response = await fetch(
-				"https://productivity-app-4f043-default-rtdb.europe-west1.firebasedatabase.app/filters.json"
-			);
+	let filter, sort;
 
-			if (!response.ok) {
-				// console.log("filter error");
-			}
-
-			const data = await response.json();
-
-			return data;
-		};
-
+	return dispatch => {
 		try {
-			const filterData = await fetchData();
-			dispatch(
-				filterSortingActions.filterChanger({
-					filter: filterData.filter,
-					sort: filterData.sort,
-				})
-			);
+			filter = localStorage.getItem("filter");
+			sort = localStorage.getItem("sort");
 		} catch (error) {
-			// console.log("error");
+			console.log(error);
+		} finally {
+			dispatch(
+				filterSortingActions.filterChanger({ filter: filter, sort: sort })
+			);
 		}
 	};
 };
 
 export const sendFilterData = filters => {
-	return async dispatch => {
-		const sendRequest = async () => {
-			const response = await fetch(
-				"https://productivity-app-4f043-default-rtdb.europe-west1.firebasedatabase.app/filters.json",
-				{
-					method: "PUT",
-					body: JSON.stringify({
-						filter: filters.filter,
-						sort: filters.sort,
-					}),
-				}
-			);
-			if (!response.ok) {
-				console.log("error");
-			}
-		};
-
+	return dispatch => {
 		try {
-			await sendRequest();
+			localStorage.setItem("filter", filters.filter);
+			localStorage.setItem("sort", filters.sort);
 		} catch (error) {
 			console.log(error);
 		}
