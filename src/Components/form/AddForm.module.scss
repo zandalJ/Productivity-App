@@ -2,33 +2,34 @@
 	display: flex;
 	flex-direction: column;
 
-	&:nth-of-type(1){
+	&:nth-of-type(1) {
 		margin-bottom: 0.5rem;
 	}
 
-    &:nth-of-type(2){
-        margin-bottom: 2rem;
-    }
+	&:nth-of-type(2) {
+		margin-bottom: 2rem;
+	}
 
 	label {
 		margin-bottom: 0.25rem;
 		color: var(--light-gray);
 
-        @media(min-width:992px){
-            font-size: var(--small-size);
-        }
+		@media (min-width: 992px) {
+			font-size: var(--small-size);
+		}
 	}
 
 	textarea {
+		font-family: "nunito", sans-serif;
 		resize: vertical;
 		min-height: 50px;
-        max-height: 200px;
+		max-height: 200px;
 
-        @media(min-width:992px){
-            resize: both;
-            width: 100%;
-            max-width: 100%;
-        }
+		@media (min-width: 992px) {
+			resize: both;
+			width: 100%;
+			max-width: 100%;
+		}
 	}
 }
 
@@ -36,14 +37,12 @@
 	width: 100%;
 	background-color: white;
 	border-radius: 6px;
+	outline: none;
+	border: 2px solid var(--main-color);
 
-    label{
-        color: var(--main-color);
-    }
-
-	&:focus {
-		outline: none;
-		border: .5px solid var(--main-color);
+	label {
+		font-size: 1.2rem;
+		color: var(--main-color);
 	}
 
 	svg {
@@ -52,12 +51,20 @@
 	}
 }
 
-.btn{
-    margin-top: 1.5rem;
+.MuiFormControl-root{
+	border: 2px solid var(--main-color);
+	
+	&:focus {
+		border-width: 3px
+	}
 }
 
-.error-msg{
-    margin: .5rem 0 .5rem .5rem;
-    font-size: var(--small-size);
-    color: var(--main-color);
+.btn {
+	margin-top: 1.5rem;
+}
+
+.error-msg {
+	margin: 0.5rem 0 0.5rem 0.5rem;
+	font-size: var(--small-size);
+	color: var(--main-color);
 }

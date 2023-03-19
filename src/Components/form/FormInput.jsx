@@ -1,7 +1,7 @@
 import styles from "./FormInput.module.scss";
 import ErrorMessage from "../ui/ErrorMessage";
 
-const FormInput = ({ title, name, type, register, rules, errors, wrap, key }) => {
+const FormInput = ({ title, name, type, register, rules, errors, wrap }) => {
 	const hasError = errors[name];
 	let errorMessage;
 	if (hasError) {
@@ -14,7 +14,9 @@ const FormInput = ({ title, name, type, register, rules, errors, wrap, key }) =>
 				errorMessage = "Your input is too long.";
 			} else if (hasError.type === "pattern") {
 				errorMessage = "Invalid email.";
-			}
+			}else if(hasError.type === 'required'){
+                errorMessage = 'Required input'
+            }
 		}
 	}
 	return (

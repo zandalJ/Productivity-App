@@ -7,6 +7,7 @@ import moment from "moment";
 import Button from "../ui/Button";
 import SearchUser from "../searchUser/SearchUser";
 import FormInput from "./FormInput";
+import ErrorMessage from "../ui/ErrorMessage";
 
 const AddForm = ({ elements }) => {
 	const [selectedUsers, setSelectedUsers] = useState([]);
@@ -31,19 +32,20 @@ const AddForm = ({ elements }) => {
 			<form onSubmit={handleSubmit(submitHandler)}>
 				{elements.input
 					? elements.input.map((element, index) => {
-							let name = element.name;
 							return (
-								<FormInput
-									title={element.label}
-									name={element.name}
-									type='text'
-									register={register}
-									rules={{
-										required: element.required,
-										maxLength: element.maxLength,
-									}}
-									errors={errors}
-								/>
+								<div key={index}>
+									<FormInput
+										title={element.label}
+										name={element.name}
+										type='text'
+										register={register}
+										rules={{
+											required: element.required,
+											maxLength: element.maxLength,
+										}}
+										errors={errors}
+									/>
+								</div>
 							);
 					  })
 					: null}
@@ -69,7 +71,7 @@ const AddForm = ({ elements }) => {
 							control={control}
 							name='taskDeadline'
 							rules={{
-								required: true,
+								required: "Choose Date",
 								validate: {
 									min: date =>
 										moment(date).isAfter(moment()) || "Enter a valid date",
@@ -87,9 +89,7 @@ const AddForm = ({ elements }) => {
 							)}
 						/>
 						{errors.taskDeadline && (
-							<p className={styles["error-msg"]}>
-								{errors.taskDeadline.message}
-							</p>
+							<ErrorMessage message={errors.taskDeadline.message} />
 						)}
 					</Fragment>
 				) : null}
