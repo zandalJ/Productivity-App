@@ -1,0 +1,19 @@
+.message-box{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    margin-top: 0.5rem;
+    color: var(--error-red);
+
+    p{
+        margin-left: 0.5rem;
+        
+         @media(min-width: 768px){
+            font-size: var(--small-size);
+        }
+    }
+
+    svg{
+        font-size: 1.5rem;
+    }
+}

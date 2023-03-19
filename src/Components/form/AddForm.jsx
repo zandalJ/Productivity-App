@@ -1,13 +1,15 @@
 import { Fragment, useState } from "react";
 import styles from "./AddForm.module.scss";
+import styles2 from "./FormInput.module.scss";
 import { useForm, Controller } from "react-hook-form";
 import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
 import moment from "moment";
 import Button from "../ui/Button";
 import SearchUser from "../searchUser/SearchUser";
+import FormInput from "./FormInput";
 
 const AddForm = ({ elements }) => {
-	const [selectedUsers, setSelectedUsers] = useState([])
+	const [selectedUsers, setSelectedUsers] = useState([]);
 	const {
 		register,
 		formState: { errors },
@@ -15,15 +17,14 @@ const AddForm = ({ elements }) => {
 		control,
 	} = useForm();
 
-	const addUserHandler = (user) => {
-		setSelectedUsers([...user])
-	}
+	const addUserHandler = user => {
+		setSelectedUsers([...user]);
+	};
 
 	const submitHandler = data => {
-		const formData={...data, selectedUsers:{...selectedUsers}}
+		const formData = { ...data, selectedUsers: { ...selectedUsers } };
 		console.log(formData);
 	};
-	
 
 	return (
 		<Fragment>
@@ -32,30 +33,32 @@ const AddForm = ({ elements }) => {
 					? elements.input.map((element, index) => {
 							let name = element.name;
 							return (
-								<div key={index} className={styles["input-box"]}>
-									<label>{element.label}</label>
-									<input
-										{...register(element.name, {
-											required: element.required,
-											maxLength: element.maxLength,
-										})}
-									/>
-									{errors[name] && (
-										<p className={styles["error-msg"]}>Title is required</p>
-									)}
-								</div>
+								<FormInput
+									title={element.label}
+									name={element.name}
+									type='text'
+									register={register}
+									rules={{
+										required: element.required,
+										maxLength: element.maxLength,
+									}}
+									errors={errors}
+								/>
 							);
 					  })
 					: null}
 				{elements.textarea
 					? elements.textarea.map((element, index) => {
 							return (
-								<div key={index} className={styles["input-box"]}>
+								<div
+									key={index}
+									className={`${styles2["input-box"]} ${styles["input-box"]}`}>
 									<label>{element.label}</label>
 									<textarea
 										{...register(element.name, {
 											required: element.required,
-										})}></textarea>
+										})}
+										placeholder={element.label}></textarea>
 								</div>
 							);
 					  })
@@ -66,6 +69,7 @@ const AddForm = ({ elements }) => {
 							control={control}
 							name='taskDeadline'
 							rules={{
+								required: true,
 								validate: {
 									min: date =>
 										moment(date).isAfter(moment()) || "Enter a valid date",
@@ -90,13 +94,15 @@ const AddForm = ({ elements }) => {
 					</Fragment>
 				) : null}
 				{elements.membersSelect ? (
-					<SearchUser className={styles["input-box"]} addUsers={addUserHandler}/>
+					<SearchUser
+						className={styles2["input-box"]}
+						addUsers={addUserHandler}
+					/>
 				) : null}
 				<Button submit className={styles.btn}>
 					Add Task
 				</Button>
 			</form>
-			
 		</Fragment>
 	);
 };

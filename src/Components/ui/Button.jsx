@@ -7,8 +7,8 @@ const Button = React.forwardRef(
 			<button
 				type={submit ? "submit" : "button"}
 				className={`${styles.button} ${
-					color ? styles[`button--${color} `] : null
-				} ${className ? className : null}`}
+					color ? styles[`button--${color} `] : ""
+				} ${className ? className : ""}`}
 				ref={ref}
 				onClick={onClick}>
 				{children}
