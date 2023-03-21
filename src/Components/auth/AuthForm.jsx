@@ -1,5 +1,5 @@
 import styles from "./AuthForm.module.scss";
-import { Form, useLocation } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import FormInput from "../form/FormInput";
 import Button from "../ui/Button";
@@ -17,7 +17,7 @@ const AuthForm = () => {
 		watch,
 	} = useForm();
 
-	const submitHandler = (data) => {
+	const submitHandler = data => {
 		console.log("submited!");
 		console.log(data);
 	};

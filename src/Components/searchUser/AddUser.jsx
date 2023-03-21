@@ -1,3 +1,4 @@
+import { Fragment } from "react";
 import styles from "./AddUser.module.scss";
 import UserPhoto from "../ui/UserPhoto";
 import BorderButton from "../ui/BorderButton";
@@ -8,7 +9,7 @@ const AddUser = ({ elements, addUsers }) => {
 	const photoSize = width < 768 ? "30" : "40";
 
 	let addedUsers = [];
-	const addUserHandler = (e) => {
+	const addUserHandler = e => {
 		addedUsers.push(e.target.dataset.id);
 		addUsers(addedUsers);
 	};
@@ -41,7 +42,7 @@ const AddUser = ({ elements, addUsers }) => {
 		);
 	});
 
-	return output;
+	return <Fragment>{elements.length > 0 ? output : <p className={styles.text}>No users found.</p>}</Fragment>;
 };
 
 export default AddUser;

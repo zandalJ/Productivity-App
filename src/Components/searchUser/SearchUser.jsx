@@ -36,6 +36,14 @@ const SearchUser = ({ className, addUsers }) => {
 	};
 
 	const addUsersHandler = arr => {
+		searchEl.forEach(el => {
+			if (el.id === arr[0]) {
+				const newArr = searchEl.filter(item => {
+					return item.id !== el.id;
+				});
+				setSearchEl(newArr)
+			}
+		});
 		DUMMY_USERS.forEach(user => {
 			arr.forEach(el => {
 				if (user.id === el) {
@@ -50,7 +58,7 @@ const SearchUser = ({ className, addUsers }) => {
 		const user = e.target.hasAttribute("data-id")
 			? e.target
 			: e.target.closest("[data-id]");
-		setAddedUsers(addedUsers.filter(el => el.id !== user.dataset.id))
+		setAddedUsers(addedUsers.filter(el => el.id !== user.dataset.id));
 	};
 
 	useEffect(() => {
@@ -59,7 +67,7 @@ const SearchUser = ({ className, addUsers }) => {
 
 	const startIndex = (page - 1) * itemsPerPage;
 	const endIndex = startIndex + itemsPerPage;
-	const displayedIems = searchEl.slice(startIndex, endIndex);
+	const displayedItems = searchEl.slice(startIndex, endIndex);
 
 	const count = Math.ceil(searchEl.length / itemsPerPage);
 
@@ -74,7 +82,7 @@ const SearchUser = ({ className, addUsers }) => {
 			/>
 			<p className={styles["users-text"]}>Users</p>
 			{searchEl && (
-				<AddUser elements={displayedIems} addUsers={addUsersHandler} />
+				<AddUser elements={displayedItems} addUsers={addUsersHandler} />
 			)}
 			{searchEl && (
 				<ElementsPagination elementsPerPage={count} onChange={pageHandler} />
