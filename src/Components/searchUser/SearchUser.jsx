@@ -22,10 +22,21 @@ const SearchUser = ({ className, addUsers }) => {
 	const searchHandler = e => {
 		const inputText = e.target.value.toLowerCase();
 		const outputEl = DUMMY_USERS.filter(user => {
-			return user.name.toLowerCase().includes(inputText);
+			return user.name.toLowerCase().includes(inputText) && checkUsers(user);
 		});
 		setSearchText(inputText);
 		setSearchEl(outputEl);
+	};
+
+	const checkUsers = user => {
+		if (addedUsers.length > 0) {
+			for (let i = 0; i < addedUsers.length; i++) {
+				if (user.id === addedUsers[i].id) {
+					return false;
+				}
+			}
+		}
+		return true;
 	};
 
 	const [page, setPage] = useState(1);
@@ -36,14 +47,7 @@ const SearchUser = ({ className, addUsers }) => {
 	};
 
 	const addUsersHandler = arr => {
-		searchEl.forEach(el => {
-			if (el.id === arr[0]) {
-				const newArr = searchEl.filter(item => {
-					return item.id !== el.id;
-				});
-				setSearchEl(newArr)
-			}
-		});
+		setSearchEl(searchEl.filter(el => el.id !== arr[0]));
 		DUMMY_USERS.forEach(user => {
 			arr.forEach(el => {
 				if (user.id === el) {

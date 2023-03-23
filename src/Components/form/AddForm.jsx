@@ -23,7 +23,7 @@ const AddForm = ({ elements }) => {
 	};
 
 	const submitHandler = data => {
-		const formData = { ...data, selectedUsers: { ...selectedUsers } };
+		const formData = { ...data, selectedUsers: [ ...selectedUsers ] };
 		console.log(formData);
 	};
 
