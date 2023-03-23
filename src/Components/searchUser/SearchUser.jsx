@@ -19,13 +19,14 @@ const SearchUser = ({ className, addUsers }) => {
 	const [searchText, setSearchText] = useState("");
 	const [searchEl, setSearchEl] = useState(DUMMY_USERS);
 	const [addedUsers, setAddedUsers] = useState([]);
+
 	const searchHandler = e => {
 		const inputText = e.target.value.toLowerCase();
 		const outputEl = DUMMY_USERS.filter(user => {
 			return user.name.toLowerCase().includes(inputText) && checkUsers(user);
 		});
-		setSearchText(inputText);
 		setSearchEl(outputEl);
+		setSearchText(inputText);
 	};
 
 	const checkUsers = user => {
@@ -63,6 +64,10 @@ const SearchUser = ({ className, addUsers }) => {
 			? e.target
 			: e.target.closest("[data-id]");
 		setAddedUsers(addedUsers.filter(el => el.id !== user.dataset.id));
+		setSearchEl(
+			[...searchEl,
+			DUMMY_USERS.find(el => el.id === user.dataset.id)]
+		);
 	};
 
 	useEffect(() => {
