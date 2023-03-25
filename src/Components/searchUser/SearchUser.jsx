@@ -20,6 +20,13 @@ const SearchUser = ({ className, addUsers }) => {
 	const [searchEl, setSearchEl] = useState(DUMMY_USERS);
 	const [addedUsers, setAddedUsers] = useState([]);
 
+	const [page, setPage] = useState(1);
+	const itemsPerPage = 4;
+
+	const pageHandler = (e, p) => {
+		setPage(p);
+	};
+
 	const searchHandler = e => {
 		const inputText = e.target.value.toLowerCase();
 		const outputEl = DUMMY_USERS.filter(user => {
@@ -27,24 +34,6 @@ const SearchUser = ({ className, addUsers }) => {
 		});
 		setSearchEl(outputEl);
 		setSearchText(inputText);
-	};
-
-	const checkUsers = user => {
-		if (addedUsers.length > 0) {
-			for (let i = 0; i < addedUsers.length; i++) {
-				if (user.id === addedUsers[i].id) {
-					return false;
-				}
-			}
-		}
-		return true;
-	};
-
-	const [page, setPage] = useState(1);
-	const itemsPerPage = 4;
-
-	const pageHandler = (e, p) => {
-		setPage(p);
 	};
 
 	const addUsersHandler = arr => {
@@ -64,10 +53,28 @@ const SearchUser = ({ className, addUsers }) => {
 			? e.target
 			: e.target.closest("[data-id]");
 		setAddedUsers(addedUsers.filter(el => el.id !== user.dataset.id));
-		setSearchEl(
-			[...searchEl,
-			DUMMY_USERS.find(el => el.id === user.dataset.id)]
-		);
+		const outputEl = DUMMY_USERS.find(el => {
+			return (
+				el.name.toLowerCase().includes(searchText) && el.id === user.dataset.id
+			);
+		});
+		const output = outputEl !== undefined ? outputEl : false;
+		if (output) {
+			setSearchEl([...searchEl, output]);
+		} else {
+			return;
+		}
+	};
+
+	const checkUsers = user => {
+		if (addedUsers.length > 0) {
+			for (let i = 0; i < addedUsers.length; i++) {
+				if (user.id === addedUsers[i].id) {
+					return false;
+				}
+			}
+		}
+		return true;
 	};
 
 	useEffect(() => {
