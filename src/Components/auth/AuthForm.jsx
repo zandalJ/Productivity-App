@@ -4,10 +4,12 @@ import { useForm } from "react-hook-form";
 import FormInput from "../form/FormInput";
 import Button from "../ui/Button";
 import { regex } from "../../constants/regex";
+import { registerUrl, loginUrl } from "../../constants/authApiData";
 
 const AuthForm = () => {
 	const location = useLocation();
 	const registerPage = location.pathname === "/register";
+	const url = registerPage ? registerUrl : loginUrl;
 	const title = registerPage ? "Sign Up" : "Log In";
 
 	const {
@@ -17,9 +19,46 @@ const AuthForm = () => {
 		watch,
 	} = useForm();
 
-	const submitHandler = data => {
-		console.log("submited!");
-		console.log(data);
+	const submitHandler = async data => {
+		const authData = {
+			name: data.name,
+			surname: data.surname,
+			nickname: data.nickname,
+			email: data.email,
+			password: data.password,
+			returnSecureToken: true,
+			teamMembers: [],
+			teams: [],
+		};
+
+		try {
+			const res = await fetch(url, {
+				method: "POST",
+				body: JSON.stringify(authData),
+				headers: {
+					"Content-type": "application/json",
+				},
+			});
+
+			const data = await res.json()
+
+			if(res.ok){
+				if(registerPage){
+					console.log('registered');
+				}else{
+					console.log('logged in');
+				}
+				console.log(data);
+			}else{
+				let errorMsg = 'Authentication failed'
+
+				if(data && data.error && data.error.message){
+					errorMsg = data.error.message
+				}
+
+				console.log(errorMsg);
+			}
+		} catch (err) {}
 	};
 
 	return (
