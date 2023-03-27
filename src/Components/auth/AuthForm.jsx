@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import styles from "./AuthForm.module.scss";
 import { useLocation } from "react-router-dom";
 import { useForm } from "react-hook-form";
@@ -5,6 +6,9 @@ import FormInput from "../form/FormInput";
 import Button from "../ui/Button";
 import { regex } from "../../constants/regex";
 import { registerUrl, loginUrl } from "../../constants/authApiData";
+import { createUserWithEmailAndPassword } from "firebase/auth";
+import { auth, db } from "../../firebase";
+import { collection, doc } from "firebase/firestore";
 
 const AuthForm = () => {
 	const location = useLocation();
@@ -19,46 +23,45 @@ const AuthForm = () => {
 		watch,
 	} = useForm();
 
-	const submitHandler = async data => {
+	const submitHandler = async formData => {
 		const authData = {
-			name: data.name,
-			surname: data.surname,
-			nickname: data.nickname,
-			email: data.email,
-			password: data.password,
+			name: formData.name,
+			surname: formData.surname,
+			nickname: formData.nickname,
+			email: formData.email,
+			password: formData.password,
 			returnSecureToken: true,
 			teamMembers: [],
 			teams: [],
 		};
 
+		let user;
+
 		try {
-			const res = await fetch(url, {
-				method: "POST",
-				body: JSON.stringify(authData),
-				headers: {
-					"Content-type": "application/json",
-				},
+			await createUserWithEmailAndPassword(
+				auth,
+				authData.email,
+				authData.password
+			).then(userCredential => {
+				user = userCredential.user;
+				console.log(user);
 			});
 
-			const data = await res.json()
+			console.log("registered");
+		} catch (err) {
+			console.log(err);
+		}
 
-			if(res.ok){
-				if(registerPage){
-					console.log('registered');
-				}else{
-					console.log('logged in');
-				}
-				console.log(data);
-			}else{
-				let errorMsg = 'Authentication failed'
+		const userRef = db.collection("users").doc(user.uid);
 
-				if(data && data.error && data.error.message){
-					errorMsg = data.error.message
-				}
-
-				console.log(errorMsg);
-			}
-		} catch (err) {}
+		userRef
+			.set(authData)
+			.then(() => {
+				console.log("added!");
+			})
+			.catch(err => {
+				console.log(err);
+			});
 	};
 
 	return (
