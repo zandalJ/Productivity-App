@@ -1,22 +1,21 @@
 import { Fragment } from "react";
 import styles from "./AuthForm.module.scss";
+import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import FormInput from "../form/FormInput";
 import Button from "../ui/Button";
 import { regex } from "../../constants/regex";
-import {
-	createUserWithEmailAndPassword,
-	signInWithEmailAndPassword,
-} from "firebase/auth";
-import { auth, db } from "../../firebase";
-import { setDoc, doc } from "firebase/firestore";
+import { auth } from "../../firebase";
+import { registerUser, loginUser, setUserData } from "../../store/auth-actions";
 
 const AuthForm = () => {
 	const location = useLocation();
 	const registerPage = location.pathname === "/register";
 	const title = registerPage ? "Sign Up" : "Log In";
-	const navigate = useNavigate()
+	const navigate = useNavigate();
+	const dispatch = useDispatch();
+	const authState = useSelector(state => state.auth)
 
 	const {
 		register,
@@ -37,44 +36,27 @@ const AuthForm = () => {
 			teams: [],
 		};
 
-		let user;
-
 		if (registerPage) {
-			try {
-				await createUserWithEmailAndPassword(
-					auth,
-					authData.email,
-					authData.password
-				).then(userCredential => {
-					user = userCredential.user;
-				});
+			dispatch(
+				registerUser({
+					auth: auth,
+					email: authData.email,
+					password: authData.password,
+				})
+			);
 
-				console.log("registered");
-			} catch (err) {
-				console.log(err);
-			}
-
-			try {
-				await setDoc(doc(db, "users", user.uid), {
-					...authData,
-				});
-			} catch (err) {
-				console.log(err);
-			}
+			dispatch(setUserData(authData, authState.uid));
 
 			navigate("/login");
 		} else {
-			await signInWithEmailAndPassword(auth, authData.email, authData.password)
-				.then(userCredential => {
-					user = userCredential.user;
-					console.log("signed");
+			dispatch(
+				loginUser({
+					auth: auth,
+					email: authData.email,
+					password: authData.password,
 				})
-				.catch(err => {
-					console.log(err);
-				});
+			);
 		}
-
-		console.log(user);
 	};
 
 	return (
