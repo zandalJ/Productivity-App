@@ -1,20 +1,22 @@
-import { useEffect, useState } from "react";
+import { Fragment } from "react";
 import styles from "./AuthForm.module.scss";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import FormInput from "../form/FormInput";
 import Button from "../ui/Button";
 import { regex } from "../../constants/regex";
-import { registerUrl, loginUrl } from "../../constants/authApiData";
-import { createUserWithEmailAndPassword } from "firebase/auth";
+import {
+	createUserWithEmailAndPassword,
+	signInWithEmailAndPassword,
+} from "firebase/auth";
 import { auth, db } from "../../firebase";
-import { collection, doc } from "firebase/firestore";
+import { setDoc, doc } from "firebase/firestore";
 
 const AuthForm = () => {
 	const location = useLocation();
 	const registerPage = location.pathname === "/register";
-	const url = registerPage ? registerUrl : loginUrl;
 	const title = registerPage ? "Sign Up" : "Log In";
+	const navigate = useNavigate()
 
 	const {
 		register,
@@ -25,9 +27,9 @@ const AuthForm = () => {
 
 	const submitHandler = async formData => {
 		const authData = {
-			name: formData.name,
-			surname: formData.surname,
-			nickname: formData.nickname,
+			name: formData.name || "",
+			surname: formData.surname || "",
+			nickname: formData.nickname || "",
 			email: formData.email,
 			password: formData.password,
 			returnSecureToken: true,
@@ -37,31 +39,42 @@ const AuthForm = () => {
 
 		let user;
 
-		try {
-			await createUserWithEmailAndPassword(
-				auth,
-				authData.email,
-				authData.password
-			).then(userCredential => {
-				user = userCredential.user;
-				console.log(user);
-			});
+		if (registerPage) {
+			try {
+				await createUserWithEmailAndPassword(
+					auth,
+					authData.email,
+					authData.password
+				).then(userCredential => {
+					user = userCredential.user;
+				});
 
-			console.log("registered");
-		} catch (err) {
-			console.log(err);
+				console.log("registered");
+			} catch (err) {
+				console.log(err);
+			}
+
+			try {
+				await setDoc(doc(db, "users", user.uid), {
+					...authData,
+				});
+			} catch (err) {
+				console.log(err);
+			}
+
+			navigate("/login");
+		} else {
+			await signInWithEmailAndPassword(auth, authData.email, authData.password)
+				.then(userCredential => {
+					user = userCredential.user;
+					console.log("signed");
+				})
+				.catch(err => {
+					console.log(err);
+				});
 		}
 
-		const userRef = db.collection("users").doc(user.uid);
-
-		userRef
-			.set(authData)
-			.then(() => {
-				console.log("added!");
-			})
-			.catch(err => {
-				console.log(err);
-			});
+		console.log(user);
 	};
 
 	return (
@@ -69,47 +82,49 @@ const AuthForm = () => {
 			<form onSubmit={handleSubmit(submitHandler)}>
 				<h1>{title}</h1>
 				{registerPage && (
-					<div className={styles["inputs-wrapper"]}>
+					<Fragment>
+						<div className={styles["inputs-wrapper"]}>
+							<FormInput
+								title='First Name'
+								name='name'
+								type='text'
+								register={register}
+								rules={{
+									required: "Enter your first name.",
+									minLength: 2,
+									maxLength: 15,
+								}}
+								errors={errors}
+								wrap
+							/>
+							<FormInput
+								title='Last Name'
+								name='surname'
+								type='text'
+								register={register}
+								rules={{
+									required: "Enter your last name.",
+									minLength: 2,
+									maxLength: 15,
+								}}
+								errors={errors}
+								wrap
+							/>
+						</div>
 						<FormInput
-							title='First Name'
-							name='name'
+							title='Nickname'
+							name='nickname'
 							type='text'
 							register={register}
 							rules={{
-								required: "Enter your first name.",
-								minLength: 2,
-								maxLength: 15,
+								required: "Enter your nickname.",
+								minLength: 1,
+								maxLength: 20,
 							}}
 							errors={errors}
-							wrap
 						/>
-						<FormInput
-							title='Last Name'
-							name='surname'
-							type='text'
-							register={register}
-							rules={{
-								required: "Enter your last name.",
-								minLength: 2,
-								maxLength: 15,
-							}}
-							errors={errors}
-							wrap
-						/>
-					</div>
+					</Fragment>
 				)}
-				<FormInput
-					title='Nickname'
-					name='nickname'
-					type='text'
-					register={register}
-					rules={{
-						required: "Enter your nickname.",
-						minLength: 1,
-						maxLength: 20,
-					}}
-					errors={errors}
-				/>
 				<FormInput
 					title='Email'
 					name='email'
