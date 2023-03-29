@@ -1,10 +1,16 @@
-import { Fragment, useState } from "react";
+import { Fragment, useState, useEffect } from "react";
 import styles from "./MainLayout.module.scss";
 import { Outlet, useLocation } from "react-router-dom";
 import HeaderNav from "../Components/navigation/HeaderNav";
 import SideNav from "../Components/navigation/SideNav";
 import Modal from "../Components/ui/modal/Modal";
+import { useSelector } from "react-redux";
+
 const MainLayout = () => {
+	const isLogged = useSelector(state => state.auth.isLoggedIn);
+	useEffect(() => {
+		console.log(isLogged);
+	}, [isLogged]);
 	let location = useLocation().pathname;
 
 	const renderModal = location === "/tasks" || location === "/habits";

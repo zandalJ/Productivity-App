@@ -34,3 +34,12 @@
 		}
 	}
 }
+
+.form-text{
+	color: var(--main-color);
+	font-size: var(--medium-size);
+
+	&:hover{
+		text-decoration: underline;
+	}
+}

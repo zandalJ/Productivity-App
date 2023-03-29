@@ -1,7 +1,7 @@
 import { useCallback, Fragment } from "react";
 import styles from "./AuthForm.module.scss";
 import { useDispatch } from "react-redux";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate, Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import FormInput from "../form/FormInput";
 import Button from "../ui/Button";
@@ -38,9 +38,7 @@ const AuthForm = () => {
 			};
 
 			if (registerPage) {
-				dispatch(
-					registerUser(authData, auth)
-				);
+				dispatch(registerUser(authData, auth));
 
 				navigate("/login");
 			} else {
@@ -51,10 +49,16 @@ const AuthForm = () => {
 						password: authData.password,
 					})
 				);
+
+				navigate("/dashboard");
 			}
 		},
-		[ dispatch, navigate, registerPage]
+		[dispatch, navigate, registerPage]
 	);
+
+	const formFooterText = registerPage
+		? "Do you have an account? Log in"
+		: "You don't have an account? Register";
 
 	return (
 		<div className={styles["form-wrapper"]}>
@@ -144,6 +148,11 @@ const AuthForm = () => {
 						errors={errors}
 					/>
 				)}
+				<Link
+					to={registerPage ? "/login" : "/register"}
+					className={styles["form-text"]}>
+					{formFooterText}
+				</Link>
 				<Button submit className={styles.btn}>
 					{title}
 				</Button>
