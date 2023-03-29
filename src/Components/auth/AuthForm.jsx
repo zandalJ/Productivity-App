@@ -15,7 +15,6 @@ const AuthForm = () => {
 	const title = registerPage ? "Sign Up" : "Log In";
 
 	const navigate = useNavigate();
-
 	const dispatch = useDispatch();
 
 	const {
@@ -24,6 +23,7 @@ const AuthForm = () => {
 		handleSubmit,
 		watch,
 	} = useForm();
+
 	const submitHandler = useCallback(
 		async formData => {
 			const authData = {
@@ -50,7 +50,7 @@ const AuthForm = () => {
 					})
 				);
 
-				navigate("/dashboard");
+				navigate("/");
 			}
 		},
 		[dispatch, navigate, registerPage]

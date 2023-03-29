@@ -14,13 +14,6 @@ export const registerUser = (authData, auth) => {
 				authData.email,
 				authData.password
 			).then(userCredential => {
-				dispatch(
-					authActions.authChanger({
-						loginState: false,
-						uid: userCredential.user.uid,
-					})
-				);
-
 				setUserData(authData, userCredential.user.uid);
 			});
 		} catch (err) {
@@ -36,6 +29,8 @@ export const loginUser = authData => {
 			authData.email,
 			authData.password
 		).then(userCredential => {
+			localStorage.setItem("isLoggedIn", true);
+			localStorage.setItem("uid", userCredential.user.uid);
 			dispatch(
 				authActions.authChanger({
 					loginState: true,
@@ -46,10 +41,37 @@ export const loginUser = authData => {
 	};
 };
 
+export const logoutUser = () => {
+	return dispatch => {
+		localStorage.setItem("isLoggedIn", false);
+		localStorage.setItem("uid", "");
+		dispatch(
+			authActions.authChanger({
+				loginState: false,
+				uid: "",
+			})
+		);
+	};
+};
+
+export const fetchUserAuth = () => {
+	return dispatch => {
+		const loginState = localStorage.getItem("isLoggedIn");
+		const uid = localStorage.getItem("uid");
+		dispatch(
+			authActions.authChanger({
+				loginState: loginState,
+				uid: uid,
+			})
+		);
+	};
+};
+
 export const setUserData = async (userData, uid) => {
 	try {
 		await setDoc(doc(db, "users", uid), {
-			...userData, uid
+			...userData,
+			uid,
 		});
 	} catch (err) {
 		console.log(err);

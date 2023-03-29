@@ -4,15 +4,18 @@ import { Outlet, useLocation } from "react-router-dom";
 import HeaderNav from "../Components/navigation/HeaderNav";
 import SideNav from "../Components/navigation/SideNav";
 import Modal from "../Components/ui/modal/Modal";
-import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
+import { fetchUserAuth } from "../store/auth-actions";
 
 const MainLayout = () => {
-	const isLogged = useSelector(state => state.auth.isLoggedIn);
-	useEffect(() => {
-		console.log(isLogged);
-	}, [isLogged]);
-	let location = useLocation().pathname;
+	const dispatch = useDispatch()
 
+
+	useEffect(() => {
+		dispatch(fetchUserAuth())
+	}, [dispatch]);
+
+	let location = useLocation().pathname;
 	const renderModal = location === "/tasks" || location === "/habits";
 
 	const [showModal, setShowModal] = useState(false);

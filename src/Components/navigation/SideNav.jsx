@@ -9,6 +9,9 @@ import SideNavLinkText from "./SideNavLinkText";
 import { motion } from "framer-motion";
 import NavArrow from "./NavArrow";
 import Button from "../ui/Button";
+import { useSelector } from "react-redux";
+import { logoutUser } from "../../store/auth-actions";
+import { useDispatch } from "react-redux";
 
 const navVariants = {
 	open: width => ({
@@ -58,9 +61,15 @@ const liVariants = {
 
 const SideNav = ({ showModal, location }) => {
 	const [open, setIsOpen] = useState(true);
+	const [isLogged, setIsLogged] = useState(false);
 	const width = useWidth();
-
+	const dispatch = useDispatch();
+	const loginState = useSelector(state => state.auth.isLoggedIn);
 	const showButton = location === "/tasks";
+
+	useEffect(() => {
+		setIsLogged(loginState);
+	}, [loginState]);
 
 	useEffect(() => {
 		if (width >= 992) {
@@ -76,8 +85,14 @@ const SideNav = ({ showModal, location }) => {
 	const MotionButton = motion(Button);
 
 	const showModalHandler = () => {
-		showModal()
-	}
+		showModal();
+	};
+
+	const logoutUserHandler = () => {
+		if (isLogged) {
+			dispatch(logoutUser());
+		}
+	};
 
 	return (
 		<Fragment>
@@ -194,6 +209,42 @@ const SideNav = ({ showModal, location }) => {
 								</SideNavLinkText>
 							</NavLink>
 						</motion.li>
+						{isLogged ? (
+							<motion.li
+								animate={"display"}
+								initial={"display"}
+								custom={open}
+								variants={liVariants}>
+								<NavLink
+									to='/login'
+									className={styles.link}
+									onClick={logoutUserHandler}>
+									<FontAwesomeIcon
+										icon={solid("right-from-bracket")}
+										className={styles.icon}
+									/>
+									<SideNavLinkText open={open} variants={itemsVariants}>
+										Log out
+									</SideNavLinkText>
+								</NavLink>
+							</motion.li>
+						) : (
+							<motion.li
+								animate={"display"}
+								initial={"display"}
+								custom={open}
+								variants={liVariants}>
+								<NavLink to='/login' className={styles.link}>
+									<FontAwesomeIcon
+										icon={solid("right-from-bracket")}
+										className={styles.icon}
+									/>
+									<SideNavLinkText open={open} variants={itemsVariants}>
+										Log in
+									</SideNavLinkText>
+								</NavLink>
+							</motion.li>
+						)}
 					</ul>
 				</motion.nav>
 				{showButton && (
