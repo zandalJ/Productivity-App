@@ -6,11 +6,11 @@ import {
 import { setDoc, doc } from "firebase/firestore";
 import { db } from "../firebase";
 
-export const registerUser = authData => {
+export const registerUser = (authData, auth) => {
 	return async dispatch => {
 		try {
 			await createUserWithEmailAndPassword(
-				authData.auth,
+				auth,
 				authData.email,
 				authData.password
 			).then(userCredential => {
@@ -20,6 +20,8 @@ export const registerUser = authData => {
 						uid: userCredential.user.uid,
 					})
 				);
+
+				setUserData(authData, userCredential.user.uid);
 			});
 		} catch (err) {
 			console.log(err);
@@ -44,18 +46,12 @@ export const loginUser = authData => {
 	};
 };
 
-export const setUserData = (userData, uid) => {
-    console.log(uid);
-	return async (dispatch) => {
-		try {
-			await setDoc(doc(db, "users", uid), {
-				...userData,
-			});
-		} catch (err) {
-			console.log(err);
-		}
-	};
+export const setUserData = async (userData, uid) => {
+	try {
+		await setDoc(doc(db, "users", uid), {
+			...userData, uid
+		});
+	} catch (err) {
+		console.log(err);
+	}
 };
-
-
-

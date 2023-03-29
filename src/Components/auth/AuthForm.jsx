@@ -1,21 +1,22 @@
-import { Fragment } from "react";
+import { useCallback, Fragment } from "react";
 import styles from "./AuthForm.module.scss";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import FormInput from "../form/FormInput";
 import Button from "../ui/Button";
 import { regex } from "../../constants/regex";
 import { auth } from "../../firebase";
-import { registerUser, loginUser, setUserData } from "../../store/auth-actions";
+import { registerUser, loginUser } from "../../store/auth-actions";
 
 const AuthForm = () => {
 	const location = useLocation();
 	const registerPage = location.pathname === "/register";
 	const title = registerPage ? "Sign Up" : "Log In";
+
 	const navigate = useNavigate();
+
 	const dispatch = useDispatch();
-	const authState = useSelector(state => state.auth)
 
 	const {
 		register,
@@ -23,41 +24,37 @@ const AuthForm = () => {
 		handleSubmit,
 		watch,
 	} = useForm();
+	const submitHandler = useCallback(
+		async formData => {
+			const authData = {
+				name: formData.name || "",
+				surname: formData.surname || "",
+				nickname: formData.nickname || "",
+				email: formData.email,
+				password: formData.password,
+				returnSecureToken: true,
+				teamMembers: [],
+				teams: [],
+			};
 
-	const submitHandler = async formData => {
-		const authData = {
-			name: formData.name || "",
-			surname: formData.surname || "",
-			nickname: formData.nickname || "",
-			email: formData.email,
-			password: formData.password,
-			returnSecureToken: true,
-			teamMembers: [],
-			teams: [],
-		};
+			if (registerPage) {
+				dispatch(
+					registerUser(authData, auth)
+				);
 
-		if (registerPage) {
-			dispatch(
-				registerUser({
-					auth: auth,
-					email: authData.email,
-					password: authData.password,
-				})
-			);
-
-			dispatch(setUserData(authData, authState.uid));
-
-			navigate("/login");
-		} else {
-			dispatch(
-				loginUser({
-					auth: auth,
-					email: authData.email,
-					password: authData.password,
-				})
-			);
-		}
-	};
+				navigate("/login");
+			} else {
+				dispatch(
+					loginUser({
+						auth: auth,
+						email: authData.email,
+						password: authData.password,
+					})
+				);
+			}
+		},
+		[ dispatch, navigate, registerPage]
+	);
 
 	return (
 		<div className={styles["form-wrapper"]}>
