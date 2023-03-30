@@ -4,12 +4,11 @@ import { Outlet, useLocation } from "react-router-dom";
 import HeaderNav from "../Components/navigation/HeaderNav";
 import SideNav from "../Components/navigation/SideNav";
 import Modal from "../Components/ui/modal/Modal";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { fetchUserAuth } from "../store/auth-actions";
 
 const MainLayout = () => {
 	const dispatch = useDispatch()
-
 
 	useEffect(() => {
 		dispatch(fetchUserAuth())
@@ -33,7 +32,10 @@ const MainLayout = () => {
 			<div className={styles["main-wrapper"]}>
 				<HeaderNav></HeaderNav>
 				<div className={styles["sec-wrapper"]}>
-					<SideNav showModal={showModalHandler} location={location} />
+					<SideNav
+						showModal={showModalHandler}
+						location={location}
+					/>
 					<main className={styles.main}>
 						<Outlet />
 					</main>

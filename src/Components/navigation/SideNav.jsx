@@ -9,9 +9,8 @@ import SideNavLinkText from "./SideNavLinkText";
 import { motion } from "framer-motion";
 import NavArrow from "./NavArrow";
 import Button from "../ui/Button";
-import { useSelector } from "react-redux";
 import { logoutUser } from "../../store/auth-actions";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 const navVariants = {
 	open: width => ({
@@ -61,15 +60,10 @@ const liVariants = {
 
 const SideNav = ({ showModal, location }) => {
 	const [open, setIsOpen] = useState(true);
-	const [isLogged, setIsLogged] = useState(false);
 	const width = useWidth();
 	const dispatch = useDispatch();
-	const loginState = useSelector(state => state.auth.isLoggedIn);
 	const showButton = location === "/tasks";
-
-	useEffect(() => {
-		setIsLogged(loginState);
-	}, [loginState]);
+	const loginState = useSelector(state => state.auth.isLoggedIn);
 
 	useEffect(() => {
 		if (width >= 992) {
@@ -89,7 +83,7 @@ const SideNav = ({ showModal, location }) => {
 	};
 
 	const logoutUserHandler = () => {
-		if (isLogged) {
+		if (loginState) {
 			dispatch(logoutUser());
 		}
 	};
@@ -114,138 +108,124 @@ const SideNav = ({ showModal, location }) => {
 						animationVariants={itemsVariants}
 						photoSize={photoSize}
 					/>
-					<motion.p
-						className={styles["menu-text"]}
-						animate={open ? "open" : "closed"}
-						initial={open ? "open" : "closed"}
-						variants={itemsVariants}>
-						Menu
-					</motion.p>
-					<ul
-						className={`${styles["links-list"]} ${
-							open ? styles["list-opened"] : styles["list-closed"]
-						}`}>
-						<motion.li
-							animate={"display"}
-							initial={"display"}
-							custom={open}
-							variants={liVariants}>
-							<NavLink
-								to='/dashboard'
-								className={({ isActive }) =>
-									[styles.link, isActive ? styles["active-link"] : null]
-										.filter(Boolean)
-										.join(" ")
-								}>
-								<FontAwesomeIcon
-									icon={solid("table-columns")}
-									className={styles.icon}
-								/>
-								<SideNavLinkText open={open} variants={itemsVariants}>
-									Dashboard
-								</SideNavLinkText>
-							</NavLink>
-						</motion.li>
-						<motion.li
-							animate={"display"}
-							initial={"display"}
-							custom={open}
-							variants={liVariants}>
-							<NavLink
-								to='/tasks'
-								className={({ isActive }) =>
-									[styles.link, isActive ? styles["active-link"] : null]
-										.filter(Boolean)
-										.join(" ")
-								}>
-								<FontAwesomeIcon
-									icon={solid("table-list")}
-									className={styles.icon}
-								/>
-								<SideNavLinkText open={open} variants={itemsVariants}>
-									Tasks
-								</SideNavLinkText>
-							</NavLink>
-						</motion.li>
-						<motion.li
-							animate={"display"}
-							initial={"display"}
-							custom={open}
-							variants={liVariants}>
-							<NavLink
-								to='/test'
-								className={({ isActive }) =>
-									[styles.link, isActive ? styles["active-link"] : null]
-										.filter(Boolean)
-										.join(" ")
-								}>
-								<FontAwesomeIcon
-									icon={solid("arrows-rotate")}
-									className={styles.icon}
-								/>
-								<SideNavLinkText open={open} variants={itemsVariants}>
-									Habits
-								</SideNavLinkText>
-							</NavLink>
-						</motion.li>
-						<motion.li
-							animate={"display"}
-							initial={"display"}
-							custom={open}
-							variants={liVariants}>
-							<NavLink
-								to='/test'
-								className={({ isActive }) =>
-									[styles.link, isActive ? styles["active-link"] : null]
-										.filter(Boolean)
-										.join(" ")
-								}>
-								<FontAwesomeIcon
-									icon={solid("user-group")}
-									className={styles.icon}
-								/>
-								<SideNavLinkText open={open} variants={itemsVariants}>
-									Team Members
-								</SideNavLinkText>
-							</NavLink>
-						</motion.li>
-						{isLogged ? (
-							<motion.li
-								animate={"display"}
-								initial={"display"}
-								custom={open}
-								variants={liVariants}>
-								<NavLink
-									to='/login'
-									className={styles.link}
-									onClick={logoutUserHandler}>
-									<FontAwesomeIcon
-										icon={solid("right-from-bracket")}
-										className={styles.icon}
-									/>
-									<SideNavLinkText open={open} variants={itemsVariants}>
-										Log out
-									</SideNavLinkText>
-								</NavLink>
-							</motion.li>
-						) : (
-							<motion.li
-								animate={"display"}
-								initial={"display"}
-								custom={open}
-								variants={liVariants}>
-								<NavLink to='/login' className={styles.link}>
-									<FontAwesomeIcon
-										icon={solid("right-from-bracket")}
-										className={styles.icon}
-									/>
-									<SideNavLinkText open={open} variants={itemsVariants}>
-										Log in
-									</SideNavLinkText>
-								</NavLink>
-							</motion.li>
-						)}
-					</ul>
+					{loginState && (
+						<Fragment>
+							<motion.p
+								className={styles["menu-text"]}
+								animate={open ? "open" : "closed"}
+								initial={open ? "open" : "closed"}
+								variants={itemsVariants}>
+								Menu
+							</motion.p>
+							<ul
+								className={`${styles["links-list"]} ${
+									open ? styles["list-opened"] : styles["list-closed"]
+								}`}>
+								<motion.li
+									animate={"display"}
+									initial={"display"}
+									custom={open}
+									variants={liVariants}>
+									<NavLink
+										to='/dashboard'
+										className={({ isActive }) =>
+											[styles.link, isActive ? styles["active-link"] : null]
+												.filter(Boolean)
+												.join(" ")
+										}>
+										<FontAwesomeIcon
+											icon={solid("table-columns")}
+											className={styles.icon}
+										/>
+										<SideNavLinkText open={open} variants={itemsVariants}>
+											Dashboard
+										</SideNavLinkText>
+									</NavLink>
+								</motion.li>
+								<motion.li
+									animate={"display"}
+									initial={"display"}
+									custom={open}
+									variants={liVariants}>
+									<NavLink
+										to='/tasks'
+										className={({ isActive }) =>
+											[styles.link, isActive ? styles["active-link"] : null]
+												.filter(Boolean)
+												.join(" ")
+										}>
+										<FontAwesomeIcon
+											icon={solid("table-list")}
+											className={styles.icon}
+										/>
+										<SideNavLinkText open={open} variants={itemsVariants}>
+											Tasks
+										</SideNavLinkText>
+									</NavLink>
+								</motion.li>
+								<motion.li
+									animate={"display"}
+									initial={"display"}
+									custom={open}
+									variants={liVariants}>
+									<NavLink
+										to='/test'
+										className={({ isActive }) =>
+											[styles.link, isActive ? styles["active-link"] : null]
+												.filter(Boolean)
+												.join(" ")
+										}>
+										<FontAwesomeIcon
+											icon={solid("arrows-rotate")}
+											className={styles.icon}
+										/>
+										<SideNavLinkText open={open} variants={itemsVariants}>
+											Habits
+										</SideNavLinkText>
+									</NavLink>
+								</motion.li>
+								<motion.li
+									animate={"display"}
+									initial={"display"}
+									custom={open}
+									variants={liVariants}>
+									<NavLink
+										to='/test'
+										className={({ isActive }) =>
+											[styles.link, isActive ? styles["active-link"] : null]
+												.filter(Boolean)
+												.join(" ")
+										}>
+										<FontAwesomeIcon
+											icon={solid("user-group")}
+											className={styles.icon}
+										/>
+										<SideNavLinkText open={open} variants={itemsVariants}>
+											Team Members
+										</SideNavLinkText>
+									</NavLink>
+								</motion.li>
+								<motion.li
+									animate={"display"}
+									initial={"display"}
+									custom={open}
+									variants={liVariants}>
+									<NavLink
+										to='/login'
+										className={styles.link}
+										onClick={logoutUserHandler}>
+										<FontAwesomeIcon
+											icon={solid("right-from-bracket")}
+											className={styles.icon}
+										/>
+										<SideNavLinkText open={open} variants={itemsVariants}>
+											Log out
+										</SideNavLinkText>
+									</NavLink>
+								</motion.li>
+							</ul>
+						</Fragment>
+					)}
 				</motion.nav>
 				{showButton && (
 					<MotionButton

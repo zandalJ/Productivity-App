@@ -56,7 +56,7 @@ export const logoutUser = () => {
 
 export const fetchUserAuth = () => {
 	return dispatch => {
-		const loginState = localStorage.getItem("isLoggedIn");
+		const loginState = JSON.parse(localStorage.getItem("isLoggedIn"));
 		const uid = localStorage.getItem("uid");
 		dispatch(
 			authActions.authChanger({
