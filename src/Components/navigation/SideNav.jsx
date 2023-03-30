@@ -3,7 +3,7 @@ import styles from "./SideNav.module.scss";
 import useWidth from "../../hooks/useWidth";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { solid } from "@fortawesome/fontawesome-svg-core/import.macro";
-import UserNavInfo from "../ui/UserNavInfo";
+import UserNavInfo from "../user/UserNavInfo";
 import { NavLink } from "react-router-dom";
 import SideNavLinkText from "./SideNavLinkText";
 import { motion } from "framer-motion";
