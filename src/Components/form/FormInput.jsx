@@ -15,7 +15,7 @@ const FormInput = ({ title, name, type, register, rules, errors, wrap }) => {
 			} else if (hasError.type === "pattern") {
 				errorMessage = "Invalid email.";
 			}else if(hasError.type === 'required'){
-                errorMessage = 'Required input'
+                errorMessage = 'Required input.'
             }
 		}
 	}

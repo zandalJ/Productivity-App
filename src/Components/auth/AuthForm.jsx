@@ -1,6 +1,6 @@
-import { useCallback, Fragment } from "react";
+import { useCallback, useEffect, Fragment } from "react";
 import styles from "./AuthForm.module.scss";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useNavigate, Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import FormInput from "../form/FormInput";
@@ -17,15 +17,73 @@ const AuthForm = () => {
 	const navigate = useNavigate();
 	const dispatch = useDispatch();
 
+	const loginError = useSelector(state => state.auth.loginError);
+	const registerError = useSelector(state => state.auth.registerError);
+
 	const {
 		register,
+		setError,
 		formState: { errors },
 		handleSubmit,
 		watch,
 	} = useForm();
 
+	useEffect(() => {
+		if (registerError !== null) {
+			if (registerError === "auth/email-already-in-use") {
+				setError("email", {
+					type: "auth",
+					message: "The email address is already in use by another account.",
+				});
+			} else if (registerError === "auth/invalid-email") {
+				setError("email", {
+					type: "auth",
+					message: "The email address is not a valid email address.",
+				});
+			} else if (registerError === "auth/network-request-failed") {
+				setError("email", { type: "auth" });
+				setError("password", {
+					type: "auth",
+					message:
+						"A network error occurred while trying to reach the Firebase authentication servers.",
+				});
+			}
+		}
+	}, [registerError, setError]);
+
+	useEffect(() => {
+		if (loginError !== null) {
+			if (loginError === "auth/invalid-email") {
+				setError("email", { type: "auth", message: "Invalid email." });
+			} else if (loginError === "auth/user-disabled") {
+				setError("password", {
+					type: "auth",
+					message: "User account has been disabled.",
+				});
+			} else if (loginError === "auth/user-not-found") {
+				setError("email", {
+					type: "auth",
+					message: "No user found with this email address.",
+				});
+				setError("password", { type: "auth" });
+			} else if (loginError === "auth/wrong-password") {
+				setError("password", {
+					type: "auth",
+					message: "Incorrect password.",
+				});
+			} else if (loginError === "auth/too-many-requests") {
+				setError("password", {
+					type: "auth",
+					message:
+						"Too many unsuccessful sign-in attempts were made. Try again later.",
+				});
+				setError("email", { type: "auth" });
+			}
+		}
+	}, [loginError, setError]);
+
 	const submitHandler = useCallback(
-		async formData => {
+		formData => {
 			const authData = {
 				name: formData.name || "",
 				surname: formData.surname || "",
@@ -38,9 +96,8 @@ const AuthForm = () => {
 			};
 
 			if (registerPage) {
-				dispatch(registerUser(authData, auth));
-
-				navigate("/login");
+				dispatch(registerUser(authData, auth))
+				// if (registerError === null) navigate("/login");
 			} else {
 				dispatch(
 					loginUser({
@@ -50,10 +107,10 @@ const AuthForm = () => {
 					})
 				);
 
-				navigate("/");
+				// navigate("/");
 			}
 		},
-		[dispatch, navigate, registerPage]
+		[dispatch, navigate, registerPage, registerError]
 	);
 
 	const formFooterText = registerPage

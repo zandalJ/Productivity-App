@@ -8,17 +8,18 @@ import { db } from "../firebase";
 
 export const registerUser = (authData, auth) => {
 	return async dispatch => {
-		try {
-			await createUserWithEmailAndPassword(
-				auth,
-				authData.email,
-				authData.password
-			).then(userCredential => {
+		await createUserWithEmailAndPassword(
+			auth,
+			authData.email,
+			authData.password
+		)
+			.then(userCredential => {
 				setUserData(authData, userCredential.user.uid);
+			})
+			.catch(error => {
+				dispatch(registerErrorHandler(error.code))
+				return error
 			});
-		} catch (err) {
-			console.log(err);
-		}
 	};
 };
 
@@ -28,16 +29,20 @@ export const loginUser = authData => {
 			authData.auth,
 			authData.email,
 			authData.password
-		).then(userCredential => {
-			localStorage.setItem("isLoggedIn", true);
-			localStorage.setItem("uid", userCredential.user.uid);
-			dispatch(
-				authActions.authChanger({
-					loginState: true,
-					uid: userCredential.user.uid,
-				})
-			);
-		});
+		)
+			.then(userCredential => {
+				localStorage.setItem("isLoggedIn", true);
+				localStorage.setItem("uid", userCredential.user.uid);
+				dispatch(
+					authActions.authChanger({
+						loginState: true,
+						uid: userCredential.user.uid,
+					})
+				);
+			})
+			.catch(error => {
+				dispatch(loginErrorHandler(error.code));
+			});
 	};
 };
 
@@ -76,4 +81,16 @@ export const setUserData = async (userData, uid) => {
 	} catch (err) {
 		console.log(err);
 	}
+};
+
+const loginErrorHandler = error => {
+	return dispatch => {
+		dispatch(authActions.loginError({ error: error }));
+	};
+};
+
+const registerErrorHandler = error => {
+	return dispatch => {
+		dispatch(authActions.registerError({ error }));
+	};
 };
