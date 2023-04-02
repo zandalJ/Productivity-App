@@ -116,7 +116,7 @@ const AuthForm = () => {
 				}
 			}
 		},
-		[dispatch, navigate, registerPage, registerError]
+		[dispatch, navigate, registerPage]
 	);
 
 	const formFooterText = registerPage

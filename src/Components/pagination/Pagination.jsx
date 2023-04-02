@@ -1,4 +1,3 @@
-import { useState } from "react";
 import styles from "./Pagination.module.scss";
 import Pagination from "@mui/material/Pagination";
 export const ElementsPagination = ({ elementsPerPage, onChange }) => {
