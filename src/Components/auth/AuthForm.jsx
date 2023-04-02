@@ -1,6 +1,6 @@
-import { useCallback, useEffect, Fragment } from "react";
+import { useCallback, useEffect,useState, Fragment } from "react";
 import styles from "./AuthForm.module.scss";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { useLocation, useNavigate, Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import FormInput from "../form/FormInput";
@@ -17,8 +17,8 @@ const AuthForm = () => {
 	const navigate = useNavigate();
 	const dispatch = useDispatch();
 
-	const loginError = useSelector(state => state.auth.loginError);
-	const registerError = useSelector(state => state.auth.registerError);
+	const [loginError, setLoginError] = useState(null)
+	const [registerError, setRegisterError] = useState(null)
 
 	const {
 		register,
@@ -83,7 +83,7 @@ const AuthForm = () => {
 	}, [loginError, setError]);
 
 	const submitHandler = useCallback(
-		formData => {
+		async formData => {
 			const authData = {
 				name: formData.name || "",
 				surname: formData.surname || "",
@@ -94,20 +94,26 @@ const AuthForm = () => {
 				teamMembers: [],
 				teams: [],
 			};
-
 			if (registerPage) {
-				dispatch(registerUser(authData, auth))
-				// if (registerError === null) navigate("/login");
+				try {
+					await dispatch(registerUser(authData, auth));
+					navigate("/login");
+				} catch (error) {
+					setRegisterError(error)
+				}
 			} else {
-				dispatch(
-					loginUser({
-						auth: auth,
-						email: authData.email,
-						password: authData.password,
-					})
-				);
-
-				// navigate("/");
+				try {
+					await dispatch(
+						loginUser({
+							auth: auth,
+							email: authData.email,
+							password: authData.password,
+						})
+					);
+					navigate("/");
+				} catch (error) {
+					setLoginError(error)
+				}
 			}
 		},
 		[dispatch, navigate, registerPage, registerError]

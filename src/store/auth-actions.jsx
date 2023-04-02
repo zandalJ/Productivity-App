@@ -8,41 +8,40 @@ import { db } from "../firebase";
 
 export const registerUser = (authData, auth) => {
 	return async dispatch => {
-		await createUserWithEmailAndPassword(
-			auth,
-			authData.email,
-			authData.password
-		)
-			.then(userCredential => {
-				setUserData(authData, userCredential.user.uid);
-			})
-			.catch(error => {
-				dispatch(registerErrorHandler(error.code))
-				return error
-			});
+		try {
+			const userCredential = await createUserWithEmailAndPassword(
+				auth,
+				authData.email,
+				authData.password
+			);
+			setUserData(authData, userCredential.user.uid);
+			return Promise.resolve();
+		} catch (error) {
+			return Promise.reject(error.code);
+		}
 	};
 };
 
 export const loginUser = authData => {
 	return async dispatch => {
-		await signInWithEmailAndPassword(
-			authData.auth,
-			authData.email,
-			authData.password
-		)
-			.then(userCredential => {
-				localStorage.setItem("isLoggedIn", true);
-				localStorage.setItem("uid", userCredential.user.uid);
-				dispatch(
-					authActions.authChanger({
-						loginState: true,
-						uid: userCredential.user.uid,
-					})
-				);
-			})
-			.catch(error => {
-				dispatch(loginErrorHandler(error.code));
-			});
+		try {
+			const userCredential = await signInWithEmailAndPassword(
+				authData.auth,
+				authData.email,
+				authData.password
+			);
+			localStorage.setItem("isLoggedIn", true);
+			localStorage.setItem("uid", userCredential.user.uid);
+			dispatch(
+				authActions.authChanger({
+					loginState: true,
+					uid: userCredential.user.uid,
+				})
+			);
+			return Promise.resolve();
+		} catch (error) {
+			return Promise.reject(error.code);
+		}
 	};
 };
 
@@ -67,6 +66,7 @@ export const fetchUserAuth = () => {
 			authActions.authChanger({
 				loginState: loginState,
 				uid: uid,
+				auth: false,
 			})
 		);
 	};
@@ -81,16 +81,4 @@ export const setUserData = async (userData, uid) => {
 	} catch (err) {
 		console.log(err);
 	}
-};
-
-const loginErrorHandler = error => {
-	return dispatch => {
-		dispatch(authActions.loginError({ error: error }));
-	};
-};
-
-const registerErrorHandler = error => {
-	return dispatch => {
-		dispatch(authActions.registerError({ error }));
-	};
 };
