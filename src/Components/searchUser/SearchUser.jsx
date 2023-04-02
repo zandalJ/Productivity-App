@@ -3,6 +3,7 @@ import styles from "./SearchUser.module.scss";
 import AddUser from "./AddUser";
 import { ElementsPagination } from "../pagination/Pagination";
 import AddedUsers from "./AddedUsers";
+import usePagination from "../../hooks/usePagination";
 
 const DUMMY_USERS = [
 	{ name: "Fabian", mail: "mail@mail.com", id: "user1" },
@@ -20,12 +21,12 @@ const SearchUser = ({ className, addUsers }) => {
 	const [searchEl, setSearchEl] = useState(DUMMY_USERS);
 	const [addedUsers, setAddedUsers] = useState([]);
 
-	const [page, setPage] = useState(1);
 	const itemsPerPage = 4;
 
-	const pageHandler = (e, p) => {
-		setPage(p);
-	};
+	const { pageHandler, items, countEl } = usePagination(
+		itemsPerPage,
+		DUMMY_USERS
+	);
 
 	const searchHandler = e => {
 		const inputText = e.target.value.toLowerCase();
@@ -79,13 +80,7 @@ const SearchUser = ({ className, addUsers }) => {
 
 	useEffect(() => {
 		addUsers(addedUsers);
-	}, [addedUsers]);
-
-	const startIndex = (page - 1) * itemsPerPage;
-	const endIndex = startIndex + itemsPerPage;
-	const displayedItems = searchEl.slice(startIndex, endIndex);
-
-	const count = Math.ceil(searchEl.length / itemsPerPage);
+	}, [addedUsers, addUsers]);
 
 	return (
 		<div className={`${styles.box} ${className ? className : null}`}>
@@ -97,11 +92,9 @@ const SearchUser = ({ className, addUsers }) => {
 				value={searchText}
 			/>
 			<p className={styles["users-text"]}>Users</p>
+			{searchEl && <AddUser elements={items} addUsers={addUsersHandler} />}
 			{searchEl && (
-				<AddUser elements={displayedItems} addUsers={addUsersHandler} />
-			)}
-			{searchEl && (
-				<ElementsPagination elementsPerPage={count} onChange={pageHandler} />
+				<ElementsPagination elementsPerPage={countEl} onChange={pageHandler} />
 			)}
 			{addedUsers && (
 				<AddedUsers users={addedUsers} removeUser={removeUserHandler} />
