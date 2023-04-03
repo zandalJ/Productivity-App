@@ -8,8 +8,12 @@ import Button from "../ui/Button";
 import SearchUser from "../searchUser/SearchUser";
 import FormInput from "./FormInput";
 import ErrorMessage from "../ui/ErrorMessage";
+import { addTask } from "../../store/tasks-actions";
+import { useDispatch } from "react-redux";
 
 const AddForm = ({ elements }) => {
+	const dispatch = useDispatch();
+
 	const [selectedUsers, setSelectedUsers] = useState([]);
 	const {
 		register,
@@ -23,8 +27,14 @@ const AddForm = ({ elements }) => {
 	};
 
 	const submitHandler = data => {
-		const formData = { ...data, selectedUsers: [ ...selectedUsers ] };
+		const formData = {
+			title: data.taskTitle,
+			description: "" || data.taskDescription,
+			members: [...selectedUsers] || [],
+			deadline: data.taskDeadline._d,
+		};
 		console.log(formData);
+		dispatch(addTask(formData));
 	};
 
 	return (

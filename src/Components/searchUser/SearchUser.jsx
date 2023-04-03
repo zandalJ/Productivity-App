@@ -23,10 +23,7 @@ const SearchUser = ({ className, addUsers }) => {
 
 	const itemsPerPage = 4;
 
-	const { pageHandler, items, countEl } = usePagination(
-		itemsPerPage,
-		DUMMY_USERS
-	);
+	const { pageHandler, items, countEl } = usePagination(itemsPerPage, searchEl);
 
 	const searchHandler = e => {
 		const inputText = e.target.value.toLowerCase();
