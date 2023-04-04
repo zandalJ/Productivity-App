@@ -11,7 +11,7 @@ import ErrorMessage from "../ui/ErrorMessage";
 import { addTask } from "../../store/tasks-actions";
 import { useDispatch } from "react-redux";
 
-const AddForm = ({ elements }) => {
+const AddForm = ({ elements, showModal }) => {
 	const dispatch = useDispatch();
 
 	const [selectedUsers, setSelectedUsers] = useState([]);
@@ -33,8 +33,8 @@ const AddForm = ({ elements }) => {
 			members: [...selectedUsers] || [],
 			deadline: data.taskDeadline._d,
 		};
-		console.log(formData);
 		dispatch(addTask(formData));
+		showModal()
 	};
 
 	return (

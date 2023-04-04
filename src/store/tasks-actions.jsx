@@ -1,6 +1,7 @@
 import tasks, { tasksActions } from "./tasks";
 import { doc, getDoc, setDoc, updateDoc, arrayUnion } from "firebase/firestore";
 import { db } from "../firebase";
+import moment from "moment";
 
 export const addTask = data => {
 	return async dispatch => {
@@ -19,7 +20,7 @@ export const addTask = data => {
 			});
 		}
 
-		dispatch(tasksActions.addTask({ task: data }));
+		dispatch(fetchTasks())
 	};
 };
 
@@ -31,8 +32,14 @@ export const fetchTasks = () => {
 		const docSnap = await getDoc(docRef);
 
 		if (docSnap.exists()) {
-			console.log(docSnap.data());
-			dispatch(tasksActions.getTasks({ tasks: docSnap.data() }));
+			const data = docSnap.data().tasks;
+			data.forEach((task, index) => {
+				const serializedTimestamp = moment(
+					task.deadline.toDate().toISOString()
+				).format();
+				data[index].deadline = serializedTimestamp;
+			});
+			dispatch(tasksActions.getTasks({ tasks: data }));
 		}
 	};
 };

@@ -41,7 +41,7 @@ const ModalContent = ({ location, showModal }) => {
 			<FontAwesomeIcon icon={solid("xmark")} onClick={showModal} className={styles.icon}/>
 			<h2 className={styles["heading-text"]}>{modalHeading}</h2>
 			<div className={styles.line}></div>
-			<AddForm elements={formElements[elementsObjChoose]} />
+			<AddForm elements={formElements[elementsObjChoose]} showModal={showModal}/>
 		</div>
 	);
 };
