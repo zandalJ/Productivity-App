@@ -1,4 +1,4 @@
-import { Fragment } from "react";
+import { Fragment, useEffect, useState } from "react";
 import styles from "./Tasks.module.scss";
 import Task from "./Task";
 import { ElementsPagination } from "../pagination/Pagination";
@@ -7,8 +7,20 @@ import usePagination from "../../hooks/usePagination";
 import { useSelector } from "react-redux";
 
 const Tasks = () => {
+	const [displayTasks, setDisplayTasks] = useState([])
 	const tasks = useSelector(state => state.tasks.tasks);
+	const filter = useSelector(state => state.filterSorting.filter);
 	const width = useWidth();
+
+	useEffect(() => {
+		if (filter !== "all") {
+			const filteredTasks = tasks.filter(task => task.status === filter);
+			setDisplayTasks(filteredTasks)
+		}else{
+			setDisplayTasks(tasks)
+		}
+
+	}, [filter, tasks]);
 
 	let elementsPerPage = 8;
 	if (width >= 768) {
@@ -21,7 +33,10 @@ const Tasks = () => {
 		elementsPerPage = 16;
 	}
 
-	const { pageHandler, items, countEl } = usePagination(elementsPerPage, tasks);
+	const { pageHandler, items, countEl } = usePagination(
+		elementsPerPage,
+		displayTasks
+	);
 
 	return (
 		<div className={styles["tasks-wrapper"]}>
@@ -39,7 +54,9 @@ const Tasks = () => {
 						/>
 					</div>
 				</Fragment>
-			) : <p className={styles['bottom-text']}>You have no tasks created.</p>}
+			) : (
+				<p className={styles["bottom-text"]}>You have no tasks created.</p>
+			)}
 		</div>
 	);
 };

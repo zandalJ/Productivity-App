@@ -49,3 +49,24 @@ export const fetchTasks = () => {
 		}
 	};
 };
+
+export const changeTaskStatus = taskId => {
+	return async dispatch => {
+		const uid = localStorage.getItem("uid");
+		const ref = doc(db, "tasks", uid);
+		const docSnap = await getDoc(ref);
+		const tasks = docSnap.data().tasks;
+		const updatedTasks = tasks.map(task => {
+			if (task.id === taskId) {
+				return { ...task, status: "completed" };
+			}else{
+				return task
+			}
+		});
+		console.log(updatedTasks);
+
+		await updateDoc(ref, {
+			tasks: updatedTasks
+		});
+	};
+};

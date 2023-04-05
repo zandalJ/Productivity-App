@@ -10,8 +10,6 @@ const SortDropdown = ({ mobile, desktop }) => {
 					options={[
 						["Completed Ascending", "ca"],
 						["Completed Descending", "cd"],
-						["Deadline Ascending", "da"],
-						["Deadline Descending", "dd"],
 					]}
 					type='sort'
 					sort

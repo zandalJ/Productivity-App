@@ -22,8 +22,6 @@ const SortingSelect = () => {
 			value={filters.sort}>
 			<option value='ca'>Completed Ascending</option>
 			<option value='cd'>Completed Descending</option>
-			<option value='da'>Deadline Ascending</option>
-			<option value='dd'>Deadline Descending</option>
 		</select>
 	);
 };

@@ -9,12 +9,13 @@ import SearchUser from "../searchUser/SearchUser";
 import FormInput from "./FormInput";
 import ErrorMessage from "../ui/ErrorMessage";
 import { addTask } from "../../store/tasks-actions";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { getCurrentDate } from "../../constants/currentDate";
 
 const AddForm = ({ elements, showModal }) => {
-	const currentDate = getCurrentDate()
+	const currentDate = getCurrentDate();
 	const dispatch = useDispatch();
+	const tasks = useSelector(state => state.tasks.tasks);
 	const [selectedUsers, setSelectedUsers] = useState([]);
 	const {
 		register,
@@ -28,12 +29,15 @@ const AddForm = ({ elements, showModal }) => {
 	};
 
 	const submitHandler = data => {
+		const id = tasks.length > 0 ? tasks[tasks.length - 1].id + 1 : 0;
 		const formData = {
 			title: data.taskTitle,
 			description: "" || data.taskDescription,
 			members: [...selectedUsers] || [],
 			deadline: data.taskDeadline._d,
-			createDate: currentDate._d
+			createDate: currentDate._d,
+			status: "progress",
+			id: id,
 		};
 		dispatch(addTask(formData));
 		showModal();

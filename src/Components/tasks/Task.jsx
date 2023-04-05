@@ -1,10 +1,15 @@
+import { useEffect } from "react";
 import styles from "./Task.module.scss";
 import Card from "../ui/Card";
 import UserPhoto from "../ui/UserPhoto";
 import ProgressBar from "../ui/ProgressBar";
 import moment from "moment";
+import { useDispatch } from "react-redux";
+import { changeTaskStatus } from "../../store/tasks-actions";
 
 const Task = ({ data }) => {
+	const dispatch = useDispatch()
+	
 	const timePercentageHandler = () => {
 		const deadlineTime = moment(data.deadline);
 		const createTime = moment(data.createDate);
@@ -17,6 +22,12 @@ const Task = ({ data }) => {
 	};
 
 	const timePercentageLeft = timePercentageHandler();
+
+	useEffect(() => {
+		if(timePercentageLeft===100){
+			dispatch(changeTaskStatus(data.id))
+		}
+	}, [timePercentageLeft, data.id, dispatch]);
 
 	return (
 		<Card className={styles.card} data-filter-type='progress'>
