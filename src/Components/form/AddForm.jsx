@@ -10,10 +10,11 @@ import FormInput from "./FormInput";
 import ErrorMessage from "../ui/ErrorMessage";
 import { addTask } from "../../store/tasks-actions";
 import { useDispatch } from "react-redux";
+import { getCurrentDate } from "../../constants/currentDate";
 
 const AddForm = ({ elements, showModal }) => {
+	const currentDate = getCurrentDate()
 	const dispatch = useDispatch();
-
 	const [selectedUsers, setSelectedUsers] = useState([]);
 	const {
 		register,
@@ -32,9 +33,10 @@ const AddForm = ({ elements, showModal }) => {
 			description: "" || data.taskDescription,
 			members: [...selectedUsers] || [],
 			deadline: data.taskDeadline._d,
+			createDate: currentDate._d
 		};
 		dispatch(addTask(formData));
-		showModal()
+		showModal();
 	};
 
 	return (

@@ -15,7 +15,12 @@
 .tasks-wrapper {
 	display: flex;
 	flex-direction: column;
+	align-items: center;
     width: 100%;
+
+	.bottom-text{
+		font-size: var(--big-size);
+	}
 }
 
 .pagination-wrapper {

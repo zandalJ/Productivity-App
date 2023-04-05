@@ -1,4 +1,4 @@
-import tasks, { tasksActions } from "./tasks";
+import { tasksActions } from "./tasks";
 import { doc, getDoc, setDoc, updateDoc, arrayUnion } from "firebase/firestore";
 import { db } from "../firebase";
 import moment from "moment";
@@ -20,7 +20,7 @@ export const addTask = data => {
 			});
 		}
 
-		dispatch(fetchTasks())
+		dispatch(fetchTasks());
 	};
 };
 
@@ -33,13 +33,19 @@ export const fetchTasks = () => {
 
 		if (docSnap.exists()) {
 			const data = docSnap.data().tasks;
-			data.forEach((task, index) => {
-				const serializedTimestamp = moment(
-					task.deadline.toDate().toISOString()
-				).format();
-				data[index].deadline = serializedTimestamp;
-			});
-			dispatch(tasksActions.getTasks({ tasks: data }));
+			if (docSnap.data().hasOwnProperty("tasks")) {
+				data.forEach((task, index) => {
+					const serializedDeadlineTimestamp = moment(
+						task.deadline.toDate().toISOString()
+					).format();
+					const serializedCreateTimestamp = moment(
+						task.createDate.toDate().toISOString()
+					).format();
+					data[index].deadline = serializedDeadlineTimestamp;
+					data[index].createDate = serializedCreateTimestamp;
+				});
+				dispatch(tasksActions.getTasks({ tasks: data }));
+			}
 		}
 	};
 };
