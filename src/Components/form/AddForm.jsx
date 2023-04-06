@@ -1,4 +1,4 @@
-import { Fragment, useState } from "react";
+import { Fragment, useState, useEffect, useCallback } from "react";
 import styles from "./AddForm.module.scss";
 import styles2 from "./FormInput.module.scss";
 import { useForm, Controller } from "react-hook-form";
@@ -12,16 +12,19 @@ import { addTask } from "../../store/tasks-actions";
 import { useDispatch, useSelector } from "react-redux";
 import { getCurrentDate } from "../../constants/currentDate";
 
-const AddForm = ({ elements, showModal }) => {
+const AddForm = ({ elements, showModal, modal }) => {
 	const currentDate = getCurrentDate();
 	const dispatch = useDispatch();
 	const tasks = useSelector(state => state.tasks.tasks);
 	const [selectedUsers, setSelectedUsers] = useState([]);
+	const [resetUsers, setResetUsers] = useState(false);
+
 	const {
 		register,
 		formState: { errors },
 		handleSubmit,
 		control,
+		reset,
 	} = useForm();
 
 	const addUserHandler = user => {
@@ -41,7 +44,19 @@ const AddForm = ({ elements, showModal }) => {
 		};
 		dispatch(addTask(formData));
 		showModal();
+		resetFormHandler();
 	};
+
+	const resetFormHandler = useCallback(() => {
+		setResetUsers(before => !before);
+		setSelectedUsers([]);
+		reset();
+	}, [reset]);
+
+	useEffect(() => {
+		if (!modal) resetFormHandler();
+		if (modal) setResetUsers(false);
+	}, [modal, resetFormHandler]);
 
 	return (
 		<Fragment>
@@ -113,6 +128,7 @@ const AddForm = ({ elements, showModal }) => {
 					<SearchUser
 						className={styles2["input-box"]}
 						addUsers={addUserHandler}
+						resetUsers={resetUsers}
 					/>
 				) : null}
 				<Button submit className={styles.btn}>

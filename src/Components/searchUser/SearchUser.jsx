@@ -16,10 +16,18 @@ const DUMMY_USERS = [
 	{ name: "Darek", mail: "mail@mail.com", id: "user8" },
 ];
 
-const SearchUser = ({ className, addUsers }) => {
+const SearchUser = ({ className, addUsers, resetUsers }) => {
 	const [searchText, setSearchText] = useState("");
 	const [searchEl, setSearchEl] = useState(DUMMY_USERS);
 	const [addedUsers, setAddedUsers] = useState([]);
+
+	useEffect(() => {
+		if (resetUsers) {
+			setSearchEl(DUMMY_USERS);
+			setAddedUsers([]);
+			setSearchText("");
+		}
+	}, [resetUsers]);
 
 	const itemsPerPage = 4;
 

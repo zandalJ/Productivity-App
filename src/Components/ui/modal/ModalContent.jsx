@@ -25,7 +25,7 @@ const formElements = {
 	},
 };
 
-const ModalContent = ({ location, showModal }) => {
+const ModalContent = ({ location, showModal, modal }) => {
 	let modalHeading;
 
 	if (location === "/tasks") {
@@ -38,10 +38,18 @@ const ModalContent = ({ location, showModal }) => {
 
 	return (
 		<div className={styles["content-box"]}>
-			<FontAwesomeIcon icon={solid("xmark")} onClick={showModal} className={styles.icon}/>
+			<FontAwesomeIcon
+				icon={solid("xmark")}
+				onClick={showModal}
+				className={styles.icon}
+			/>
 			<h2 className={styles["heading-text"]}>{modalHeading}</h2>
 			<div className={styles.line}></div>
-			<AddForm elements={formElements[elementsObjChoose]} showModal={showModal}/>
+			<AddForm
+				elements={formElements[elementsObjChoose]}
+				showModal={showModal}
+				modal={modal}
+			/>
 		</div>
 	);
 };
