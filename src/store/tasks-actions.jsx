@@ -68,5 +68,7 @@ export const changeTaskStatus = taskId => {
 		await updateDoc(ref, {
 			tasks: updatedTasks
 		});
+
+		dispatch(fetchTasks())
 	};
 };

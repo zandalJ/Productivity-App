@@ -5,22 +5,42 @@ import { ElementsPagination } from "../pagination/Pagination";
 import useWidth from "../../hooks/useWidth";
 import usePagination from "../../hooks/usePagination";
 import { useSelector } from "react-redux";
+import moment from "moment";
 
 const Tasks = () => {
-	const [displayTasks, setDisplayTasks] = useState([])
+	const [filteredTasks, setFilteredTasks] = useState([]);
+	const [displayedTasks, setDisplayedTasks] = useState([]);
 	const tasks = useSelector(state => state.tasks.tasks);
 	const filter = useSelector(state => state.filterSorting.filter);
+	const sort = useSelector(state => state.filterSorting.sort);
 	const width = useWidth();
 
 	useEffect(() => {
-		if (filter !== "all") {
-			const filteredTasks = tasks.filter(task => task.status === filter);
-			setDisplayTasks(filteredTasks)
-		}else{
-			setDisplayTasks(tasks)
+		if (tasks.length > 0) {
+			if (filter !== "all") {
+				const filteredTasks = tasks.filter(task => task.status === filter);
+				setFilteredTasks(filteredTasks);
+			} else {
+				setFilteredTasks(tasks);
+			}
 		}
-
 	}, [filter, tasks]);
+
+	useEffect(() => {
+		if (filteredTasks.length > 0) {
+			let sortedElements = []
+			if (sort === "ca") {
+				sortedElements = [...filteredTasks].sort((a, b) =>
+					moment(a.deadline).diff(moment(b.deadline))
+				);
+			} else if (sort === "cd") {
+				sortedElements = [...filteredTasks].sort((a, b) =>
+					moment(b.deadline).diff(moment(a.deadline))
+				);
+			}
+			setDisplayedTasks(sortedElements);
+		}
+	}, [sort, filteredTasks]);
 
 	let elementsPerPage = 8;
 	if (width >= 768) {
@@ -35,7 +55,7 @@ const Tasks = () => {
 
 	const { pageHandler, items, countEl } = usePagination(
 		elementsPerPage,
-		displayTasks
+		displayedTasks
 	);
 
 	return (
