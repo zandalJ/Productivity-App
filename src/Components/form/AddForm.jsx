@@ -18,6 +18,7 @@ const AddForm = ({ elements, showModal, modal }) => {
 	const tasks = useSelector(state => state.tasks.tasks);
 	const [selectedUsers, setSelectedUsers] = useState([]);
 	const [resetUsers, setResetUsers] = useState(false);
+	const [dateDefaultValue, setDateDefaultValue] = useState(moment());
 
 	const {
 		register,
@@ -50,6 +51,7 @@ const AddForm = ({ elements, showModal, modal }) => {
 	const resetFormHandler = useCallback(() => {
 		setResetUsers(before => !before);
 		setSelectedUsers([]);
+		setDateDefaultValue(moment());
 		reset();
 	}, [reset]);
 
@@ -101,6 +103,7 @@ const AddForm = ({ elements, showModal, modal }) => {
 						<Controller
 							control={control}
 							name='taskDeadline'
+							defaultValue={dateDefaultValue}
 							rules={{
 								required: "Choose Date",
 								validate: {
@@ -108,11 +111,11 @@ const AddForm = ({ elements, showModal, modal }) => {
 										moment(date).isAfter(moment()) || "Enter a valid date",
 								},
 							}}
-							render={({ field: { onChange, onBlur, ref } }) => (
+							render={({ field: { onChange, onBlur, value } }) => (
 								<DateTimePicker
 									label='Choose Date'
 									className={styles.date}
-									inputRef={ref}
+									value={value}
 									onChange={onChange}
 									onBlur={onBlur}
 									desktopModeMediaQuery='@media(min-width:992px)'
