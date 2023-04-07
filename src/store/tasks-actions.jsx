@@ -3,11 +3,16 @@ import { doc, getDoc, setDoc, updateDoc, arrayUnion } from "firebase/firestore";
 import { db } from "../firebase";
 import moment from "moment";
 
+const getDocSnap = async () => {
+	const uid = localStorage.getItem("uid");
+	const ref = doc(db, "tasks", uid);
+	const docSnap = await getDoc(ref);
+	return { ref, docSnap };
+};
+
 export const addTask = data => {
 	return async dispatch => {
-		const uid = localStorage.getItem("uid");
-		const ref = doc(db, "tasks", uid);
-		const docSnap = await getDoc(ref);
+		const { ref, docSnap } = await getDocSnap();
 
 		if (!docSnap.exists()) {
 			console.log("pok");
@@ -26,10 +31,7 @@ export const addTask = data => {
 
 export const fetchTasks = () => {
 	return async dispatch => {
-		const uid = localStorage.getItem("uid");
-
-		const docRef = doc(db, "tasks", uid);
-		const docSnap = await getDoc(docRef);
+		const { docSnap } = await getDocSnap();
 
 		if (docSnap.exists()) {
 			const data = docSnap.data().tasks;
@@ -52,23 +54,28 @@ export const fetchTasks = () => {
 
 export const changeTaskStatus = taskId => {
 	return async dispatch => {
-		const uid = localStorage.getItem("uid");
-		const ref = doc(db, "tasks", uid);
-		const docSnap = await getDoc(ref);
+		const { ref, docSnap } = await getDocSnap();
 		const tasks = docSnap.data().tasks;
 		const updatedTasks = tasks.map(task => {
 			if (task.id === taskId) {
 				return { ...task, status: "completed" };
-			}else{
-				return task
+			} else {
+				return task;
 			}
 		});
 		console.log(updatedTasks);
 
 		await updateDoc(ref, {
-			tasks: updatedTasks
+			tasks: updatedTasks,
 		});
 
-		dispatch(fetchTasks())
+		dispatch(fetchTasks());
 	};
+};
+
+export const getTask = async taskId => {
+	const { docSnap } = await getDocSnap();
+	const tasks = docSnap.data().tasks
+	const task = tasks.find(task => task.id === taskId)
+	return task
 };

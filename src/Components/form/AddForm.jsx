@@ -33,10 +33,12 @@ const AddForm = ({ elements, showModal, modal }) => {
 	};
 
 	const submitHandler = data => {
+		let lastId;
+		tasks.length > 0 ? (lastId = tasks[tasks.length - 1].id) : (lastId = 0);
 		const id =
 			tasks.length > 0
-				? "task-" + (tasks[tasks.length - 1].id + 1)
-				: "task-" + 0;
+				? "task-" + (parseInt(lastId.match(/\d+/)[0]) + 1)
+				: "task-" + lastId;
 		const formData = {
 			title: data.taskTitle,
 			description: "" || data.taskDescription,

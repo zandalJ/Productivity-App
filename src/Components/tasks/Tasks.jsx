@@ -19,7 +19,6 @@ const Tasks = () => {
 		if (tasks.length > 0) {
 			if (filter !== "all") {
 				const filteredTasks = tasks.filter(task => task.status === filter);
-				console.log(filteredTasks);
 				setFilteredTasks(filteredTasks);
 			} else {
 				setFilteredTasks(tasks);
