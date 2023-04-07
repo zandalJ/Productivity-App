@@ -1,0 +1,37 @@
+.info{
+    width: 100%;
+
+    &__members-box{
+        display: flex;
+        flex-direction: column;
+        margin-left: 0.5rem;
+        width: 100%;
+
+        p{
+            font-weight: bold;
+            font-size: var(--medium-size);
+            margin-bottom: 0.5rem;
+
+            @media(min-width:772px){
+                font-size: var(--normal-size);
+            }
+        }
+
+    }
+
+    &__members{
+        display: flex;
+
+        div{
+            margin-right: 1rem;
+        }
+    }
+
+    &__buttons{
+        margin-top: 4rem;
+
+        &__btn:nth-of-type(1){
+            margin-right: 1rem;
+        }
+    }
+}

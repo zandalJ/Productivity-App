@@ -1,5 +1,5 @@
 import { Fragment, useState, useEffect, useCallback } from "react";
-import styles from "./AddForm.module.scss";
+import styles from "./AddTaskForm.module.scss";
 import styles2 from "./FormInput.module.scss";
 import { useForm, Controller } from "react-hook-form";
 import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
@@ -12,7 +12,7 @@ import { addTask } from "../../store/tasks-actions";
 import { useDispatch, useSelector } from "react-redux";
 import { getCurrentDate } from "../../constants/currentDate";
 
-const AddForm = ({ elements, showModal, modal }) => {
+const AddTaskForm = ({ elements, showModal, modal }) => {
 	const currentDate = getCurrentDate();
 	const dispatch = useDispatch();
 	const tasks = useSelector(state => state.tasks.tasks);
@@ -147,4 +147,4 @@ const AddForm = ({ elements, showModal, modal }) => {
 	);
 };
 
-export default AddForm;
+export default AddTaskForm;

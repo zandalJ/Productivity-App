@@ -1,5 +1,5 @@
 import styles from "./ModalContent.module.scss";
-import AddForm from "../../form/AddForm";
+import AddTaskForm from "../../forms/AddTaskForm";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { solid } from "@fortawesome/fontawesome-svg-core/import.macro";
 
@@ -45,7 +45,7 @@ const ModalContent = ({ location, showModal, modal }) => {
 			/>
 			<h2 className={styles["heading-text"]}>{modalHeading}</h2>
 			<div className={styles.line}></div>
-			<AddForm
+			<AddTaskForm
 				elements={formElements[elementsObjChoose]}
 				showModal={showModal}
 				modal={modal}

@@ -15,7 +15,6 @@ export const addTask = data => {
 		const { ref, docSnap } = await getDocSnap();
 
 		if (!docSnap.exists()) {
-			console.log("pok");
 			await setDoc(ref, {
 				tasks: [data],
 			});
@@ -63,7 +62,6 @@ export const changeTaskStatus = taskId => {
 				return task;
 			}
 		});
-		console.log(updatedTasks);
 
 		await updateDoc(ref, {
 			tasks: updatedTasks,
@@ -73,9 +71,3 @@ export const changeTaskStatus = taskId => {
 	};
 };
 
-export const getTask = async taskId => {
-	const { docSnap } = await getDocSnap();
-	const tasks = docSnap.data().tasks
-	const task = tasks.find(task => task.id === taskId)
-	return task
-};

@@ -3,7 +3,7 @@ import styles from "./AuthForm.module.scss";
 import { useDispatch } from "react-redux";
 import { useLocation, useNavigate, Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
-import FormInput from "../form/FormInput";
+import FormInput from "../forms/FormInput";
 import Button from "../ui/Button";
 import { regex } from "../../constants/regex";
 import { auth } from "../../firebase";
