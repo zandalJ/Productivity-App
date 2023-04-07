@@ -10,6 +10,7 @@ import MainLayout from "./Pages/MainLayout";
 import HomePage from "./Pages/HomePage";
 import DashboardPage from "./Pages/DashboardPage";
 import TasksPage from "./Pages/TasksPage";
+import TaskPage from "./Pages/TaskPage";
 import RegisterPage from "./Pages/RegisterPage";
 import { LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterMoment } from "@mui/x-date-pickers/AdapterMoment";
@@ -20,7 +21,8 @@ function App() {
 			<Route path='/' element={<MainLayout />}>
 				<Route index path='/' element={<HomePage />} />
 				<Route path='/dashboard' element={<DashboardPage />} />
-				<Route path='/tasks/*' element={<TasksPage />} />
+				<Route path='/tasks' element={<TasksPage />} />
+				<Route path='/tasks/:id' element={<TaskPage />} />
 				<Route path='/register' element={<RegisterPage />} />
 				<Route path='/login' element={<RegisterPage />} />
 			</Route>

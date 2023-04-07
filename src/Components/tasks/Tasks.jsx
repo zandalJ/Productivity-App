@@ -19,6 +19,7 @@ const Tasks = () => {
 		if (tasks.length > 0) {
 			if (filter !== "all") {
 				const filteredTasks = tasks.filter(task => task.status === filter);
+				console.log(filteredTasks);
 				setFilteredTasks(filteredTasks);
 			} else {
 				setFilteredTasks(tasks);
@@ -28,17 +29,19 @@ const Tasks = () => {
 
 	useEffect(() => {
 		if (filteredTasks.length > 0) {
-			let sortedElements = []
+			let sortedElements = [];
 			if (sort === "ca") {
-				sortedElements = [...filteredTasks].sort((a, b) =>
-					moment(a.deadline).diff(moment(b.deadline))
-				);
-			} else if (sort === "cd") {
 				sortedElements = [...filteredTasks].sort((a, b) =>
 					moment(b.deadline).diff(moment(a.deadline))
 				);
+			} else if (sort === "cd") {
+				sortedElements = [...filteredTasks].sort((a, b) =>
+					moment(a.deadline).diff(moment(b.deadline))
+				);
 			}
 			setDisplayedTasks(sortedElements);
+		} else {
+			setDisplayedTasks(filteredTasks);
 		}
 	}, [sort, filteredTasks]);
 

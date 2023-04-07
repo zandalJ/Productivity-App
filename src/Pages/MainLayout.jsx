@@ -11,11 +11,6 @@ import { fetchTasks } from "../store/tasks-actions";
 const MainLayout = () => {
 	const dispatch = useDispatch();
 	const loginState = useSelector(state => state.auth.isLoggedIn);
-	const tasks = useSelector(state => state.tasks.tasks)
-
-	useEffect(() => {
-		console.log(tasks);
-	}, [tasks])
 
 	useEffect(() => {
 		dispatch(fetchUserAuth());

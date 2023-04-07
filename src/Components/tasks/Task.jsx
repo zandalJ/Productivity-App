@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState, useCallback } from "react";
 import styles from "./Task.module.scss";
 import Card from "../ui/Card";
 import UserPhoto from "../ui/UserPhoto";
@@ -6,31 +6,46 @@ import ProgressBar from "../ui/ProgressBar";
 import moment from "moment";
 import { useDispatch } from "react-redux";
 import { changeTaskStatus } from "../../store/tasks-actions";
+import { useNavigate } from "react-router-dom";
 
 const Task = ({ data }) => {
-	const dispatch = useDispatch()
-	
-	const timePercentageHandler = () => {
+	const dispatch = useDispatch();
+	const navigate = useNavigate();
+	const [timePercentageLeft, setTimePercentageLeft] = useState(0);
+
+	const timePercentageHandler = useCallback(() => {
 		const deadlineTime = moment(data.deadline);
 		const createTime = moment(data.createDate);
 		const currentTime = moment();
 		const totalDiff = deadlineTime.diff(createTime);
 		const timeRemaining = deadlineTime.diff(currentTime);
 		const timePassed = totalDiff - timeRemaining;
-		const percentage = Math.floor(timePassed / totalDiff *100);
+		const percentage = Math.floor((timePassed / totalDiff) * 100);
 		return percentage;
-	};
-
-	const timePercentageLeft = timePercentageHandler();
+	}, [data.deadline, data.createDate]);
 
 	useEffect(() => {
-		if(timePercentageLeft===100){
-			dispatch(changeTaskStatus(data.id))
+		let checkPercentage;
+		checkPercentage = timePercentageHandler();
+		if (checkPercentage >= 100) {
+			setTimePercentageLeft(100)
+			dispatch(changeTaskStatus(data.id));
+		} else {
+			setTimePercentageLeft(checkPercentage)
 		}
-	}, [timePercentageLeft, data.id, dispatch]);
+		
+	}, [timePercentageHandler, dispatch, data.id]);
+
+
+	const navigatePageHandler = () => {
+		navigate(`/tasks/${data.id}`);
+	};
 
 	return (
-		<Card className={styles.card} data-filter-type='progress'>
+		<Card
+			className={styles.card}
+			data-filter-type='progress'
+			onClick={navigatePageHandler}>
 			<p className={styles["card__title"]} data-filter-type='progress'>
 				{data.title}
 			</p>
