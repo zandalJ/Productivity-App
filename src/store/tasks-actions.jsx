@@ -36,14 +36,21 @@ export const fetchTasks = () => {
 			const data = docSnap.data().tasks;
 			if (docSnap.data().hasOwnProperty("tasks")) {
 				data.forEach((task, index) => {
+					let serializedUpdateTimestamp;
 					const serializedDeadlineTimestamp = moment(
 						task.deadline.toDate().toISOString()
 					).format();
 					const serializedCreateTimestamp = moment(
 						task.createDate.toDate().toISOString()
 					).format();
+					if (data.updateDate) {
+						serializedUpdateTimestamp = moment(
+							task.updateDate.toDate().toISOString()
+						).format();
+					}
 					data[index].deadline = serializedDeadlineTimestamp;
 					data[index].createDate = serializedCreateTimestamp;
+					data[index].updateDate = serializedUpdateTimestamp;
 				});
 				dispatch(tasksActions.getTasks({ tasks: data }));
 			}
@@ -51,13 +58,13 @@ export const fetchTasks = () => {
 	};
 };
 
-export const changeTaskStatus = taskId => {
+export const updateTask = (data, taskId) => {
 	return async dispatch => {
 		const { ref, docSnap } = await getDocSnap();
 		const tasks = docSnap.data().tasks;
 		const updatedTasks = tasks.map(task => {
 			if (task.id === taskId) {
-				return { ...task, status: "completed" };
+				return { ...task, ...data };
 			} else {
 				return task;
 			}
@@ -67,7 +74,6 @@ export const changeTaskStatus = taskId => {
 			tasks: updatedTasks,
 		});
 
-		dispatch(fetchTasks());
+		// dispatch(fetchTasks());
 	};
 };
-

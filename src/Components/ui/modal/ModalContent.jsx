@@ -1,29 +1,8 @@
 import styles from "./ModalContent.module.scss";
-import AddTaskForm from "../../forms/AddTaskForm";
+import AddTaskForm from "../../forms/TaskForm";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { solid } from "@fortawesome/fontawesome-svg-core/import.macro";
-
-const formElements = {
-	tasks: {
-		input: [
-			{
-				name: "taskTitle",
-				label: "Enter Task Title",
-				required: true,
-				maxLength: 15,
-			},
-		],
-		textarea: [
-			{
-				name: "taskDescription",
-				label: "Enter Task Description",
-				required: false,
-			},
-		],
-		datePicker: true,
-		membersSelect: true,
-	},
-};
+import Button from "../../ui/Button";
 
 const ModalContent = ({ location, showModal, modal }) => {
 	let modalHeading;
@@ -34,8 +13,6 @@ const ModalContent = ({ location, showModal, modal }) => {
 		modalHeading = "Create New Habit";
 	}
 
-	const elementsObjChoose = location.slice(1);
-
 	return (
 		<div className={styles["content-box"]}>
 			<FontAwesomeIcon
@@ -45,11 +22,11 @@ const ModalContent = ({ location, showModal, modal }) => {
 			/>
 			<h2 className={styles["heading-text"]}>{modalHeading}</h2>
 			<div className={styles.line}></div>
-			<AddTaskForm
-				elements={formElements[elementsObjChoose]}
-				showModal={showModal}
-				modal={modal}
-			/>
+			<AddTaskForm showModal={showModal} modal={modal}>
+				<Button submit className={styles.btn}>
+					Add Task
+				</Button>
+			</AddTaskForm>
 		</div>
 	);
 };

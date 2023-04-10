@@ -1,14 +1,18 @@
+import { useState } from "react";
 import styles from "./TaskInfo.module.scss";
 import TaskInfoBox from "./TaskInfoBox";
 import moment from "moment";
 import UserPhoto from "../ui/UserPhoto";
 import Button from "../ui/Button";
 import BorderButton from "../ui/BorderButton";
+import { Link } from "react-router-dom";
 
-const TaskInfo = ({ data }) => {
+const TaskInfo = ({ data, changeEdit }) => {
 	const date = moment(data.deadline).format("DD.MM.YYYY");
 	const hour = moment(data.deadline).format("HH:mm");
 	const deadline = `${date} at ${hour}`;
+
+
 	const members = data.members.map(member => {
 		return (
 			<UserPhoto
@@ -32,8 +36,12 @@ const TaskInfo = ({ data }) => {
 				</div>
 			)}
 			<div className={styles["info__buttons"]}>
-				<Button className={styles["info__buttons__btn"]}>Back</Button>
-				<BorderButton className={styles["info__buttons__btn"]}>
+				<Link to='/tasks'>
+					<Button className={styles["info__buttons__btn"]}>Back</Button>
+				</Link>
+				<BorderButton
+					className={styles["info__buttons__btn"]}
+					onClick={changeEdit}>
 					Edit
 				</BorderButton>
 			</div>

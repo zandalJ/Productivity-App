@@ -5,7 +5,7 @@ import UserPhoto from "../ui/UserPhoto";
 import ProgressBar from "../ui/ProgressBar";
 import moment from "moment";
 import { useDispatch } from "react-redux";
-import { changeTaskStatus } from "../../store/tasks-actions";
+import { updateTask } from "../../store/tasks-actions";
 import { useNavigate } from "react-router-dom";
 
 const Task = ({ data }) => {
@@ -28,14 +28,12 @@ const Task = ({ data }) => {
 		let checkPercentage;
 		checkPercentage = timePercentageHandler();
 		if (checkPercentage >= 100) {
-			setTimePercentageLeft(100)
-			dispatch(changeTaskStatus(data.id));
+			setTimePercentageLeft(100);
+			dispatch(updateTask({ status: "completed" }, data.id));
 		} else {
-			setTimePercentageLeft(checkPercentage)
+			setTimePercentageLeft(checkPercentage);
 		}
-		
 	}, [timePercentageHandler, dispatch, data.id]);
-
 
 	const navigatePageHandler = () => {
 		navigate(`/tasks/${data.id}`);
