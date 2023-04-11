@@ -55,7 +55,7 @@ const TaskDetail = () => {
 						className={`${styles["details__wrapper"]} ${styles["details__wrapper--details"]}`}>
 						<h2 className={styles["details__heading"]}>Details</h2>
 						<div className={styles["details__content-box"]}>
-							<TaskDetailsInfo />
+							<TaskDetailsInfo data={task}/>
 						</div>
 					</div>
 				</div>
