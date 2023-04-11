@@ -13,7 +13,7 @@ import { getCurrentDate } from "../../constants/currentDate";
 import { useLocation, useParams } from "react-router-dom";
 import { updateTask } from "../../store/tasks-actions";
 
-const TaskForm = ({ showModal, modal, submitChange ,children }) => {
+const TaskForm = ({ showModal, modal, submitChange, children }) => {
 	const location = useLocation();
 	const { id } = useParams();
 	const currentDate = getCurrentDate();
@@ -72,7 +72,7 @@ const TaskForm = ({ showModal, modal, submitChange ,children }) => {
 		};
 
 		await dispatch(updateTask(formData, id));
-		submitChange()
+		submitChange();
 	};
 
 	const submitHandler =
@@ -92,18 +92,20 @@ const TaskForm = ({ showModal, modal, submitChange ,children }) => {
 
 	return (
 		<form onSubmit={handleSubmit(submitHandler)}>
-			<FormInput
-				title='Enter Task Title'
-				name='taskTitle'
-				type='text'
-				defaultValue={task.title || ""}
-				register={register}
-				rules={{
-					required: true,
-					maxLength: 15,
-				}}
-				errors={errors}
-			/>
+			<div className={`${styles2["input-box"]} ${styles["input-box"]}`}>
+				<FormInput
+					title='Enter Task Title'
+					name='taskTitle'
+					type='text'
+					defaultValue={task.title || ""}
+					register={register}
+					rules={{
+						required: true,
+						maxLength: 15,
+					}}
+					errors={errors}
+				/>
+			</div>
 			<div className={`${styles2["input-box"]} ${styles["input-box"]}`}>
 				<label>Enter Task Description</label>
 				<textarea

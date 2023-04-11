@@ -12,7 +12,6 @@
 
 	label {
 		margin-bottom: 0.25rem;
-		color: var(--light-gray);
 
 		@media (min-width: 992px) {
 			font-size: var(--small-size);
@@ -20,7 +19,6 @@
 	}
 
 	textarea {
-		font-family: "nunito", sans-serif;
 		resize: vertical;
 		min-height: 50px;
 		max-height: 200px;
@@ -31,6 +29,7 @@
 			max-width: 100%;
 		}
 	}
+	
 }
 
 .date {
