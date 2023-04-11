@@ -8,8 +8,8 @@ const SortDropdown = ({ mobile, desktop }) => {
 				<Fieldset
 					title='Sort by'
 					options={[
-						["Completed Ascending", "ca"],
-						["Completed Descending", "cd"],
+						["Deadline Ascending", "ca"],
+						["Deadline Descending", "cd"],
 					]}
 					type='sort'
 					sort

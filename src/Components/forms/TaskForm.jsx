@@ -1,4 +1,4 @@
-import { Fragment, useState, useEffect, useCallback, useRef } from "react";
+import { Fragment, useState, useEffect, useCallback } from "react";
 import styles from "./TaskForm.module.scss";
 import styles2 from "./FormInput.module.scss";
 import { useForm, Controller } from "react-hook-form";
@@ -13,26 +13,19 @@ import { getCurrentDate } from "../../constants/currentDate";
 import { useLocation, useParams } from "react-router-dom";
 import { updateTask } from "../../store/tasks-actions";
 
-const TaskForm = ({ showModal, modal, children }) => {
+const TaskForm = ({ showModal, modal, submitChange ,children }) => {
 	const location = useLocation();
 	const { id } = useParams();
 	const currentDate = getCurrentDate();
 	const dispatch = useDispatch();
 	const tasks = useSelector(state => state.tasks.tasks);
-	
-	let stateDafeultDate;
-	// useEffect(() => {
-	// 	if (location.pathname === "/tasks") {
-	// 		stateDafeultDate = moment();
-	// 	} else {
-	// 		const task = tasks[parseInt(id.replace(/\D/g, ""))];
-	// 		stateDafeultDate = moment(task.deadline);
-	// 	}
-	// }, []);
+	const [task] = useState(id ? tasks[parseInt(id.replace(/\D/g, ""))] : {});
 
 	const [selectedUsers, setSelectedUsers] = useState([]);
 	const [resetUsers, setResetUsers] = useState(false);
-	const [dateDefaultValue, setDateDefaultValue] = useState(stateDafeultDate);
+	const [dateDefaultValue, setDateDefaultValue] = useState(
+		moment(task.deadline) || moment()
+	);
 
 	const {
 		register,
@@ -68,7 +61,7 @@ const TaskForm = ({ showModal, modal, children }) => {
 		resetFormHandler();
 	};
 
-	const changeTaskHandler = data => {
+	const changeTaskHandler = async data => {
 		const formData = {
 			title: data.taskTitle,
 			description: "" || data.taskDescription,
@@ -78,7 +71,8 @@ const TaskForm = ({ showModal, modal, children }) => {
 			status: "progress",
 		};
 
-		dispatch(updateTask(formData, id));
+		await dispatch(updateTask(formData, id));
+		submitChange()
 	};
 
 	const submitHandler =
@@ -102,6 +96,7 @@ const TaskForm = ({ showModal, modal, children }) => {
 				title='Enter Task Title'
 				name='taskTitle'
 				type='text'
+				defaultValue={task.title || ""}
 				register={register}
 				rules={{
 					required: true,
@@ -115,6 +110,7 @@ const TaskForm = ({ showModal, modal, children }) => {
 					{...register("taskDescription", {
 						required: false,
 					})}
+					defaultValue={task.description || ""}
 					placeholder='Enter Task Description'></textarea>
 			</div>
 			<Fragment>
@@ -126,7 +122,8 @@ const TaskForm = ({ showModal, modal, children }) => {
 						required: "Choose Date",
 						validate: {
 							min: date =>
-								moment(date).isAfter(moment()) || "Enter a valid date",
+								moment(date).isAfter(moment(task.createDate) || moment()) ||
+								"Enter a valid date",
 						},
 					}}
 					render={({ field: { onChange, onBlur, value } }) => (
@@ -148,6 +145,7 @@ const TaskForm = ({ showModal, modal, children }) => {
 				className={styles2["input-box"]}
 				addUsers={addUserHandler}
 				resetUsers={resetUsers}
+				fetchedUsers={task.members || []}
 			/>
 			{children}
 		</form>

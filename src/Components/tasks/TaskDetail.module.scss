@@ -43,4 +43,8 @@
 
 .btn-box {
 	display: flex;
+
+	button:nth-of-type(1){
+		margin-right: 1rem;
+	}
 }

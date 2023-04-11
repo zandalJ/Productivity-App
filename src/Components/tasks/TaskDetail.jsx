@@ -1,6 +1,6 @@
 import { useEffect, useState, Fragment } from "react";
 import styles from "./TaskDetail.module.scss";
-import { useParams } from "react-router-dom";
+import { useParams, Link, useNavigate } from "react-router-dom";
 import TaskInfo from "./TaskInfo";
 import TaskDetailsInfo from "./TaskDetailsInfo";
 import { useSelector } from "react-redux";
@@ -13,6 +13,7 @@ const TaskDetail = () => {
 	const [isReady, setIsReady] = useState(false);
 	const [editMode, setEditMode] = useState(false);
 	const { id } = useParams();
+	const navigate = useNavigate();
 	const tasks = useSelector(state => state.tasks.tasks);
 	const task = tasks.find(task => task.id === id);
 
@@ -23,6 +24,10 @@ const TaskDetail = () => {
 	}, [tasks]);
 
 	const editModeHandler = () => setEditMode(state => !state);
+
+	const taskSubmitHandler = () => {
+		navigate("/tasks");
+	};
 
 	return (
 		<Fragment>
@@ -35,9 +40,11 @@ const TaskDetail = () => {
 							{!editMode ? (
 								<TaskInfo data={task} changeEdit={editModeHandler} />
 							) : (
-								<AddTaskForm>
+								<AddTaskForm submitChange={taskSubmitHandler}>
 									<div className={styles["btn-box"]}>
-										<BorderButton>Cancel</BorderButton>
+										<Link to='/tasks'>
+											<BorderButton>Cancel</BorderButton>
+										</Link>
 										<Button submit>Save</Button>
 									</div>
 								</AddTaskForm>

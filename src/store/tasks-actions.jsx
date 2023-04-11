@@ -74,6 +74,6 @@ export const updateTask = (data, taskId) => {
 			tasks: updatedTasks,
 		});
 
-		// dispatch(fetchTasks());
+		dispatch(fetchTasks());
 	};
 };

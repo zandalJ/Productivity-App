@@ -20,8 +20,8 @@ const SortingSelect = () => {
 			className={styles.select}
 			onChange={selectOptionHandler}
 			value={filters.sort}>
-			<option value='ca'>Completed Ascending</option>
-			<option value='cd'>Completed Descending</option>
+			<option value='ca'>Deadline Ascending</option>
+			<option value='cd'>Deadline Descending</option>
 		</select>
 	);
 };

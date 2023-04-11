@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import styles from "./SearchUser.module.scss";
 import AddUser from "./AddUser";
 import { ElementsPagination } from "../pagination/Pagination";
@@ -16,10 +16,10 @@ const DUMMY_USERS = [
 	{ name: "Darek", mail: "mail@mail.com", id: "user8" },
 ];
 
-const SearchUser = ({ className, addUsers, resetUsers }) => {
+const SearchUser = ({ className, addUsers, resetUsers, fetchedUsers }) => {
 	const [searchText, setSearchText] = useState("");
-	const [searchEl, setSearchEl] = useState(DUMMY_USERS);
-	const [addedUsers, setAddedUsers] = useState([]);
+	const [searchEl, setSearchEl] = useState([]);
+	const [addedUsers, setAddedUsers] = useState(fetchedUsers);
 
 	useEffect(() => {
 		if (resetUsers) {
@@ -28,6 +28,27 @@ const SearchUser = ({ className, addUsers, resetUsers }) => {
 			setSearchText("");
 		}
 	}, [resetUsers]);
+
+	const checkUsers = useCallback(
+		user => {
+			if (addedUsers.length > 0) {
+				for (let i = 0; i < addedUsers.length; i++) {
+					if (user.id === addedUsers[i].id) {
+						return false;
+					}
+				}
+			}
+			return true;
+		},
+		[addedUsers]
+	);
+
+	useEffect(() => {
+		const outputUsers = DUMMY_USERS.filter(user => {
+			return checkUsers(user);
+		});
+		setSearchEl(outputUsers);
+	}, [checkUsers]);
 
 	const itemsPerPage = 4;
 
@@ -70,17 +91,6 @@ const SearchUser = ({ className, addUsers, resetUsers }) => {
 		} else {
 			return;
 		}
-	};
-
-	const checkUsers = user => {
-		if (addedUsers.length > 0) {
-			for (let i = 0; i < addedUsers.length; i++) {
-				if (user.id === addedUsers[i].id) {
-					return false;
-				}
-			}
-		}
-		return true;
 	};
 
 	useEffect(() => {
