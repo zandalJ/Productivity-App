@@ -1,0 +1,14 @@
+.btn{
+    width: 45px;
+    height: 45px;
+    font-size: 2rem;
+    color: white;
+    background: none;
+    border-radius: 50%;
+    border: 2px dashed var(--sec-background-color);
+    cursor: pointer;
+}
+
+.active{
+    border-color: var(--main-color);
+}

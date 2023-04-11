@@ -12,6 +12,7 @@ import DashboardPage from "./Pages/DashboardPage";
 import TasksPage from "./Pages/TasksPage";
 import TaskPage from "./Pages/TaskPage";
 import RegisterPage from "./Pages/RegisterPage";
+import HabitsPage from "./Pages/HabitsPage";
 import { LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterMoment } from "@mui/x-date-pickers/AdapterMoment";
 
@@ -22,9 +23,10 @@ function App() {
 				<Route index path='/' element={<HomePage />} />
 				<Route path='/dashboard' element={<DashboardPage />} />
 				<Route path='/tasks' element={<TasksPage />} />
-				<Route path='/tasks/:id/*' element={<TaskPage />} />
+				<Route path='/tasks/:id' element={<TaskPage />} />
 				<Route path='/register' element={<RegisterPage />} />
 				<Route path='/login' element={<RegisterPage />} />
+				<Route path='/habits' element={<HabitsPage />} />
 			</Route>
 		)
 	);
