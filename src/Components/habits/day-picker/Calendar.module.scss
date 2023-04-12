@@ -1,0 +1,16 @@
+.btn {
+	width: 45px;
+	height: 45px;
+	font-size: 2.2rem;
+	color: var(--white);
+	background-color: var(--sec-background-color);
+	border-radius: 50%;
+	outline: none;
+	border: none;
+	transition: transform 0.3s;
+	cursor: pointer;
+
+	&:hover {
+		transform: scale(1.1);
+	}
+}
