@@ -2,7 +2,7 @@ import { Provider } from "react-redux";
 import store from './store/index'
 import {
 	Route,
-	createBrowserRouter,
+	createHashRouter,
 	createRoutesFromElements,
 	RouterProvider,
 } from "react-router-dom";
@@ -17,7 +17,7 @@ import { LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterMoment } from "@mui/x-date-pickers/AdapterMoment";
 
 function App() {
-	const router = createBrowserRouter(
+	const router = createHashRouter(
 		createRoutesFromElements(
 			<Route path='/' element={<MainLayout />}>
 				<Route index path='/' element={<HomePage />} />
