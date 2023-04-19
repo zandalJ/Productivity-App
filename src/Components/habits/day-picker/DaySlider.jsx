@@ -7,24 +7,22 @@ import "swiper/css";
 const DaySlider = () => {
 	const [slides, setSlides] = useState([]);
 	const [swiper, setSwiper] = useState({});
+	const [slidesSubstractNum, setSlidesSubstractNum] = useState(0);
 	const currentDay = parseInt(moment().format("D"));
 
 	const activeSlideHandler = useCallback(
 		activeIndex => {
-			if (swiper.initialized && slides.length>0) {
-				console.log(activeIndex);
-				console.log('ok');
-				swiper.slideTo(activeIndex);
+			if (swiper.initialized && slides.length > 0) {
+				swiper.slideTo(activeIndex + 1);
 			}
 		},
 		[swiper, slides]
 	);
-
 	const getSlidesHandler = useCallback(
 		(manualActiveIndex = null) => {
 			const activeIndex = manualActiveIndex || currentDay;
 			const sliderElements = [];
-			let subtractionNum = activeIndex - 14;
+			let subtractionNum = activeIndex - 15;
 
 			const prevMonth = moment().subtract(1, "month").month();
 			const year = moment().year();
@@ -53,55 +51,44 @@ const DaySlider = () => {
 					let dayNumber = i - startIndex.index;
 					if (!startIndex.currentMonth) {
 						if (dayNumber < monthDays) {
-							const el = (
-								<SwiperSlide
-									key={dayNumber}
-									onClick={() => activeSlideHandler(dayNumber)}>
-									<DayCircle number={dayNumber} />
-								</SwiperSlide>
-							);
+							const el = <SwiperSlide key={dayNumber}></SwiperSlide>;
 							sliderElements.push(el);
 						} else {
 							let newMonthIndex = dayNumber - monthDays;
-							const el = (
-								<SwiperSlide
-									key={newMonthIndex}
-									onClick={() => activeSlideHandler(newMonthIndex)}>
-									<DayCircle number={newMonthIndex} />
-								</SwiperSlide>
-							);
+							const el = <SwiperSlide key={newMonthIndex}></SwiperSlide>;
 							sliderElements.push(el);
 						}
 					} else {
-						const el = (
-							<SwiperSlide
-								key={dayNumber}
-								onClick={() => activeSlideHandler(dayNumber)}>
-								<DayCircle number={dayNumber} />
-							</SwiperSlide>
-						);
+						const el = <SwiperSlide key={dayNumber}></SwiperSlide>;
 						sliderElements.push(el);
 					}
 				}
 			}
 
+			let substractNumber = 0;
 			const outputSlider = sliderElements.map((el, index) => {
 				if (el !== null) {
-					let key = parseInt(el.key) + 1;
+					setSlidesSubstractNum(substractNumber);
+					let key = parseInt(el.key) + 2;
 					if (key !== activeIndex) {
 						return (
-							<SwiperSlide key={key} onClick={() => activeSlideHandler(index)}>
+							<SwiperSlide
+								key={key}
+								onClick={() => activeSlideHandler(index - substractNumber - 1)}>
 								<DayCircle number={key} />
 							</SwiperSlide>
 						);
 					} else {
 						return (
-							<SwiperSlide key={key} onClick={() => activeSlideHandler(index)}>
+							<SwiperSlide
+								key={key}
+								onClick={() => activeSlideHandler(index - substractNumber - 1)}>
 								<DayCircle number={key} active />
 							</SwiperSlide>
 						);
 					}
 				} else {
+					substractNumber++;
 					return null;
 				}
 			});
@@ -110,7 +97,7 @@ const DaySlider = () => {
 				setSlides(outputSlider);
 			}
 		},
-		[currentDay, activeSlideHandler, swiper.initialized]
+		[currentDay, activeSlideHandler, swiper]
 	);
 
 	useEffect(() => {
@@ -125,23 +112,13 @@ const DaySlider = () => {
 		setSwiper(swiper);
 	}, []);
 
-	// const slidesHandler = () => {
-	// 	if (slides.length > 0) {
-	// 		console.log(swiper.activeIndex);
-	// 		console.log(parseInt(slides[swiper.activeIndex].key));
-	// 		getSlidesHandler(parseInt(slides[swiper.activeIndex].key));
-	// 		console.log(swiper);
-	// 		console.log(slides);
-	// 	}
-	// };
-
-	useEffect(() => {
-		console.log(swiper);
-	}, [swiper])
-
-	useEffect(() => {
-		console.log(slides);
-	}, [slides])
+	const slidesHandler = () => {
+		if (slides.length > 0) {
+			getSlidesHandler(
+				parseInt(slides[swiper.activeIndex + slidesSubstractNum].key)
+			);
+		}
+	};
 
 	const sliderParams = {
 		initialSlide: 13,
@@ -150,7 +127,7 @@ const DaySlider = () => {
 		centeredSlidesBounds: true,
 		slideToClickedSlide: true,
 		onSwiper: swiper => initSwiperHandler(swiper),
-		// onSlideChange: () => slidesHandler(),
+		onSlideChange: () => slidesHandler(),
 	};
 
 	return (
