@@ -1,15 +1,27 @@
+import { useState } from "react";
 import styles from "./DayPicker.module.scss";
 import DaySlider from "./DaySlider";
 import Calendar from "./Calendar";
+import { getCurrentDate } from "../../../constants/currentDate";
+import moment from "moment";
 
 const DayPicker = () => {
+	const currentDate = getCurrentDate;
+	const [currentDay, setCurrentDay] = useState(currentDate);
+	const choosenDayHandler = day => {
+		setCurrentDay(moment().date(day));
+	};
+
 	return (
 		<div className={styles.box}>
 			<div className={styles["slider-box"]}>
-				<DaySlider />
+				<DaySlider
+					currentDay={currentDay}
+					setCurrentDay={choosenDayHandler}
+				/>
 			</div>
 			<div className={styles["calendar-box"]}>
-				<Calendar />
+				<Calendar currentDay={currentDay} setCurrentDay={choosenDayHandler} />
 			</div>
 		</div>
 	);

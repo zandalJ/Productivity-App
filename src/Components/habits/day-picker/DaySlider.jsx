@@ -4,23 +4,27 @@ import moment from "moment";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 
-const DaySlider = () => {
+const DaySlider = ({ currentDay, setCurrentDay }) => {
 	const [slides, setSlides] = useState([]);
 	const [swiper, setSwiper] = useState({});
 	const [slidesSubstractNum, setSlidesSubstractNum] = useState(0);
-	const currentDay = parseInt(moment().format("D"));
+	const formatedDay = parseInt(currentDay.format("D"));
 
 	const activeSlideHandler = useCallback(
-		activeIndex => {
+		async activeIndex => {
 			if (swiper.initialized && slides.length > 0) {
+				const filteredSlides = slides.filter(slide => slide !== null);
+				const choosedNum = parseInt(filteredSlides[swiper.activeIndex].key);
+				setCurrentDay(choosedNum);
 				swiper.slideTo(activeIndex + 1);
 			}
 		},
-		[swiper, slides]
+		[swiper, slides, setCurrentDay]
 	);
 	const getSlidesHandler = useCallback(
 		(manualActiveIndex = null) => {
-			const activeIndex = manualActiveIndex || currentDay;
+			const activeIndex = manualActiveIndex || formatedDay;
+			console.log(activeIndex);
 			const sliderElements = [];
 			let subtractionNum = activeIndex - 15;
 
@@ -97,7 +101,7 @@ const DaySlider = () => {
 				setSlides(outputSlider);
 			}
 		},
-		[currentDay, activeSlideHandler, swiper]
+		[activeSlideHandler, swiper, formatedDay]
 	);
 
 	useEffect(() => {
@@ -108,12 +112,14 @@ const DaySlider = () => {
 		}
 	}, [swiper, getSlidesHandler, slides.length]);
 
+
 	const initSwiperHandler = useCallback(swiper => {
 		setSwiper(swiper);
 	}, []);
 
 	const slidesHandler = () => {
 		if (slides.length > 0) {
+			console.log(slides[swiper.activeIndex + slidesSubstractNum].key);
 			getSlidesHandler(
 				parseInt(slides[swiper.activeIndex + slidesSubstractNum].key)
 			);
