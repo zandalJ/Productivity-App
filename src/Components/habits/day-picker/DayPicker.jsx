@@ -7,21 +7,21 @@ import moment from "moment";
 
 const DayPicker = () => {
 	const currentDate = getCurrentDate;
-	const [currentDay, setCurrentDay] = useState(currentDate);
-	const choosenDayHandler = day => {
-		setCurrentDay(moment().date(day));
+	const [choosedDay, setChoosedDay] = useState(currentDate);
+	const chossedDayHandler = day => {
+		setChoosedDay(moment().date(day));
 	};
 
 	return (
 		<div className={styles.box}>
 			<div className={styles["slider-box"]}>
 				<DaySlider
-					currentDay={currentDay}
-					setCurrentDay={choosenDayHandler}
+					choosedDay={choosedDay}
+					setChoosedDay={chossedDayHandler}
 				/>
 			</div>
 			<div className={styles["calendar-box"]}>
-				<Calendar currentDay={currentDay} setCurrentDay={choosenDayHandler} />
+				<Calendar choosedDay={choosedDay} setChoosedDay={chossedDayHandler} />
 			</div>
 		</div>
 	);

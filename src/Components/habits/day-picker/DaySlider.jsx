@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useReducer } from "react";
 import DayCircle from "./DayCircle";
 import moment from "moment";
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -6,38 +6,66 @@ import { Navigation } from "swiper";
 import "swiper/css";
 import "swiper/css/navigation";
 
-const DaySlider = ({ currentDay, setCurrentDay }) => {
+const reducer = (state, action) => {
+	switch (action.type) {
+		case "increment_day_diffrence": {
+			return {
+				currentDayDiffrence: state.currentDayDiffrence++,
+				previousDay: state.previousDay,
+			};
+		}
+		case "decrement_day_diffrence": {
+			return {
+				currentDayDiffrence: state.currentDayDiffrence--,
+				previousDay: state.previousDay,
+			};
+		}
+		case "change_previous_day": {
+			return {
+				currentDayDiffrence: state.currentDayDiffrence,
+				previousDay: action.previousDay,
+			};
+		}
+	}
+};
+
+const DaySlider = ({ choosedDay, setChoosedDay }) => {
 	const [slides, setSlides] = useState([]);
 	const [swiper, setSwiper] = useState({});
 	const [slidesSubstractNum, setSlidesSubstractNum] = useState(0);
 	const [leftToCurrentMonth, setLeftToCurrentMonth] = useState(null);
-	const formatedDay = parseInt(currentDay.format("D"));
+
+	const formatedDay = parseInt(choosedDay.format("D"));
+	const currentDay = parseInt(moment().format("D"));
+
+	const [state, dispatch] = useReducer(reducer, {
+		currentDayDiffrence: 0,
+		previousDay: formatedDay,
+	});
+
+	const prevMonth = moment().subtract(1, "month").month();
+	const year = moment().year();
+	const previousMonthDate = moment({ year, month: prevMonth });
+	const previousMonthDays = previousMonthDate.daysInMonth();
+	const currenntMonthDays = moment().daysInMonth();
 
 	const activeSlideHandler = useCallback(
 		async activeIndex => {
 			if (swiper.initialized && slides.length > 0) {
 				const filteredSlides = slides.filter(slide => slide !== null);
 				const choosedNum = parseInt(filteredSlides[swiper.activeIndex].key);
-				setCurrentDay(choosedNum);
+				setChoosedDay(choosedNum);
 				swiper.slideTo(activeIndex + 1);
 			}
 		},
-		[swiper, slides, setCurrentDay]
+		[swiper, slides, setChoosedDay]
 	);
 	const getSlidesHandler = useCallback(
 		(manualActiveIndex = null, isInitial = false, clickedArrow = null) => {
 			const activeIndex = manualActiveIndex || formatedDay;
 			const sliderElements = [];
 			let substractionNum = activeIndex - 6;
-			// console.log(clickedArrow);
-			// console.log(activeIndex);
-			console.log(substractionNum);
-
-			const prevMonth = moment().subtract(1, "month").month();
-			const year = moment().year();
-			const previousMonthDate = moment({ year, month: prevMonth });
-			const previousMonthDays = previousMonthDate.daysInMonth();
-			const currenntMonthDays = moment().daysInMonth();
+			console.log(activeIndex);
 
 			const getStartIndex = () => {
 				if (isInitial) {
@@ -57,55 +85,48 @@ const DaySlider = ({ currentDay, setCurrentDay }) => {
 				} else {
 					if (clickedArrow) {
 						if (clickedArrow === "next") {
-							leftToCurrentMonth < 0
-								? setLeftToCurrentMonth(before => before++)
-								: setLeftToCurrentMonth(before => (before += 0));
+							if (state.currentDayDiffrence < 10) {
+								dispatch({ type: "increment_day_diffrence" });
+								leftToCurrentMonth < 0
+									? setLeftToCurrentMonth(before => before++)
+									: setLeftToCurrentMonth(before => (before += 0));
+							} else {
+								return { index: state.previousDay, month: "current" };
+							}
 						} else if (clickedArrow === "prev") {
-							setLeftToCurrentMonth(before => before--);
+							if (state.currentDayDiffrence > -10) {
+								dispatch({ type: "decrement_day_diffrence" });
+								setLeftToCurrentMonth(before => before--);
+							} else {
+								return { index: state.previousDay, month: "current" };
+							}
 						}
 					}
 
 					if (substractionNum < 0 && leftToCurrentMonth < 0) {
-						console.log('1');
 						return {
 							index: previousMonthDays + substractionNum + 1,
 							month: "previous",
 						};
 					} else if (substractionNum < 0 && leftToCurrentMonth === 0) {
-						console.log("2");
 						return {
-							index: previousMonthDays + substractionNum ,
+							index: previousMonthDays + substractionNum,
 							month: "next",
 						};
 					} else if (substractionNum > 0 && leftToCurrentMonth < 0) {
-						console.log("3");
 						return { index: substractionNum, month: "current" };
 					} else if (substractionNum > 0 && leftToCurrentMonth === 0) {
-						console.log("4");
 						return { index: substractionNum, month: "next" };
 					}
-				}
-				if (substractionNum < 0) {
-					return {
-						index: previousMonthDays + substractionNum + 1,
-						currentMonth: false,
-					};
-				} else if (substractionNum === 0) {
-					return { index: previousMonthDays, currentMonth: false };
-				} else if (
-					substractionNum > 0 &&
-					substractionNum <= previousMonthDays
-				) {
-					return { index: substractionNum, currentMonth: true };
-				} else {
-					return {
-						index: substractionNum - previousMonthDays,
-						currentMonth: false,
-					};
 				}
 			};
 
 			const startIndex = getStartIndex();
+			dispatch({
+				type: "change_previous_day",
+				previousDay: startIndex.index,
+			});
+
 			for (
 				let i = startIndex.index;
 				i < startIndex.index + 13 + startIndex.index;
@@ -169,7 +190,16 @@ const DaySlider = ({ currentDay, setCurrentDay }) => {
 				setSlides(outputSlider);
 			}
 		},
-		[activeSlideHandler, swiper, formatedDay, leftToCurrentMonth]
+		[
+			activeSlideHandler,
+			swiper,
+			formatedDay,
+			leftToCurrentMonth,
+			currenntMonthDays,
+			previousMonthDays,
+			state.currentDayDiffrence,
+			state.previousDay,
+		]
 	);
 
 	useEffect(() => {
@@ -204,19 +234,37 @@ const DaySlider = ({ currentDay, setCurrentDay }) => {
 		onSwiper: swiper => initSwiperHandler(swiper),
 		onClick: () => slidesHandler(),
 		onNavigationNext: () => {
-			getSlidesHandler(
-				parseInt(slides[swiper.activeIndex + slidesSubstractNum].key),
-				undefined,
-				"next"
-			);
+			if (state.currentDayDiffrence < 10) {
+				getSlidesHandler(
+					parseInt(slides[7 + slidesSubstractNum].key),
+					undefined,
+					"next"
+				);
+			} else {
+				getSlidesHandler(
+					parseInt(slides[6 + slidesSubstractNum].key),
+					undefined,
+					"next"
+				);
+			}
+
 			swiper.slideTo(6);
 		},
 		onNavigationPrev: () => {
-			getSlidesHandler(
-				parseInt(slides[swiper.activeIndex + slidesSubstractNum].key),
-				undefined,
-				"prev"
-			);
+			if (state.currentDayDiffrence > -10) {
+				getSlidesHandler(
+					parseInt(slides[5 + slidesSubstractNum].key),
+					undefined,
+					"prev"
+				);
+			}else{
+				getSlidesHandler(
+					parseInt(slides[6 + slidesSubstractNum].key),
+					undefined,
+					"prev"
+				);
+			}
+
 			swiper.slideTo(6);
 		},
 	};
