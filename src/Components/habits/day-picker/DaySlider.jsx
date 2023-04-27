@@ -65,7 +65,6 @@ const DaySlider = ({ choosedDay, setChoosedDay }) => {
 			const activeIndex = manualActiveIndex || formatedDay;
 			const sliderElements = [];
 			let substractionNum = activeIndex - 6;
-			console.log(activeIndex);
 
 			const getStartIndex = () => {
 				if (isInitial) {
@@ -116,6 +115,8 @@ const DaySlider = ({ choosedDay, setChoosedDay }) => {
 					} else if (substractionNum > 0 && leftToCurrentMonth < 0) {
 						return { index: substractionNum, month: "current" };
 					} else if (substractionNum > 0 && leftToCurrentMonth === 0) {
+						return { index: substractionNum, month: "next" };
+					}else if(substractionNum === 0 && leftToCurrentMonth === 0){
 						return { index: substractionNum, month: "next" };
 					}
 				}
@@ -257,7 +258,7 @@ const DaySlider = ({ choosedDay, setChoosedDay }) => {
 					undefined,
 					"prev"
 				);
-			}else{
+			} else {
 				getSlidesHandler(
 					parseInt(slides[6 + slidesSubstractNum].key),
 					undefined,
