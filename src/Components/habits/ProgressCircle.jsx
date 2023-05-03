@@ -1,9 +1,10 @@
 import styles from "./ProgressCircle.module.scss";
+import { motion } from "framer-motion";
 
 const ProgressCircle = ({ unit, maxValue, currentValue }) => {
 	const progressText = `${currentValue} of ${maxValue}`;
 	const progressValue = currentValue / maxValue;
-	const circleProgressValue = Math.round(283 * progressValue);
+	const circleMaxProgressValue = Math.round(283 * progressValue);
 
 	return (
 		<div className={styles["circle-box"]}>
@@ -15,14 +16,16 @@ const ProgressCircle = ({ unit, maxValue, currentValue }) => {
 						cy='50'
 						r='45'
 					/>
-					<path
-						strokeDasharray={`${circleProgressValue}, 283`}
+					<motion.path
+						initial={{ strokeDasharray: "0, 283" }}
+						animate={{ strokeDasharray: `${circleMaxProgressValue}, 283` }}
+						transition={{ duration: .3, ease: "linear" }}
 						className={styles["circle-box__path-remaining"]}
 						d='
                             M 50, 50
                             m -45, 0
                             a 45,45 0 1,0 90,0
-                            a 45,45 0 1,0 -90,0'></path>
+                            a 45,45 0 1,0 -90,0'></motion.path>
 				</g>
 			</svg>
 			<div className={styles["circle-box__text-box"]}>
