@@ -1,0 +1,38 @@
+.habit-card {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	width: 100%;
+	margin-bottom: 50px;
+	margin-right: 0;
+	cursor: pointer;
+	transition: transform 0.3s;
+
+	&:nth-last-of-type(1) {
+		margin-bottom: 0;
+	}
+
+	&:hover {
+		transform: scale(0.95);
+	}
+
+	@media (min-width: 576px) {
+		padding: 2rem;
+		width: auto;
+	}
+
+	@media (min-width: 768px) {
+		width: 200px;
+		margin-bottom: 0;
+		margin-right: 50px;
+
+		&:nth-last-of-type(1) {
+			margin-right: 0;
+		}
+	}
+
+	&__title {
+		font-size: 2rem;
+		margin-bottom: 1rem;
+	}
+}

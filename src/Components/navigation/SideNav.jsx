@@ -62,7 +62,9 @@ const SideNav = ({ showModal, location }) => {
 	const [open, setIsOpen] = useState(true);
 	const width = useWidth();
 	const dispatch = useDispatch();
-	const showButton = location === "/tasks";
+	const showButton = location === "/tasks" || location === "/habits";
+	const showButtonText =
+		location === "/tasks" ? "Add New Task" : "Add New Habit";
 	const loginState = useSelector(state => state.auth.isLoggedIn);
 
 	useEffect(() => {
@@ -235,7 +237,7 @@ const SideNav = ({ showModal, location }) => {
 						animate={open ? "open" : "closed"}
 						initial={open ? "open" : "closed"}
 						whileHover='hover'>
-						Add New Task <FontAwesomeIcon icon={solid("plus")} />
+						{showButtonText} <FontAwesomeIcon icon={solid("plus")} />
 					</MotionButton>
 				)}
 			</div>

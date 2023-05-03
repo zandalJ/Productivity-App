@@ -1,6 +1,18 @@
 .wrapper{
     display: flex;
 	flex-direction: column;
+	scrollbar-width: auto;
+	scrollbar-color: #176ec1;
+
+	&::-webkit-scrollbar {
+		width: 16px;
+	}
+
+	&::-webkit-scrollbar-thumb {
+		background-color: #176ec1;
+		border-radius: 10px;
+		border: 3px solid var(--main-background-color);
+	}
 
 	@media (min-width: 768px) {
 		flex-direction: row;
