@@ -4,22 +4,21 @@ import LayoutHeaderWrapper from "../Components/ui/LayoutHeaderWrapper";
 import LayoutBottomWrapper from "../Components/ui/LayoutBottomWrapper";
 import Habits from "../Components/habits/Habits";
 import HabitsChart from "../Components/habits/HabitsChart";
-import useWidth from "../hooks/useWidth";
+import useWidth from "./../hooks/useWidth";
 
 const HabitsPage = () => {
 	const width = useWidth();
-	const inlineStyles =
-		width < 768 ? { overflowX: "hidden" } : { overflowX: "auto" };
-
+	const layoutInlineStyles =
+		width >= 768 ? { height: "100%", maxHeight: "100%" } : { height: "auto" };
 	return (
 		<Wrapper className={styles.wrapper}>
 			<LayoutHeaderWrapper />
-			<LayoutBottomWrapper>
+			<LayoutBottomWrapper style={layoutInlineStyles}>
 				<div className={styles["content-wrapper"]}>
 					<div className={styles["habits-wrapper"]}>
 						<Habits />
 					</div>
-					<HabitsChart />
+					{width >= 768 && <HabitsChart />}
 				</div>
 			</LayoutBottomWrapper>
 		</Wrapper>

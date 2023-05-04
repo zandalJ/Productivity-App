@@ -1,4 +1,4 @@
-import styles from "./HabitsChart.module.scss";
+import styles from './HabitsChart.module.scss'
 import {
 	Chart as ChartJS,
 	CategoryScale,
@@ -29,14 +29,22 @@ ChartJS.register(
 
 const options = {
 	responsive: true,
-    maintainAspectRatio: false,
+	maintainAspectRatio: false,
 	plugins: {
 		legend: {
 			position: "top",
+			labels: {
+				font: {
+					size: 16,
+				},
+			},
 		},
 		title: {
 			display: true,
-			text: "Chart.js Line Chart",
+			text: "Completion percentage of all habits",
+			font: {
+				size: 20,
+			},
 		},
 	},
 };
@@ -77,8 +85,12 @@ const chartData = {
 
 const HabitsChart = () => {
 	return (
-		<div className={styles.box}>
-			<Line options={options} data={chartData} className={styles.chart}></Line>
+		<div className={styles['chart-box']}>
+			<Line
+				options={options}
+				data={chartData}
+				className={styles.chart}
+				aria-label='Complementation percentage chart'></Line>
 		</div>
 	);
 };
