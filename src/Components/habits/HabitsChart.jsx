@@ -1,4 +1,4 @@
-import styles from './HabitsChart.module.scss'
+import styles from "./HabitsChart.module.scss";
 import {
 	Chart as ChartJS,
 	CategoryScale,
@@ -36,7 +36,9 @@ const options = {
 			labels: {
 				font: {
 					size: 16,
+					family: "'nunito', 'sans-serif'",
 				},
+				color: "#e3e9ee",
 			},
 		},
 		title: {
@@ -44,7 +46,9 @@ const options = {
 			text: "Completion percentage of all habits",
 			font: {
 				size: 20,
+				family: "'nunito', 'sans-serif'",
 			},
+			color: "#e3e9ee",
 		},
 	},
 };
@@ -85,7 +89,7 @@ const chartData = {
 
 const HabitsChart = () => {
 	return (
-		<div className={styles['chart-box']}>
+		<div className={styles["chart-box"]}>
 			<Line
 				options={options}
 				data={chartData}

@@ -1,18 +1,10 @@
-import styles from "./ModalContent.module.scss";
+import styles from "./CreateTaskModalContent.module.scss";
 import AddTaskForm from "../../forms/TaskForm";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { solid } from "@fortawesome/fontawesome-svg-core/import.macro";
-import Button from "../../ui/Button";
+import Button from "../Button";
 
-const ModalContent = ({ location, showModal, modal }) => {
-	let modalHeading;
-
-	if (location === "/tasks") {
-		modalHeading = "Create New Task";
-	} else if (location === "/habits") {
-		modalHeading = "Create New Habit";
-	}
-
+const CreateTaskModalContent = ({ showModal, modal }) => {
 	return (
 		<div className={styles["content-box"]}>
 			<FontAwesomeIcon
@@ -20,7 +12,7 @@ const ModalContent = ({ location, showModal, modal }) => {
 				onClick={showModal}
 				className={styles.icon}
 			/>
-			<h2 className={styles["heading-text"]}>{modalHeading}</h2>
+			<h2 className={styles["heading-text"]}>Create New Task</h2>
 			<div className={styles.line}></div>
 			<AddTaskForm showModal={showModal} modal={modal}>
 				<Button submit className={styles.btn}>
@@ -31,4 +23,4 @@ const ModalContent = ({ location, showModal, modal }) => {
 	);
 };
 
-export default ModalContent;
+export default CreateTaskModalContent;

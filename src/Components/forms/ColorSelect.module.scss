@@ -1,0 +1,39 @@
+.choosed-color-button {
+	padding: 1rem 3rem;
+	border: none;
+	outline: none;
+	border-radius: 6px;
+	cursor: pointer;
+}
+
+.color-pallete-box {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	padding: 2rem;
+	background-color: var(--main-background-color);
+	border-radius: 6px;
+	transform: translate(-50%, -50%);
+
+	&__button {
+		padding: 1rem 3rem;
+		border: none;
+		outline: none;
+		border-radius: 6px;
+		cursor: pointer;
+
+		&:nth-of-type(1) {
+			background-color: var(--light-green);
+			margin-right: 1rem;
+		}
+
+		&:nth-of-type(2) {
+			background-color: var(--light-blue);
+			margin-right: 1rem;
+		}
+
+		&:nth-of-type(3) {
+			background-color: var(--light-purple);
+		}
+	}
+}

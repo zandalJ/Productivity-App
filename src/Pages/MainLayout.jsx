@@ -7,6 +7,7 @@ import Modal from "../Components/ui/modal/Modal";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchUserAuth } from "../store/auth-actions";
 import { fetchTasks } from "../store/tasks-actions";
+import CreateTaskModalContent from "../Components/ui/modal/CreateTaskModalContent";
 
 const MainLayout = () => {
 	const dispatch = useDispatch();
@@ -29,11 +30,12 @@ const MainLayout = () => {
 	return (
 		<Fragment>
 			{renderModal && (
-				<Modal
-					modal={showModal}
-					showModal={showModalHandler}
-					location={location}
-				/>
+				<Modal modal={showModal} showModal={showModalHandler}>
+					<CreateTaskModalContent
+						modal={showModal}
+						showModal={showModalHandler}
+					/>
+				</Modal>
 			)}
 			<div className={styles["main-wrapper"]}>
 				<HeaderNav></HeaderNav>

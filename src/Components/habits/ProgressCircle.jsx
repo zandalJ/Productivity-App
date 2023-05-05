@@ -19,7 +19,7 @@ const ProgressCircle = ({ unit, maxValue, currentValue }) => {
 					<motion.path
 						initial={{ strokeDasharray: "0, 283" }}
 						animate={{ strokeDasharray: `${circleMaxProgressValue}, 283` }}
-						transition={{ duration: .3, ease: "linear" }}
+						transition={{ duration: 0.3, ease: "linear" }}
 						className={styles["circle-box__path-remaining"]}
 						d='
                             M 50, 50
