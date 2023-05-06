@@ -1,21 +1,34 @@
-import styles from "./HabitsForm.module.scss";
+import { useEffect, useCallback, useState } from "react";
+import styles from "./HabitForm.module.scss";
 import { useForm } from "react-hook-form";
 import FormInput from "./FormInput";
 import ColorSelect from "./ColorSelect";
 import GoalSelect from "./GoalSelect";
 import Button from "../ui/Button";
 
-const HabitsForm = ({ addForm }) => {
+const HabitForm = ({ showModal, modal }) => {
+	const [resetColor, setResetColor] = useState(false)
+
 	const {
 		register,
 		formState: { errors },
 		handleSubmit,
 		setValue,
+		reset
 	} = useForm();
 
 	const submitHandler = data => {
 		console.log(data);
 	};
+
+	const resetFormHandler = useCallback(() => {
+		setResetColor(before => !before)
+		reset()
+	}, [reset])
+
+	useEffect(() => {
+		if(!modal) resetFormHandler()
+	}, [modal, resetFormHandler])
 
 	return (
 		<form onSubmit={handleSubmit(submitHandler)}>
@@ -31,7 +44,7 @@ const HabitsForm = ({ addForm }) => {
 				}}
 				errors={errors}
 			/>
-			<ColorSelect register={register} setValue={setValue} />
+			<ColorSelect register={register} setValue={setValue} resetColor={resetColor}/>
 			<GoalSelect register={register} setValue={setValue} />
 			<Button submit className={styles.btn}>
 				Submit
@@ -40,4 +53,4 @@ const HabitsForm = ({ addForm }) => {
 	);
 };
 
-export default HabitsForm;
+export default HabitForm;

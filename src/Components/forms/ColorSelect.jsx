@@ -1,4 +1,4 @@
-import { useState, Fragment } from "react";
+import { useState, useEffect ,Fragment } from "react";
 import styles from "./ColorSelect.module.scss";
 import { motion } from "framer-motion";
 import Modal from "../ui/modal/Modal";
@@ -9,7 +9,7 @@ const colors = {
 	lightGreen: "#13b57a",
 };
 
-const ColorSelect = ({ register, setValue }) => {
+const ColorSelect = ({ register, setValue, resetColor }) => {
 	const [showModal, setShowModal] = useState(false);
 	const showModalHandler = () => setShowModal(before => !before);
 
@@ -20,6 +20,10 @@ const ColorSelect = ({ register, setValue }) => {
 		setValue("buttonColor", colors[e.target.dataset.color]);
 		showModalHandler();
 	};
+
+	useEffect(() => {
+		if(resetColor) setColorValue(colors.lightBlue);
+	}, [resetColor])
 
 	return (
 		<Fragment>

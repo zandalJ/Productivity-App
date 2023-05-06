@@ -7,7 +7,7 @@ import Modal from "../Components/ui/modal/Modal";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchUserAuth } from "../store/auth-actions";
 import { fetchTasks } from "../store/tasks-actions";
-import CreateTaskModalContent from "../Components/ui/modal/CreateTaskModalContent";
+import CreateFormModalContent from "../Components/ui/modal/CreateFormModalContent";
 
 const MainLayout = () => {
 	const dispatch = useDispatch();
@@ -23,7 +23,7 @@ const MainLayout = () => {
 
 	let location = useLocation().pathname;
 	const renderModal = location === "/tasks" || location === "/habits";
-
+	
 	const [showModal, setShowModal] = useState(false);
 	const showModalHandler = () => setShowModal(before => !before);
 
@@ -31,7 +31,7 @@ const MainLayout = () => {
 		<Fragment>
 			{renderModal && (
 				<Modal modal={showModal} showModal={showModalHandler}>
-					<CreateTaskModalContent
+					<CreateFormModalContent
 						modal={showModal}
 						showModal={showModalHandler}
 					/>

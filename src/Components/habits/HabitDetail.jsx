@@ -1,6 +1,6 @@
 import styles from "./HabitDetail.module.scss";
 import Habit from "./Habit";
-import HabitsForm from "../forms/HabitsForm";
+import HabitForm from "../forms/HabitForm";
 import Card from "../ui/Card";
 import HabitDetailChart from "./HabitDetailChart";
 import useWidth from "../../hooks/useWidth";
@@ -21,7 +21,7 @@ const HabitDetail = () => {
 				<Habit data={habitData} className={styles.habit} detail />
 				<Card className={styles["edit-habit-box"]}>
 					<h2>Edit your habit</h2>
-					<HabitsForm />
+					<HabitForm />
 				</Card>
 			</div>
 			<div className={styles["chart-box"]}>

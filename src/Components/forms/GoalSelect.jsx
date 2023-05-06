@@ -7,11 +7,17 @@ const GoalSelect = ({ register, setValue }) => {
 	const showModalHandler = () => setShowModal(before => !before);
 
 	const [unit, setUnit] = useState("ml");
+	const [frequency, setFrequency] = useState("day");
 
 	const unitHandler = e => {
 		setUnit(e.target.dataset.unit);
 		setValue("goalUnit", e.target.dataset.unit);
 		showModalHandler();
+	};
+
+	const frequencyHandler = e => {
+		setFrequency(e.target.dataset.frequency)
+		setValue("goalFrequency", e.target.dataset.frequency);
 	};
 
 	return (
@@ -26,6 +32,7 @@ const GoalSelect = ({ register, setValue }) => {
 						{...(register && register("goalAmount"))}
 					/>
 					<button
+						className={styles["inputs-box__inputs__button"]}
 						type='button'
 						onClick={showModalHandler}
 						value={unit}
@@ -33,6 +40,34 @@ const GoalSelect = ({ register, setValue }) => {
 						name='goalUnit'
 						{...(register && register("goalUnit"))}>
 						{unit}
+					</button>
+					<div className={styles["sloping-line"]}></div>
+					<button
+						className={`${styles["inputs-box__inputs__button"]} ${
+							styles["inputs-box__inputs__button--frequency"]
+						} ${
+							frequency === "day"
+								? styles["inputs-box__inputs__button--frequency--active"]
+								: ""
+						}`}
+						type='button'
+						data-frequency='day'
+						onClick={frequencyHandler}
+						{...(register && register("goalFrequency"))}>
+						day
+					</button>
+					<button
+						className={`${styles["inputs-box__inputs__button"]} ${
+							styles["inputs-box__inputs__button--frequency"]
+						} ${
+							frequency === "week"
+								? styles["inputs-box__inputs__button--frequency--active"]
+								: ""
+						}`}
+						type='button'
+						data-frequency='week'
+						onClick={frequencyHandler}>
+						week
 					</button>
 				</div>
 			</div>
