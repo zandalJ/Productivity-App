@@ -1,0 +1,17 @@
+.text-box{
+    display: flex;
+    align-items: center;
+    margin-bottom: 3rem;
+
+    &__line{
+        width: 40px;
+        height: 6px;
+        margin-right: 0.5rem;
+        background-color: var(--white);
+        border-radius: 6px;
+    }
+
+    p{
+        font-size: var(--normal-size);
+    }
+}

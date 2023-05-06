@@ -66,6 +66,4 @@ const GoalSelect = ({ register, setValue }) => {
 	);
 };
 
-//m,km,sec,min,hr,ml
-
 export default GoalSelect;
