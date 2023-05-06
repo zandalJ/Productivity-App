@@ -9,7 +9,7 @@ const colors = {
 	lightGreen: "#13b57a",
 };
 
-const ColorSelect = () => {
+const ColorSelect = ({ register, setValue }) => {
 	const [showModal, setShowModal] = useState(false);
 	const showModalHandler = () => setShowModal(before => !before);
 
@@ -17,21 +17,28 @@ const ColorSelect = () => {
 
 	const colorHandler = e => {
 		setColorValue(colors[e.target.dataset.color]);
+		setValue("buttonColor", colors[e.target.dataset.color]);
 		showModalHandler();
 	};
 
 	return (
 		<Fragment>
-			<motion.button
-				type='button'
-				className={styles["choosed-color-button"]}
-				value={colorValue}
-				style={{ backgroundColor: colorValue }}
-				whileHover={{
-					opacity: 0.85,
-					transition: { duration: 0.2 },
-				}}
-				onClick={showModalHandler}></motion.button>
+			<div className={styles["choose-color-box"]}>
+				<label>Color</label>
+				<motion.button
+					name='buttonColor'
+					type='button'
+					className={styles["choose-color-box__button"]}
+					value={colorValue}
+					defaultValue={colors.lightBlue}
+					style={{ backgroundColor: colorValue }}
+					whileHover={{
+						opacity: 0.85,
+						transition: { duration: 0.2 },
+					}}
+					onClick={showModalHandler}
+					{...(register && register("buttonColor"))}></motion.button>
+			</div>
 			<Modal showModal={showModalHandler} modal={showModal}>
 				<div className={styles["color-pallete-box"]}>
 					<button

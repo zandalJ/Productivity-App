@@ -1,6 +1,12 @@
 .box{
     display: flex;
     flex-direction: column;
+
+    @media(min-width:576px){
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: first baseline;
+    }
 }
 
 .habit{
@@ -14,6 +20,14 @@
 .edit-habit-box{
     padding: 4rem 2rem;
     width: 100%;
+
+    @media(min-width:576px){
+        width: 40%;
+    }
+
+    @media(min-width:768px){
+        width: 50%;
+    }
 
     h2{
         font-size: 2rem;

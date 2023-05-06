@@ -1,12 +1,29 @@
-.choosed-color-button {
-	padding: 1rem 3rem;
-	border: none;
-	outline: none;
-	border-radius: 6px;
-	cursor: pointer;
+.choose-color-box {
+	display: flex;
+	flex-direction: column;
+	width: fit-content;
+	margin-bottom: 1rem;
+
+	label {
+		font-size: var(--small-size);
+		margin-bottom: 0.25rem;
+
+		@media (min-width: 768px) {
+			font-size: var(--medium-size);
+		}
+	}
+
+	&__button {
+		padding: 1rem 3rem;
+		border: none;
+		outline: none;
+		border-radius: 6px;
+		cursor: pointer;
+	}
 }
 
 .color-pallete-box {
+	display: flex;
 	position: absolute;
 	top: 50%;
 	left: 50%;
@@ -20,7 +37,6 @@
 		border: none;
 		outline: none;
 		border-radius: 6px;
-		cursor: pointer;
 
 		&:nth-of-type(1) {
 			background-color: var(--light-green);
