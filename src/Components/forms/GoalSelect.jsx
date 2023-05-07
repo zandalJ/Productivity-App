@@ -1,11 +1,12 @@
-import { Fragment, useState } from "react";
+import { Fragment, useState, useEffect } from "react";
 import styles from "./GoalSelect.module.scss";
 import Modal from "../ui/modal/Modal";
 
-const GoalSelect = ({ register, setValue }) => {
+const GoalSelect = ({ register, setValue, resetGoal }) => {
 	const [showModal, setShowModal] = useState(false);
 	const showModalHandler = () => setShowModal(before => !before);
 
+	const [goalValue, setGoalValue] = useState(6);
 	const [unit, setUnit] = useState("ml");
 	const [frequency, setFrequency] = useState("day");
 
@@ -16,9 +17,17 @@ const GoalSelect = ({ register, setValue }) => {
 	};
 
 	const frequencyHandler = e => {
-		setFrequency(e.target.dataset.frequency)
+		setFrequency(e.target.dataset.frequency);
 		setValue("goalFrequency", e.target.dataset.frequency);
 	};
+
+	useEffect(() => {
+		if (resetGoal) {
+			setGoalValue(6);
+			setUnit("ml");
+			setFrequency("day");
+		}
+	}, [resetGoal]);
 
 	return (
 		<Fragment>
@@ -27,7 +36,8 @@ const GoalSelect = ({ register, setValue }) => {
 				<div className={styles["inputs-box__inputs"]}>
 					<input
 						type='number'
-						defaultValue={6}
+						value={goalValue}
+						onInput={(e) => setGoalValue(e.target.value)}
 						name='goalAmount'
 						{...(register && register("goalAmount"))}
 					/>

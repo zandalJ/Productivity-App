@@ -7,14 +7,15 @@ import GoalSelect from "./GoalSelect";
 import Button from "../ui/Button";
 
 const HabitForm = ({ showModal, modal }) => {
-	const [resetColor, setResetColor] = useState(false)
+	const [resetColor, setResetColor] = useState(false);
+	const [resetGoal, setResetGoal] = useState(false);
 
 	const {
 		register,
 		formState: { errors },
 		handleSubmit,
 		setValue,
-		reset
+		reset,
 	} = useForm();
 
 	const submitHandler = data => {
@@ -22,13 +23,18 @@ const HabitForm = ({ showModal, modal }) => {
 	};
 
 	const resetFormHandler = useCallback(() => {
-		setResetColor(before => !before)
-		reset()
-	}, [reset])
+		setResetColor(before => !before);
+		setResetGoal(before => !before);
+		reset();
+	}, [reset]);
 
 	useEffect(() => {
-		if(!modal) resetFormHandler()
-	}, [modal, resetFormHandler])
+		if (!modal) resetFormHandler();
+		if (modal) {
+			setResetColor(false);
+			setResetGoal(false);
+		}
+	}, [modal, resetFormHandler]);
 
 	return (
 		<form onSubmit={handleSubmit(submitHandler)}>
@@ -44,8 +50,12 @@ const HabitForm = ({ showModal, modal }) => {
 				}}
 				errors={errors}
 			/>
-			<ColorSelect register={register} setValue={setValue} resetColor={resetColor}/>
-			<GoalSelect register={register} setValue={setValue} />
+			<ColorSelect
+				register={register}
+				setValue={setValue}
+				resetColor={resetColor}
+			/>
+			<GoalSelect register={register} setValue={setValue} resetGoal={resetGoal}/>
 			<Button submit className={styles.btn}>
 				Submit
 			</Button>
