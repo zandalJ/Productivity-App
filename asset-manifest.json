@@ -1,16 +1,16 @@
 {
   "files": {
-    "main.css": "/Productivity-App/static/css/main.bbb899d0.css",
-    "main.js": "/Productivity-App/static/js/main.7e8617ab.js",
+    "main.css": "/Productivity-App/static/css/main.e01a361c.css",
+    "main.js": "/Productivity-App/static/js/main.70bd7106.js",
     "static/js/787.3cc815d3.chunk.js": "/Productivity-App/static/js/787.3cc815d3.chunk.js",
     "static/media/header.svg": "/Productivity-App/static/media/header.4c8bff494c4a26c1fe7a18d90f4af53e.svg",
     "index.html": "/Productivity-App/index.html",
-    "main.bbb899d0.css.map": "/Productivity-App/static/css/main.bbb899d0.css.map",
-    "main.7e8617ab.js.map": "/Productivity-App/static/js/main.7e8617ab.js.map",
+    "main.e01a361c.css.map": "/Productivity-App/static/css/main.e01a361c.css.map",
+    "main.70bd7106.js.map": "/Productivity-App/static/js/main.70bd7106.js.map",
     "787.3cc815d3.chunk.js.map": "/Productivity-App/static/js/787.3cc815d3.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.bbb899d0.css",
-    "static/js/main.7e8617ab.js"
+    "static/css/main.e01a361c.css",
+    "static/js/main.70bd7106.js"
   ]
 }
