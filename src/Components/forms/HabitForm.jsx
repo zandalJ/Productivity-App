@@ -16,6 +16,7 @@ const HabitForm = ({ showModal, modal }) => {
 		handleSubmit,
 		setValue,
 		reset,
+		control,
 	} = useForm();
 
 	const submitHandler = data => {
@@ -51,11 +52,15 @@ const HabitForm = ({ showModal, modal }) => {
 				errors={errors}
 			/>
 			<ColorSelect
-				register={register}
+				control={control}
 				setValue={setValue}
 				resetColor={resetColor}
 			/>
-			<GoalSelect register={register} setValue={setValue} resetGoal={resetGoal}/>
+			<GoalSelect
+				register={register}
+				setValue={setValue}
+				resetGoal={resetGoal}
+			/>
 			<Button submit className={styles.btn}>
 				Submit
 			</Button>

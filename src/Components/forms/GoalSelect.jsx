@@ -17,8 +17,8 @@ const GoalSelect = ({ register, setValue, resetGoal }) => {
 	};
 
 	const frequencyHandler = e => {
-		setFrequency(e.target.dataset.frequency);
 		setValue("goalFrequency", e.target.dataset.frequency);
+		setFrequency(e.target.dataset.frequency);
 	};
 
 	useEffect(() => {
@@ -62,6 +62,8 @@ const GoalSelect = ({ register, setValue, resetGoal }) => {
 						}`}
 						type='button'
 						data-frequency='day'
+						defaultValue='day'
+						value={frequency}
 						onClick={frequencyHandler}
 						{...(register && register("goalFrequency"))}>
 						day
