@@ -46,7 +46,7 @@ const TaskForm = ({ showModal, modal, submitChange, children }) => {
 			tasks.length > 0
 				? "task-" + (parseInt(lastId.match(/\d+/)[0]) + 1)
 				: "task-" + lastId;
-		const formData = {
+		const formData = { 
 			title: data.taskTitle,
 			description: "" || data.taskDescription,
 			members: [...selectedUsers] || [],

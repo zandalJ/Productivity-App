@@ -14,11 +14,11 @@ const Habit = ({ data, detail, className }) => {
 			{detail ? (
 				<Card
 					className={`${styles["habit-card"]} ${className ? className : ""}`}>
-					<h2 className={styles["habit-card__title"]}>{data.title}</h2>
+					<h2 className={styles["habit-card__title"]}>{data.name}</h2>
 					<ProgressCircle
-						unit={data.unit}
-						maxValue={data.maxValue}
-						currentValue={data.currentValue}
+						unit={data.goal.unit}
+						maxValue={data.goal.maxValue}
+						currentValue={data.goal.currentValue}
 					/>
 					<div className={styles["habit-card__detail-tools"]}>
 						<button className={styles["habit-card__detail-tools__button"]}>
@@ -33,11 +33,11 @@ const Habit = ({ data, detail, className }) => {
 				<Card
 					className={styles["habit-card"]}
 					onClick={() => navigate(`/habits/${data.id}`)}>
-					<h2 className={styles["habit-card__title"]}>{data.title}</h2>
+					<h2 className={styles["habit-card__title"]}>{data.name}</h2>
 					<ProgressCircle
-						unit={data.unit}
-						maxValue={data.maxValue}
-						currentValue={data.currentValue}
+						unit={data.goal.unit}
+						maxValue={data.goal.maxValue}
+						currentValue={data.goal.currentValue}
 					/>
 				</Card>
 			)}

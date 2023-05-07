@@ -10,14 +10,15 @@ const colors = {
 	lightGreen: "#13b57a",
 };
 
-const ColorSelect = ({ setValue, resetColor, control }) => {
+const ColorSelect = ({ setValue, resetColor, control, defaultValue }) => {
 	const [showModal, setShowModal] = useState(false);
 	const showModalHandler = () => setShowModal(before => !before);
 
-	const [colorValue, setColorValue] = useState(colors.lightBlue);
+	const defaultColor = defaultValue ? defaultValue : "#2192ff"
+	const [colorValue, setColorValue] = useState(defaultColor);
 
 	const colorHandler = e => {
-		setValue("buttonColor", colors[e.target.dataset.color]);
+		setValue("habitColor", colors[e.target.dataset.color]);
 		setColorValue(colors[e.target.dataset.color]);
 		showModalHandler();
 	};
@@ -32,9 +33,9 @@ const ColorSelect = ({ setValue, resetColor, control }) => {
 				<label>Color</label>
 				<Controller
 					control={control}
-					name='buttonColor'
-					defaultValue='#2192ff'
-					render={({ field: { onChange, onBlur, value } }) => (
+					name='habitColor'
+					defaultValue={defaultColor}
+					render={({ field }) => (
 						<motion.button
 							type='button'
 							className={styles["choose-color-box__button"]}
@@ -44,10 +45,7 @@ const ColorSelect = ({ setValue, resetColor, control }) => {
 								transition: { duration: 0.2 },
 							}}
 							onClick={showModalHandler}
-							value={value}
-							onChange={onChange}
-							onBlur={onBlur}
-						></motion.button>
+							{...field}></motion.button>
 					)}
 				/>
 			</div>

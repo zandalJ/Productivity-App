@@ -7,6 +7,7 @@ import Modal from "../Components/ui/modal/Modal";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchUserAuth } from "../store/auth-actions";
 import { fetchTasks } from "../store/tasks-actions";
+import { fetchHabits } from "../store/habits-actions";
 import CreateFormModalContent from "../Components/ui/modal/CreateFormModalContent";
 
 const MainLayout = () => {
@@ -18,12 +19,15 @@ const MainLayout = () => {
 	}, [dispatch]);
 
 	useEffect(() => {
-		if (loginState) dispatch(fetchTasks());
+		if (loginState) {
+			dispatch(fetchTasks());
+			dispatch(fetchHabits());
+		}
 	}, [dispatch, loginState]);
 
 	let location = useLocation().pathname;
 	const renderModal = location === "/tasks" || location === "/habits";
-	
+
 	const [showModal, setShowModal] = useState(false);
 	const showModalHandler = () => setShowModal(before => !before);
 

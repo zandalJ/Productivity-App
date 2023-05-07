@@ -5,8 +5,16 @@ import FormInput from "./FormInput";
 import ColorSelect from "./ColorSelect";
 import GoalSelect from "./GoalSelect";
 import Button from "../ui/Button";
+import { useLocation, useParams } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { addHabit, updateHabit } from "../../store/habits-actions";
 
-const HabitForm = ({ showModal, modal }) => {
+const HabitForm = ({ showModal, modal, habitData }) => {
+	const location = useLocation();
+	const { id } = useParams();
+	const dispatch = useDispatch();
+	const habits = useSelector(state => state.habits.habits);
+
 	const [resetColor, setResetColor] = useState(false);
 	const [resetGoal, setResetGoal] = useState(false);
 
@@ -19,8 +27,43 @@ const HabitForm = ({ showModal, modal }) => {
 		control,
 	} = useForm();
 
-	const submitHandler = data => {
-		console.log(data);
+	const addHabitHandler = data => {
+		let lastId;
+		habits.length > 0 ? (lastId = habits[habits.length - 1].id) : (lastId = 0);
+		const habitId =
+			habits.length > 0
+				? "habit-" + (parseInt(lastId.match(/\d+/)[0]) + 1)
+				: "habit-" + lastId;
+		const formData = {
+			name: data.habitName,
+			color: data.habitColor,
+			goal: {
+				maxValue: data.goalAmount,
+				currentValue: 5,
+				unit: data.goalUnit,
+				frequency: data.goalFrequency,
+			},
+			id: habitId,
+		};
+
+		dispatch(addHabit(formData));
+		showModal();
+		resetFormHandler();
+	};
+
+	const updateHabitHandler = async data => {
+		const formData = {
+			name: data.habitName,
+			color: data.habitColor,
+			goal: {
+				maxValue: data.goalAmount,
+				currentValue: 5,
+				unit: data.goalUnit,
+				frequency: data.goalFrequency,
+			},
+		};
+
+		await dispatch(updateHabit(formData, id));
 	};
 
 	const resetFormHandler = useCallback(() => {
@@ -37,13 +80,16 @@ const HabitForm = ({ showModal, modal }) => {
 		}
 	}, [modal, resetFormHandler]);
 
+	const submitHandler =
+		location.pathname === "/habits" ? addHabitHandler : updateHabitHandler;
+
 	return (
 		<form onSubmit={handleSubmit(submitHandler)}>
 			<FormInput
 				title='Name'
 				name='habitName'
 				type='text'
-				defaultValue=''
+				defaultValue={habitData ? habitData.name : ""}
 				register={register}
 				rules={{
 					required: true,
@@ -55,11 +101,13 @@ const HabitForm = ({ showModal, modal }) => {
 				control={control}
 				setValue={setValue}
 				resetColor={resetColor}
+				defaultValue={habitData ? habitData.color : null}
 			/>
 			<GoalSelect
 				register={register}
 				setValue={setValue}
 				resetGoal={resetGoal}
+				defaultValue={habitData ? habitData.goal : null}
 			/>
 			<Button submit className={styles.btn}>
 				Submit

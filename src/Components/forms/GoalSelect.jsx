@@ -2,13 +2,16 @@ import { Fragment, useState, useEffect } from "react";
 import styles from "./GoalSelect.module.scss";
 import Modal from "../ui/modal/Modal";
 
-const GoalSelect = ({ register, setValue, resetGoal }) => {
+const GoalSelect = ({ register, setValue, resetGoal, defaultValue }) => {
 	const [showModal, setShowModal] = useState(false);
 	const showModalHandler = () => setShowModal(before => !before);
 
-	const [goalValue, setGoalValue] = useState(6);
-	const [unit, setUnit] = useState("ml");
-	const [frequency, setFrequency] = useState("day");
+	const defaultGoal = defaultValue ? defaultValue.maxValue : 1
+	const defaultUnit = defaultValue ? defaultValue.unit : "ml"
+	const defaultFrequency = defaultValue ? defaultValue.frequency : "day"
+	const [goalValue, setGoalValue] = useState(defaultGoal);
+	const [unit, setUnit] = useState(defaultUnit);
+	const [frequency, setFrequency] = useState(defaultFrequency);
 
 	const unitHandler = e => {
 		setUnit(e.target.dataset.unit);
