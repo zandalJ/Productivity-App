@@ -5,12 +5,11 @@ import FormInput from "./FormInput";
 import ColorSelect from "./ColorSelect";
 import GoalSelect from "./GoalSelect";
 import Button from "../ui/Button";
-import { useLocation, useParams, useNavigate } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { addHabit, updateHabit } from "../../store/habits-actions";
 
 const HabitForm = ({ showModal, modal, habitData }) => {
-	const navigate = useNavigate()
 	const location = useLocation();
 	const { id } = useParams();
 	const dispatch = useDispatch();
@@ -18,7 +17,6 @@ const HabitForm = ({ showModal, modal, habitData }) => {
 
 	const [resetColor, setResetColor] = useState(false);
 	const [resetGoal, setResetGoal] = useState(false);
-
 	const {
 		register,
 		formState: { errors },
@@ -53,19 +51,19 @@ const HabitForm = ({ showModal, modal, habitData }) => {
 	};
 
 	const updateHabitHandler = async data => {
+		const habitId = parseInt(id.match(/\d+/)[0]);
 		const formData = {
 			name: data.habitName,
 			color: data.habitColor,
 			goal: {
 				maxValue: data.goalAmount,
-				currentValue: 0,
+				currentValue: habits[habitId].goal.currentValue,
 				unit: data.goalUnit,
 				frequency: data.goalFrequency,
 			},
 		};
 
 		await dispatch(updateHabit(formData, id));
-		navigate('/habits')
 	};
 
 	const resetFormHandler = useCallback(() => {
@@ -107,6 +105,7 @@ const HabitForm = ({ showModal, modal, habitData }) => {
 			/>
 			<GoalSelect
 				register={register}
+				rules={habitData ? { max: habitData.goal.currentValue } : null}
 				setValue={setValue}
 				resetGoal={resetGoal}
 				defaultValue={habitData ? habitData.goal : null}

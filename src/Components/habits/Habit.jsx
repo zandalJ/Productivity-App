@@ -53,7 +53,7 @@ const Habit = ({ data, detail, className }) => {
 						</div>
 					</Card>
 					<Modal modal={showModal} showModal={showModalHandler}>
-						<AddHabitValue />
+						<AddHabitValue showModal={showModalHandler} />
 					</Modal>
 				</Fragment>
 			) : (

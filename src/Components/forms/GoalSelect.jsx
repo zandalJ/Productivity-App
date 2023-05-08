@@ -2,13 +2,13 @@ import { Fragment, useState, useEffect } from "react";
 import styles from "./GoalSelect.module.scss";
 import Modal from "../ui/modal/Modal";
 
-const GoalSelect = ({ register, setValue, resetGoal, defaultValue }) => {
+const GoalSelect = ({ register, setValue, resetGoal, defaultValue, rules }) => {
 	const [showModal, setShowModal] = useState(false);
 	const showModalHandler = () => setShowModal(before => !before);
 
-	const defaultGoal = defaultValue ? defaultValue.maxValue : 1
-	const defaultUnit = defaultValue ? defaultValue.unit : "ml"
-	const defaultFrequency = defaultValue ? defaultValue.frequency : "day"
+	const defaultGoal = defaultValue ? defaultValue.maxValue : 1;
+	const defaultUnit = defaultValue ? defaultValue.unit : "ml";
+	const defaultFrequency = defaultValue ? defaultValue.frequency : "day";
 	const [goalValue, setGoalValue] = useState(defaultGoal);
 	const [unit, setUnit] = useState(defaultUnit);
 	const [frequency, setFrequency] = useState(defaultFrequency);
@@ -40,9 +40,9 @@ const GoalSelect = ({ register, setValue, resetGoal, defaultValue }) => {
 					<input
 						type='number'
 						value={goalValue}
-						onInput={(e) => setGoalValue(e.target.value)}
+						onInput={e => setGoalValue(e.target.value)}
 						name='goalAmount'
-						{...(register && register("goalAmount"))}
+						{...(register && register("goalAmount", rules ? rules : {}))}
 					/>
 					<button
 						className={styles["inputs-box__inputs__button"]}

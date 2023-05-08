@@ -5,7 +5,7 @@ import { useParams } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { updateHabit } from "../../store/habits-actions";
 
-const AddHabitValue = () => {
+const AddHabitValue = ({ showModal }) => {
 	const dispatch = useDispatch();
 
 	const {
@@ -24,7 +24,8 @@ const AddHabitValue = () => {
 			...habit.goal,
 			currentValue: data.habitValue,
 		};
-		await dispatch(updateHabit(goalData , id, true));
+		await dispatch(updateHabit(goalData, id, true));
+		showModal();
 	};
 
 	return (
@@ -35,6 +36,7 @@ const AddHabitValue = () => {
 					min: parseInt(habit.goal.currentValue),
 					max: parseInt(habit.goal.maxValue),
 				})}
+				placeholder={habit.goal.currentValue}
 			/>
 			<Button submit className={styles.btn}>
 				Update
