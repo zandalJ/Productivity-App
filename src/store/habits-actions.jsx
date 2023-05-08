@@ -40,22 +40,45 @@ export const addHabit = data => {
 	};
 };
 
-export const updateHabit = (data, habitId) => {
+export const updateHabit = (data, habitId, goal = false) => {
 	return async dispatch => {
 		const { ref, docSnap } = await getDocSnap();
 		const habits = docSnap.data().habits;
 		const updatedHabits = habits.map(habit => {
 			if (habit.id === habitId) {
-				return { ...habit, ...data };
+				if (goal) {
+					const { goal, ...rest } = habit;
+					return { ...rest, goal: { ...goal, ...data } };
+				} else {
+					return { ...habit, ...data };
+				}
 			} else {
 				return habit;
 			}
 		});
-
 		await updateDoc(ref, {
 			habits: updatedHabits,
 		});
 
-        dispatch(fetchHabits());
+		dispatch(fetchHabits());
+	};
+};
+
+export const resetHabitValue = habitId => {
+	return async dispatch => {
+		const { ref, docSnap } = await getDocSnap();
+		const habits = docSnap.data().habits;
+		const updatedHabits = habits.map(habit => {
+			if (habit.id === habitId) {
+				return { ...habit, goal: { ...habit.goal, currentValue: 0 } };
+			} else {
+				return habit;
+			}
+		});
+		await updateDoc(ref, {
+			habits: updatedHabits,
+		});
+
+		dispatch(fetchHabits());
 	};
 };

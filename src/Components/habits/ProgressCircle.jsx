@@ -1,7 +1,7 @@
 import styles from "./ProgressCircle.module.scss";
 import { motion } from "framer-motion";
 
-const ProgressCircle = ({ unit, maxValue, currentValue }) => {
+const ProgressCircle = ({ unit, maxValue, currentValue, habitColor }) => {
 	const progressText = `${currentValue} of ${maxValue}`;
 	const progressValue = currentValue / maxValue;
 	const circleMaxProgressValue = Math.round(283 * progressValue);
@@ -21,6 +21,7 @@ const ProgressCircle = ({ unit, maxValue, currentValue }) => {
 						animate={{ strokeDasharray: `${circleMaxProgressValue}, 283` }}
 						transition={{ duration: 0.3, ease: "linear" }}
 						className={styles["circle-box__path-remaining"]}
+						style={{stroke: habitColor}}
 						d='
                             M 50, 50
                             m -45, 0
