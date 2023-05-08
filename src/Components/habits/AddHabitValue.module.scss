@@ -1,6 +1,6 @@
 .form {
-    display: flex;
-    align-items: center;
+	display: flex;
+	flex-direction: column;
 	position: absolute;
 	top: 50%;
 	left: 50%;
@@ -9,13 +9,23 @@
 	border-radius: 6px;
 	transform: translate(-50%, -50%);
 
-	input {
-		padding: 0.5rem;
-        width: 100px;
-        height: 25px;
-		margin-right: 1rem;
-		border: none;
-		outline: none;
-        border-radius: 6px;
+	&__input-box {
+        display: flex;
+        align-items: center;
+		input {
+			padding: 0.5rem;
+			width: 100px;
+			height: 25px;
+			margin-right: 1rem;
+			border: none;
+			outline: none;
+			border-radius: 6px;
+		}
+	}
+
+	p {
+        margin-top: 1rem;
+		font-size: var(--medium-size);
+		color: var(--error-red);
 	}
 }

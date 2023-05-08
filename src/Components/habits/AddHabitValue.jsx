@@ -30,17 +30,24 @@ const AddHabitValue = ({ showModal }) => {
 
 	return (
 		<form onSubmit={handleSubmit(submitHandler)} className={styles.form}>
-			<input
-				type='number'
-				{...register("habitValue", {
-					min: parseInt(habit.goal.currentValue),
-					max: parseInt(habit.goal.maxValue),
-				})}
-				placeholder={habit.goal.currentValue}
-			/>
-			<Button submit className={styles.btn}>
-				Update
-			</Button>
+			<div className={styles['form__input-box']}>
+				<input
+					type='number'
+					{...register("habitValue", {
+						min: parseInt(habit.goal.currentValue),
+						max: parseInt(habit.goal.maxValue),
+					})}
+					placeholder={habit.goal.currentValue}
+				/>
+				<Button submit className={styles.btn}>
+					Update
+				</Button>
+			</div>
+			{errors["habitValue"] && (
+				<p>
+					Type number beetwen {habit.goal.currentValue} - {habit.goal.maxValue}
+				</p>
+			)}
 		</form>
 	);
 };

@@ -2,7 +2,15 @@ import { Fragment, useState, useEffect } from "react";
 import styles from "./GoalSelect.module.scss";
 import Modal from "../ui/modal/Modal";
 
-const GoalSelect = ({ register, setValue, resetGoal, defaultValue, rules }) => {
+const GoalSelect = ({
+	register,
+	setValue,
+	resetGoal,
+	defaultValue,
+	rules,
+	errors,
+	habitData,
+}) => {
 	const [showModal, setShowModal] = useState(false);
 	const showModalHandler = () => setShowModal(before => !before);
 
@@ -85,6 +93,11 @@ const GoalSelect = ({ register, setValue, resetGoal, defaultValue, rules }) => {
 						week
 					</button>
 				</div>
+				{errors["goalAmount"] && (
+					<p className={styles.error}>
+						Minimum value is {habitData.goal.currentValue}
+					</p>
+				)}
 			</div>
 			<Modal showModal={showModalHandler} modal={showModal}>
 				<div className={styles["units-box"]}>

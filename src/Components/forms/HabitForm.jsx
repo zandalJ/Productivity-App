@@ -105,7 +105,9 @@ const HabitForm = ({ showModal, modal, habitData }) => {
 			/>
 			<GoalSelect
 				register={register}
-				rules={habitData ? { max: habitData.goal.currentValue } : null}
+				rules={habitData ? { min: habitData.goal.currentValue } : null}
+				habitData={habitData ? habitData : null}
+				errors={errors}
 				setValue={setValue}
 				resetGoal={resetGoal}
 				defaultValue={habitData ? habitData.goal : null}
