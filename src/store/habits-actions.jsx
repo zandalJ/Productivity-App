@@ -1,10 +1,12 @@
 import { habitsActions } from "./habits";
 import { doc, getDoc, setDoc, updateDoc, arrayUnion } from "firebase/firestore";
 import { db } from "../firebase";
+import moment from "moment";
 
 const getDocSnap = async () => {
+	const currentDate = moment().format("DD-MM-YYYY");
 	const uid = localStorage.getItem("uid");
-	const ref = doc(db, "habits", uid);
+	const ref = doc(db, "habits", uid, currentDate, "habits");
 	const docSnap = await getDoc(ref);
 	return { ref, docSnap };
 };
@@ -77,6 +79,18 @@ export const resetHabitValue = habitId => {
 		});
 		await updateDoc(ref, {
 			habits: updatedHabits,
+		});
+
+		dispatch(fetchHabits());
+	};
+};
+
+export const addHabitsToNewDay = ({ habits }) => {
+	return async dispatch => {
+		const { ref } = await getDocSnap();
+
+		await setDoc(ref, {
+			habits: [habits],
 		});
 
 		dispatch(fetchHabits());

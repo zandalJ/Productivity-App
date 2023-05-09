@@ -8,6 +8,7 @@ import Button from "../ui/Button";
 import { useLocation, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { addHabit, updateHabit } from "../../store/habits-actions";
+import moment from "moment/moment";
 
 const HabitForm = ({ showModal, modal, habitData }) => {
 	const location = useLocation();
@@ -49,6 +50,7 @@ const HabitForm = ({ showModal, modal, habitData }) => {
 		showModal();
 		resetFormHandler();
 	};
+
 
 	const updateHabitHandler = async data => {
 		const habitId = parseInt(id.match(/\d+/)[0]);
