@@ -71,8 +71,6 @@ const HabitDetailChart = () => {
 				],
 			};
 
-			console.log(chartObj);
-
 			setChartData(chartObj);
 		}
 	}, [habits]);

@@ -26,7 +26,10 @@ const MainLayout = () => {
 	}, [dispatch, loginState]);
 
 	let location = useLocation().pathname;
-	const renderModal = location === "/tasks" || location === "/habits";
+	const renderModal =
+		location === "/tasks" ||
+		location === "/habits" ||
+		location === "/team-members";
 
 	const [showModal, setShowModal] = useState(false);
 	const showModalHandler = () => setShowModal(before => !before);

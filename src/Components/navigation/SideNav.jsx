@@ -62,9 +62,20 @@ const SideNav = ({ showModal, location }) => {
 	const [open, setIsOpen] = useState(true);
 	const width = useWidth();
 	const dispatch = useDispatch();
-	const showButton = location === "/tasks" || location === "/habits";
-	const showButtonText =
-		location === "/tasks" ? "Add New Task" : "Add New Habit";
+	const showButton =
+		location === "/tasks" ||
+		location === "/habits" ||
+		location === "/team-members";
+		
+	let showButtonText;
+	if (location === "/tasks") {
+		showButtonText = "Add New Task";
+	} else if (location === "/habits") {
+		showButtonText = "Add New Habit";
+	} else if (location === "/team-members") {
+		showButtonText = "Add New Member";
+	}
+
 	const loginState = useSelector(state => state.auth.isLoggedIn);
 
 	useEffect(() => {
@@ -192,7 +203,7 @@ const SideNav = ({ showModal, location }) => {
 									custom={open}
 									variants={liVariants}>
 									<NavLink
-										to='/test'
+										to='/team-members'
 										className={({ isActive }) =>
 											[styles.link, isActive ? styles["active-link"] : null]
 												.filter(Boolean)

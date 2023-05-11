@@ -1,5 +1,5 @@
 import { Provider } from "react-redux";
-import store from './store/index'
+import store from "./store/index";
 import {
 	Route,
 	createHashRouter,
@@ -14,6 +14,7 @@ import TaskPage from "./Pages/TaskPage";
 import RegisterPage from "./Pages/RegisterPage";
 import HabitsPage from "./Pages/HabitsPage";
 import HabitPage from "./Pages/HabitPage";
+import TeamMembersPage from "./Pages/TeamMembersPage";
 import { LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterMoment } from "@mui/x-date-pickers/AdapterMoment";
 
@@ -29,6 +30,7 @@ function App() {
 				<Route path='/login' element={<RegisterPage />} />
 				<Route path='/habits' element={<HabitsPage />} />
 				<Route path='/habits/:id' element={<HabitPage />} />
+				<Route path='/team-members' element={<TeamMembersPage />} />
 			</Route>
 		)
 	);
