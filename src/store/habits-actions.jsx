@@ -4,9 +4,8 @@ import { db } from "../firebase";
 import moment from "moment";
 
 const getDocSnap = async () => {
-	const currentDate = moment().format("DD-MM-YYYY");
 	const uid = localStorage.getItem("uid");
-	const ref = doc(db, "habits", uid, currentDate, "habits");
+	const ref = doc(db, "habits", uid);
 	const docSnap = await getDoc(ref);
 	return { ref, docSnap };
 };
@@ -49,8 +48,12 @@ export const updateHabit = (data, habitId, goal = false) => {
 		const updatedHabits = habits.map(habit => {
 			if (habit.id === habitId) {
 				if (goal) {
-					const { goal, ...rest } = habit;
-					return { ...rest, goal: { ...goal, ...data } };
+					const { goal, days, ...rest } = habit;
+					return {
+						...rest,
+						goal: { ...goal, ...data.goal },
+						days: [...data.days],
+					};
 				} else {
 					return { ...habit, ...data };
 				}
@@ -70,9 +73,23 @@ export const resetHabitValue = habitId => {
 	return async dispatch => {
 		const { ref, docSnap } = await getDocSnap();
 		const habits = docSnap.data().habits;
+		const currentDate = moment().format("DD-MM-YYYY");
 		const updatedHabits = habits.map(habit => {
 			if (habit.id === habitId) {
-				return { ...habit, goal: { ...habit.goal, currentValue: 0 } };
+				const resetDays = habit.days.map((day, index) => {
+					if (index === habit.days.length - 1) {
+						return { date: day.date, ratio: "0" };
+					} else {
+						return day;
+					}
+				});
+
+				const resetCurrentValue = {
+					...habit.goal,
+					currentValue: 0,
+				};
+
+				return { ...habit, days: resetDays, goal: resetCurrentValue };
 			} else {
 				return habit;
 			}
@@ -85,12 +102,21 @@ export const resetHabitValue = habitId => {
 	};
 };
 
-export const addHabitsToNewDay = ({ habits }) => {
+export const addHabitsToNewDay = habits => {
 	return async dispatch => {
 		const { ref } = await getDocSnap();
+		const currentDate = moment().format("DD-MM-YYYY");
+		const newDayHabits = habits.map(habit => {
+			const { days, goal, ...rest } = habit;
+			return {
+				...rest,
+				days: [...days, { date: currentDate, ratio: "0" }],
+				goal: { ...goal, currentValue: 0 },
+			};
+		});
 
-		await setDoc(ref, {
-			habits: [habits],
+		await updateDoc(ref, {
+			habits: newDayHabits,
 		});
 
 		dispatch(fetchHabits());

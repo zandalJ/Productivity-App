@@ -1,3 +1,4 @@
+import { Fragment, useState, useEffect } from "react";
 import styles from "./HabitsChart.module.scss";
 import {
 	Chart as ChartJS,
@@ -10,12 +11,8 @@ import {
 	Legend,
 } from "chart.js";
 import { Line } from "react-chartjs-2";
-
-const data = {
-	water: [100, 95, 0, 17, 56, 23, 86],
-	running: [32, 53, 100, 2, 36, 94, 28],
-	reading: [0, 100, 100, 95, 25, 5, 78],
-};
+import { useSelector } from "react-redux";
+import moment from "moment";
 
 ChartJS.register(
 	CategoryScale,
@@ -51,51 +48,54 @@ const options = {
 			color: "#e3e9ee",
 		},
 	},
-};
-
-const labels = [
-	"Monday",
-	"Tuesday",
-	"Wednesday",
-	"Thursday",
-	"Friday",
-	"Saturday",
-	"Sunday",
-];
-
-const chartData = {
-	labels,
-	datasets: [
-		{
-			label: "drinking water",
-			data: labels.map((label, index) => data.water[index]),
-			borderColor: "rgb(19, 181, 122)",
-			backgroundColor: "rgba(19, 181, 122,.5)",
+	scales: {
+		y: {
+			suggestedMax: 10,
 		},
-		{
-			label: "running",
-			data: labels.map((label, index) => data.running[index]),
-			borderColor: "rgb(166, 84, 237)",
-			backgroundColor: "rgba(166, 84, 237,.5)",
-		},
-		{
-			label: "reading book",
-			data: labels.map((label, index) => data.reading[index]),
-			borderColor: "rgb(33, 146, 255)",
-			backgroundColor: "rgba(33, 146, 255,.5)",
-		},
-	],
+	},
 };
 
 const HabitsChart = () => {
+	const [chartData, setChartData] = useState({});
+
+	const habits = useSelector(state => state.habits.habits);
+
+	useEffect(() => {
+		if (habits.length > 0) {
+			const dayWeekAgo = moment().subtract(habits[0].days.length, "days");
+			const daysArray = Array.from({ length: habits[0].days.length }, (_, i) =>
+				moment().subtract(i, "days")
+			).filter(day => day.isAfter(dayWeekAgo));
+
+			const labels = daysArray?.map(day => day.format("dddd"));
+			const chartObj = {
+				labels,
+				datasets: habits.map(habit => {
+					return {
+						label: habit.name,
+						data: labels?.map((_, index) => parseInt(habit.days[index].ratio)),
+						borderColor: habit.color,
+						backgroundColor: habit.color,
+					};
+				}),
+			};
+			setChartData(chartObj);
+		}
+	}, [habits]);
+
 	return (
-		<div className={styles["chart-box"]}>
-			<Line
-				options={options}
-				data={chartData}
-				className={styles.chart}
-				aria-label='Complementation percentage chart'></Line>
-		</div>
+		<Fragment>
+			{Object.keys(chartData).length > 0 && (
+				<div className={styles["chart-box"]}>
+					<Line
+						options={options}
+						data={chartData}
+						className={styles.chart}
+						aria-label='Complementation percentage chart'
+					/>
+				</div>
+			)}
+		</Fragment>
 	);
 };
 

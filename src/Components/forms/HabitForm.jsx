@@ -15,6 +15,7 @@ const HabitForm = ({ showModal, modal, habitData }) => {
 	const { id } = useParams();
 	const dispatch = useDispatch();
 	const habits = useSelector(state => state.habits.habits);
+	const currentDate = moment().format("DD-MM-YYYY");
 
 	const [resetColor, setResetColor] = useState(false);
 	const [resetGoal, setResetGoal] = useState(false);
@@ -34,6 +35,7 @@ const HabitForm = ({ showModal, modal, habitData }) => {
 			habits.length > 0
 				? "habit-" + (parseInt(lastId.match(/\d+/)[0]) + 1)
 				: "habit-" + lastId;
+		const successToFailRatio = ((0 / data.goalAmount) * 100).toFixed(0);
 		const formData = {
 			name: data.habitName,
 			color: data.habitColor,
@@ -43,6 +45,7 @@ const HabitForm = ({ showModal, modal, habitData }) => {
 				unit: data.goalUnit,
 				frequency: data.goalFrequency,
 			},
+			days: [{ date: currentDate, ratio: successToFailRatio }],
 			id: habitId,
 		};
 
@@ -51,9 +54,12 @@ const HabitForm = ({ showModal, modal, habitData }) => {
 		resetFormHandler();
 	};
 
-
 	const updateHabitHandler = async data => {
 		const habitId = parseInt(id.match(/\d+/)[0]);
+		const successToFailRatio = (
+			(habits[habitId].goal.currentValue / data.goalAmount) *
+			100
+		).toFixed(0);
 		const formData = {
 			name: data.habitName,
 			color: data.habitColor,
@@ -63,6 +69,10 @@ const HabitForm = ({ showModal, modal, habitData }) => {
 				unit: data.goalUnit,
 				frequency: data.goalFrequency,
 			},
+			days: [
+				...habits[habitId].days.slice(0, -1),
+				{ date: currentDate, ratio: successToFailRatio },
+			],
 		};
 
 		await dispatch(updateHabit(formData, id));

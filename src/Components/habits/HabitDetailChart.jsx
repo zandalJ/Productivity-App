@@ -1,3 +1,4 @@
+import { useState, useEffect } from "react";
 import styles from "./HabitsDetailChart.module.scss";
 import {
 	Chart as ChartJS,
@@ -11,8 +12,7 @@ import {
 import { Bar } from "react-chartjs-2";
 import { useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
-
-const data = [100, 95, 40, 0, 63, 21, 100];
+import moment from "moment";
 
 ChartJS.register(
 	CategoryScale,
@@ -36,42 +36,56 @@ const options = {
 	},
 };
 
-const labels = [
-	"Monday",
-	"Tuesday",
-	"Wednesday",
-	"Thursday",
-	"Friday",
-	"Saturday",
-	"Sunday",
-];
-
 const HabitDetailChart = () => {
+	const [chartData, setChartData] = useState({});
+
 	const { id } = useParams();
 	const habits = useSelector(state => state.habits.habits);
 	const habitId = parseInt(id.match(/\d+/)[0]);
-	const habitColor = habits[habitId].color;
+
+	useEffect(() => {
+		if (habits.length > 0) {
+			const dayWeekAgo = moment().subtract(habits[0].days.length, "days");
+			const daysArray = Array.from({ length: habits[0].days.length }, (_, i) =>
+				moment().subtract(i, "days")
+			).filter(day => day.isAfter(dayWeekAgo));
+
+			const labels = daysArray?.map(day => day.format("dddd"));
+			const habit = habits[habitId];
+			const habitColor = habit.color;
+
+			const chartObj = {
+				labels,
+				datasets: [
+					{
+						data: labels.map((_, index) => parseInt(habit.days[index].ratio)),
+						borderColor: habitColor,
+						backgroundColor: habitColor,
+					},
+				],
+			};
+
+			console.log(chartObj);
+
+			setChartData(chartObj);
+		}
+	}, [habits]);
+
 	return (
 		<div className={styles["content-box"]}>
 			<div className={styles["text-box"]}>
 				<div className={styles["text-box__line"]}></div>
-				<p>Daily History</p>
+				<p>Daily History In Percentage</p>
 			</div>
-			<div className={styles["chart-box"]}>
-				<Bar
-					options={options}
-					data={{
-						labels,
-						datasets: [
-							{
-								data: labels.map((label, index) => data[index]),
-								backgroundColor: habitColor
-							},
-						],
-					}}
-					aria-label='Habit Detail Chart'
-				/>
-			</div>
+			{Object.keys(chartData).length > 0 && (
+				<div className={styles["chart-box"]}>
+					<Bar
+						options={options}
+						data={chartData}
+						aria-label='Habit Detail Chart'
+					/>
+				</div>
+			)}
 		</div>
 	);
 };

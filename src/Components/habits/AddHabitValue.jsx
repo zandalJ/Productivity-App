@@ -4,6 +4,7 @@ import Button from "../ui/Button";
 import { useParams } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { updateHabit } from "../../store/habits-actions";
+import moment from "moment";
 
 const AddHabitValue = ({ showModal }) => {
 	const dispatch = useDispatch();
@@ -20,9 +21,21 @@ const AddHabitValue = ({ showModal }) => {
 	const habit = habits[habitId];
 
 	const submitHandler = async data => {
+		const successToFailRatio = (
+			(data.habitValue / habit.goal.maxValue) *
+			100
+		).toFixed(0);
+		const currentDate = moment().format("DD-MM-YYYY");
+
 		const goalData = {
-			...habit.goal,
-			currentValue: data.habitValue,
+			goal: {
+				...habit.goal,
+				currentValue: data.habitValue,
+			},
+			days: [
+				...habit.days.slice(0, -1),
+				{ date: currentDate, ratio: successToFailRatio },
+			],
 		};
 		await dispatch(updateHabit(goalData, id, true));
 		showModal();
@@ -30,7 +43,7 @@ const AddHabitValue = ({ showModal }) => {
 
 	return (
 		<form onSubmit={handleSubmit(submitHandler)} className={styles.form}>
-			<div className={styles['form__input-box']}>
+			<div className={styles["form__input-box"]}>
 				<input
 					type='number'
 					{...register("habitValue", {
