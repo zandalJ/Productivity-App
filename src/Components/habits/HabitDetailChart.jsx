@@ -34,6 +34,12 @@ const options = {
 			display: false,
 		},
 	},
+	scales: {
+		y: {
+			suggestedMin: 0,
+			suggestedMax: 100,
+		},
+	},
 };
 
 const HabitDetailChart = () => {

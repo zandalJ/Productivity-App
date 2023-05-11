@@ -50,7 +50,8 @@ const options = {
 	},
 	scales: {
 		y: {
-			suggestedMax: 10,
+			suggestedMin: 0,
+			suggestedMax: 100,
 		},
 	},
 };
