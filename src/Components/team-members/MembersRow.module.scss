@@ -1,0 +1,24 @@
+.row {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	padding: 0.5rem 0;
+
+	@media (min-width: 768px) {
+		flex-direction: row;
+		padding: 0.5rem 0.5rem;
+	}
+}
+
+.header-cell {
+	p {
+		font-size: var(--medium-size);
+		font-weight: bold;
+	}
+
+	@media (min-width: 768px) {
+		p {
+			font-size: var(--normal-size);
+		}
+	}
+}

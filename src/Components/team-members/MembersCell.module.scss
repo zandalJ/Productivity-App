@@ -1,0 +1,17 @@
+.cell {
+	font-size: var(--small-size);
+
+	@media (min-width: 768px) {
+		width: calc(100% / 3);
+        font-size: var(--medium-size);
+	}
+}
+
+.first-cell-box{
+    display: flex;
+    align-items: center;
+
+    div{
+        margin: 0 .5rem;
+    }
+}
