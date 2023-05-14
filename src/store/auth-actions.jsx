@@ -3,7 +3,7 @@ import {
 	createUserWithEmailAndPassword,
 	signInWithEmailAndPassword,
 } from "firebase/auth";
-import { setDoc, doc } from "firebase/firestore";
+import { setDoc, doc, getDoc } from "firebase/firestore";
 import { db } from "../firebase";
 
 export const registerUser = (authData, auth) => {
@@ -69,6 +69,7 @@ export const fetchUserAuth = () => {
 				auth: false,
 			})
 		);
+		dispatch(fetchUserData(uid, loginState));
 	};
 };
 
@@ -81,4 +82,22 @@ export const setUserData = async (userData, uid) => {
 	} catch (err) {
 		console.log(err);
 	}
+};
+
+const fetchUserData = (uid, login) => {
+	return async dispatch => {
+		if (login) {
+			const ref = doc(db, "users", uid);
+			const docSnap = await getDoc(ref);
+			const data = docSnap.data();
+			dispatch(authActions.userDataHandler({ data: data }));
+		} else {
+			const anonymousData = {
+				name: "Anonymous",
+				nickname: "Anonymous",
+				teamMembers: [],
+			};
+			dispatch(authActions.userDataHandler({ data: anonymousData }));
+		}
+	};
 };

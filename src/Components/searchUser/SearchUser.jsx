@@ -99,13 +99,13 @@ const SearchUser = ({ className, addUsers, resetUsers, fetchedUsers }) => {
 
 	return (
 		<div className={`${styles.box} ${className ? className : null}`}>
-			<label>Add Collaborators</label>
-			<input
-				type='search'
-				placeholder='Search by name'
-				onChange={searchHandler}
-				value={searchText}
-			/>
+				<label>Add Collaborators</label>
+				<input
+					type='search'
+					placeholder='Search by name'
+					onChange={searchHandler}
+					value={searchText}
+				/>
 			<p className={styles["users-text"]}>Users</p>
 			{searchEl && <AddUser elements={items} addUsers={addUsersHandler} />}
 			{searchEl && (

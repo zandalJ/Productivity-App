@@ -1,6 +1,7 @@
 import styles from "./CreateFormModalContent.module.scss";
 import AddTaskForm from "../../forms/TaskForm";
 import AddHabitForm from "../../forms/HabitForm";
+import AddTeamMembersForm from "../../forms/TeamMembersForm";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { solid } from "@fortawesome/fontawesome-svg-core/import.macro";
 import Button from "../Button";
@@ -9,8 +10,24 @@ import { useLocation } from "react-router-dom";
 const CreateFormModalContent = ({ showModal, modal }) => {
 	const location = useLocation().pathname;
 
-	const titleText =
-		location === "/tasks" ? "Create New Task" : "Create New Habit";
+	let titleText;
+	let formOutput;
+	if (location === "/tasks") {
+		titleText = "Create New Task";
+		formOutput = (
+			<AddTaskForm showModal={showModal} modal={modal}>
+				<Button submit className={styles.btn}>
+					Add Task
+				</Button>
+			</AddTaskForm>
+		);
+	} else if (location === "/habits") {
+		titleText = "Create New Habit";
+		formOutput = <AddHabitForm showModal={showModal} modal={modal} />;
+	} else if (location === "/team-members") {
+		titleText = "Add New User";
+		formOutput = <AddTeamMembersForm showModal={showModal} modal={modal} />;
+	}
 
 	return (
 		<div className={styles["content-box"]}>
@@ -21,19 +38,7 @@ const CreateFormModalContent = ({ showModal, modal }) => {
 			/>
 			<h2 className={styles["heading-text"]}>{titleText}</h2>
 			<div className={styles.line}></div>
-			{location === "/tasks" ? (
-				<AddTaskForm showModal={showModal} modal={modal}>
-					<Button submit className={styles.btn}>
-						Add Task
-					</Button>
-				</AddTaskForm>
-			) : (
-				<AddHabitForm showModal={showModal} modal={modal}>
-					<Button submit className={styles.btn}>
-						Add Habit
-					</Button>
-				</AddHabitForm>
-			)}
+			{formOutput}
 		</div>
 	);
 };
