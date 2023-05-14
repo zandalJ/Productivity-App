@@ -1,21 +1,39 @@
 import styles from "./MembersTable.module.scss";
-import Checkbox from "../ui/Checkbox";
-import HorizontalLine from "../ui/HorizontalLine";
+import { useForm } from "react-hook-form";
 import MembersRow from "./MembersRow";
+import Button from "../ui/Button";
 
 const MembersTable = ({ members }) => {
+	const {
+		register,
+		handleSubmit,
+		formState: { errors },
+	} = useForm();
+
+	const submitHandler = data => {
+		console.log(data);
+	};
+
 	return (
-		<div className={styles.table}>
+		<form onSubmit={handleSubmit(submitHandler)} className={styles.table}>
 			<MembersRow headerRow />
-			<div className={styles["select-all-box"]}>
-				<Checkbox />
-				<p>Select all</p>
-			</div>
-			<HorizontalLine />
-			{members.map((member, index) => {
-				return <MembersRow userData={member} headerRow={false} key={index} />;
+			{members.map(member => {
+				return (
+					<MembersRow
+						userData={member}
+						headerRow={false}
+						register={register}
+						key={member.id}
+					/>
+				);
 			})}
-		</div>
+			{errors?.user && (
+				<p className={styles["error-message"]}>{errors?.user.message}</p>
+			)}
+			<Button submit className={styles.btn}>
+				Kick
+			</Button>
+		</form>
 	);
 };
 

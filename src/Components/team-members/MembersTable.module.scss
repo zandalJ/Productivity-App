@@ -24,20 +24,14 @@
 	margin-right: 0.5rem;
 }
 
-.select-all-box{
-    display: flex;
-    padding: 0.5rem 0;
+.btn{
+	background-color: var(--error-red);
+	width: fit-content;
+	margin-top: 2rem;
+}
 
-    p{
-        margin-left: .5rem;
-        font-size: var(--small-size);
-    }
-
-    @media(min-width:768px){
-        padding: 0.5rem 0.5rem;
-
-        p{
-            font-size: var(--medium-size);
-        }
-    }
+.error-message{
+	font-size: var(--normal-size);
+	color: var(--error-red);
+	margin-top: 1rem;
 }

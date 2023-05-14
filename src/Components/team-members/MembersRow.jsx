@@ -2,9 +2,8 @@ import { Fragment } from "react";
 import styles from "./MembersRow.module.scss";
 import MembersCell from "./MembersCell";
 import HorizontalLine from "../ui/HorizontalLine";
-import Checkbox from "../ui/Checkbox";
 
-const MembersRow = ({ userData, headerRow }) => {
+const MembersRow = ({ userData, headerRow, register }) => {
 	const fullName = !headerRow ? `${userData.name} ${userData.surname}` : null;
 
 	const rowData = !headerRow
@@ -16,6 +15,9 @@ const MembersRow = ({ userData, headerRow }) => {
 			<MembersCell
 				firstCell={!headerRow ? true : false}
 				data={rowData?.username || rowData[0]}
+				photoUrl={userData?.photoUrl}
+				userId={userData?.id}
+				register={register}
 				className={headerRow ? styles["header-cell"] : ""}
 			/>
 			<MembersCell
