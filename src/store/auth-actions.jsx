@@ -3,8 +3,24 @@ import {
 	createUserWithEmailAndPassword,
 	signInWithEmailAndPassword,
 } from "firebase/auth";
-import { setDoc, doc, getDoc } from "firebase/firestore";
+import {
+	setDoc,
+	doc,
+	getDoc,
+	arrayUnion,
+	updateDoc,
+	collection,
+	getDocs,
+} from "firebase/firestore";
 import { db } from "../firebase";
+
+const getDocSnap = async () => {
+	const uid = localStorage.getItem("uid");
+	const ref = doc(db, "users", uid);
+	const docSnap = await getDoc(ref);
+
+	return { ref, docSnap };
+};
 
 export const registerUser = (authData, auth) => {
 	return async dispatch => {
@@ -69,7 +85,7 @@ export const fetchUserAuth = () => {
 				auth: false,
 			})
 		);
-		dispatch(fetchUserData(uid, loginState));
+		dispatch(fetchUserData(loginState));
 	};
 };
 
@@ -84,11 +100,23 @@ export const setUserData = async (userData, uid) => {
 	}
 };
 
-const fetchUserData = (uid, login) => {
+export const changeUserData = changeData => {
+	return async dispatch => {
+		const { ref } = await getDocSnap();
+		await updateDoc(ref, {
+			teamMembers: arrayUnion(...changeData),
+		});
+
+		const loginState = JSON.parse(localStorage.getItem("isLoggedIn"));
+
+		dispatch(fetchUserData(loginState));
+	};
+};
+
+const fetchUserData = login => {
 	return async dispatch => {
 		if (login) {
-			const ref = doc(db, "users", uid);
-			const docSnap = await getDoc(ref);
+			const { docSnap } = await getDocSnap();
 			const data = docSnap.data();
 			dispatch(authActions.userDataHandler({ data: data }));
 		} else {
@@ -101,3 +129,18 @@ const fetchUserData = (uid, login) => {
 		}
 	};
 };
+
+export const getAllUsers = async () => {
+	const currentUid = localStorage.getItem("uid");
+	const querySnapshot = await getDocs(collection(db, "users"));
+	const usersArray = [];
+	querySnapshot.forEach(doc => {
+		const { name, surname, nickname, email, teamMembers, uid } = doc.data();
+		if (uid !== currentUid) {
+			usersArray.push({ name, surname, nickname, email, teamMembers, id: uid });
+		}
+	});
+	return usersArray;
+};
+
+

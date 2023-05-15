@@ -4,30 +4,30 @@ import AddUser from "./AddUser";
 import { ElementsPagination } from "../pagination/Pagination";
 import AddedUsers from "./AddedUsers";
 import usePagination from "../../hooks/usePagination";
-
-const DUMMY_USERS = [
-	{ name: "Fabian", mail: "mail@mail.com", id: "user1" },
-	{ name: "Arek", mail: "mail@mail.com", id: "user2" },
-	{ name: "Lena", mail: "mail@mail.com", id: "user3" },
-	{ name: "Tomek", mail: "mail@mail.com", id: "user4" },
-	{ name: "Fabian", mail: "mail@mail.com", id: "user5" },
-	{ name: "Tomek", mail: "mail@mail.com", id: "user6" },
-	{ name: "Dariusz", mail: "mail@mail.com", id: "user7" },
-	{ name: "Darek", mail: "mail@mail.com", id: "user8" },
-];
+import { getAllUsers } from "../../store/auth-actions";
 
 const SearchUser = ({ className, addUsers, resetUsers, fetchedUsers }) => {
+	const [users, setUsers] = useState([]);
 	const [searchText, setSearchText] = useState("");
 	const [searchEl, setSearchEl] = useState([]);
 	const [addedUsers, setAddedUsers] = useState(fetchedUsers);
 
 	useEffect(() => {
+		const userHandler = async () => {
+			const usersArray = await getAllUsers();
+			setUsers(usersArray);
+		};
+
+		userHandler();
+	}, []);
+
+	useEffect(() => {
 		if (resetUsers) {
-			setSearchEl(DUMMY_USERS);
+			setSearchEl(users);
 			setAddedUsers([]);
 			setSearchText("");
 		}
-	}, [resetUsers]);
+	}, [resetUsers, users]);
 
 	const checkUsers = useCallback(
 		user => {
@@ -44,11 +44,11 @@ const SearchUser = ({ className, addUsers, resetUsers, fetchedUsers }) => {
 	);
 
 	useEffect(() => {
-		const outputUsers = DUMMY_USERS.filter(user => {
+		const outputUsers = users.filter(user => {
 			return checkUsers(user);
 		});
 		setSearchEl(outputUsers);
-	}, [checkUsers]);
+	}, [checkUsers, users]);
 
 	const itemsPerPage = 4;
 
@@ -56,7 +56,7 @@ const SearchUser = ({ className, addUsers, resetUsers, fetchedUsers }) => {
 
 	const searchHandler = e => {
 		const inputText = e.target.value.toLowerCase();
-		const outputEl = DUMMY_USERS.filter(user => {
+		const outputEl = users.filter(user => {
 			return user.name.toLowerCase().includes(inputText) && checkUsers(user);
 		});
 		setSearchEl(outputEl);
@@ -65,7 +65,7 @@ const SearchUser = ({ className, addUsers, resetUsers, fetchedUsers }) => {
 
 	const addUsersHandler = arr => {
 		setSearchEl(searchEl.filter(el => el.id !== arr[0]));
-		DUMMY_USERS.forEach(user => {
+		users.forEach(user => {
 			arr.forEach(el => {
 				if (user.id === el) {
 					setAddedUsers(oldArray => [...oldArray, user]);
@@ -80,7 +80,7 @@ const SearchUser = ({ className, addUsers, resetUsers, fetchedUsers }) => {
 			? e.target
 			: e.target.closest("[data-id]");
 		setAddedUsers(addedUsers.filter(el => el.id !== user.dataset.id));
-		const outputEl = DUMMY_USERS.find(el => {
+		const outputEl = users.find(el => {
 			return (
 				el.name.toLowerCase().includes(searchText) && el.id === user.dataset.id
 			);
@@ -99,13 +99,13 @@ const SearchUser = ({ className, addUsers, resetUsers, fetchedUsers }) => {
 
 	return (
 		<div className={`${styles.box} ${className ? className : null}`}>
-				<label>Add Collaborators</label>
-				<input
-					type='search'
-					placeholder='Search by name'
-					onChange={searchHandler}
-					value={searchText}
-				/>
+			<label>Add Collaborators</label>
+			<input
+				type='search'
+				placeholder='Search by name'
+				onChange={searchHandler}
+				value={searchText}
+			/>
 			<p className={styles["users-text"]}>Users</p>
 			{searchEl && <AddUser elements={items} addUsers={addUsersHandler} />}
 			{searchEl && (

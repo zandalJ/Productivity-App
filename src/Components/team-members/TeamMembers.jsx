@@ -1,4 +1,6 @@
+import { Fragment } from "react";
 import MembersTable from "./MembersTable";
+import { useSelector } from "react-redux";
 
 const DUMMY_DATA = [
 	{
@@ -76,7 +78,15 @@ const DUMMY_DATA = [
 ];
 
 const TeamMembers = () => {
-	return <MembersTable members={DUMMY_DATA} />;
+	const teamMembers = useSelector(state => state.auth.userData).teamMembers;
+
+	return (
+		<Fragment>
+			{teamMembers && (
+				<MembersTable members={teamMembers} />
+			)}
+		</Fragment>
+	);
 };
 
 export default TeamMembers;

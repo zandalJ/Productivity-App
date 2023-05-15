@@ -7,7 +7,7 @@ const MembersRow = ({ userData, headerRow, register }) => {
 	const fullName = !headerRow ? `${userData.name} ${userData.surname}` : null;
 
 	const rowData = !headerRow
-		? [userData.nickname, fullName, userData.mail]
+		? [userData.nickname, fullName, userData.email]
 		: ["Nickname", "Name", "Mail"];
 
 	let output = (
@@ -25,7 +25,7 @@ const MembersRow = ({ userData, headerRow, register }) => {
 				className={headerRow ? styles["header-cell"] : ""}
 			/>
 			<MembersCell
-				data={rowData?.mail || rowData[2]}
+				data={rowData?.email || rowData[2]}
 				className={headerRow ? styles["header-cell"] : ""}
 			/>
 		</Fragment>

@@ -1,33 +1,39 @@
 import { useState, useCallback, useEffect } from "react";
 import styles from "./TeamMembersForm.module.scss";
-import { useForm } from "react-hook-form";
 import SearchUser from "../searchUser/SearchUser";
 import Button from "../ui/Button";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { changeUserData, getAllUsers } from "../../store/auth-actions";
 
 const TeamMembersForm = ({ showModal, modal }) => {
+	const dispatch = useDispatch();
+
 	const [selectedUsers, setSelectedUsers] = useState([]);
 	const [resetUsers, setResetUsers] = useState(false);
 
 	const userData = useSelector(state => state.auth.userData);
 
-	const {
-		register,
-		formState: { errors },
-		handleSubmit,
-		reset,
-	} = useForm();
-
 	const addUserHandler = useCallback(user => {
 		setSelectedUsers([...user]);
 	}, []);
 
-	const submitHandler = data => {
+	const submitHandler = () => {
+		const data = selectedUsers;
 		console.log(data);
+		dispatch(changeUserData(data));
 	};
 
+	useEffect(() => {
+		const userHandler = async () => {
+			const testArr = await getAllUsers();
+			console.log(testArr);
+		};
+
+		userHandler();
+	}, []);
+
 	return (
-		<form onSubmit={handleSubmit(submitHandler)}>
+		<form onSubmit={submitHandler}>
 			<SearchUser
 				className={styles["team-members"]}
 				fetchedUsers={userData.teamMembers || []}
