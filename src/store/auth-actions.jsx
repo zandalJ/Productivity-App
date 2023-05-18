@@ -157,9 +157,18 @@ export const getAllUsers = async () => {
 	const querySnapshot = await getDocs(collection(db, "users"));
 	const usersArray = [];
 	querySnapshot.forEach(doc => {
-		const { name, surname, nickname, email, teamMembers, uid } = doc.data();
+		const { name, surname, nickname, email, teamMembers, uid, avatarUrl } =
+			doc.data();
 		if (uid !== currentUid) {
-			usersArray.push({ name, surname, nickname, email, teamMembers, id: uid });
+			usersArray.push({
+				name,
+				surname,
+				nickname,
+				email,
+				teamMembers,
+				id: uid,
+				avatarUrl,
+			});
 		}
 	});
 	return usersArray;

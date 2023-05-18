@@ -1,4 +1,4 @@
-import { useCallback, useEffect,useState, Fragment } from "react";
+import { useCallback, useEffect, useState, Fragment } from "react";
 import styles from "./AuthForm.module.scss";
 import { useDispatch } from "react-redux";
 import { useLocation, useNavigate, Link } from "react-router-dom";
@@ -8,6 +8,7 @@ import Button from "../ui/Button";
 import { regex } from "../../constants/regex";
 import { auth } from "../../firebase";
 import { registerUser, loginUser } from "../../store/auth-actions";
+import anonymousAvatar from "../../img/anonymous-avatar.png";
 
 const AuthForm = () => {
 	const location = useLocation();
@@ -17,8 +18,8 @@ const AuthForm = () => {
 	const navigate = useNavigate();
 	const dispatch = useDispatch();
 
-	const [loginError, setLoginError] = useState(null)
-	const [registerError, setRegisterError] = useState(null)
+	const [loginError, setLoginError] = useState(null);
+	const [registerError, setRegisterError] = useState(null);
 
 	const {
 		register,
@@ -93,13 +94,14 @@ const AuthForm = () => {
 				returnSecureToken: true,
 				teamMembers: [],
 				teams: [],
+				avatarUrl: anonymousAvatar,
 			};
 			if (registerPage) {
 				try {
 					await dispatch(registerUser(authData, auth));
 					navigate("/login");
 				} catch (error) {
-					setRegisterError(error)
+					setRegisterError(error);
 				}
 			} else {
 				try {
@@ -112,7 +114,7 @@ const AuthForm = () => {
 					);
 					navigate("/");
 				} catch (error) {
-					setLoginError(error)
+					setLoginError(error);
 				}
 			}
 		},

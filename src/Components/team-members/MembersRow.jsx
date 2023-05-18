@@ -15,7 +15,7 @@ const MembersRow = ({ userData, headerRow, register }) => {
 			<MembersCell
 				firstCell={!headerRow ? true : false}
 				data={rowData?.username || rowData[0]}
-				photoUrl={userData?.photoUrl}
+				photoUrl={userData?.avatarUrl}
 				userId={userData?.id}
 				register={register}
 				className={headerRow ? styles["header-cell"] : ""}
