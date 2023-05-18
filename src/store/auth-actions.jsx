@@ -113,6 +113,28 @@ export const changeUserData = changeData => {
 	};
 };
 
+export const deleteTeamMembers = membersId => {
+	return async dispatch => {
+		const { ref, docSnap } = await getDocSnap();
+		const teamMembers = docSnap.data().teamMembers;
+		const updatedMembers = teamMembers.filter(member => {
+			for (let i = 0; i < membersId.user.length; i++) {
+				if (member.id === membersId.user[i]) {
+					return false;
+				}
+			}
+			return true;
+		});
+
+		await updateDoc(ref, {
+			teamMembers: updatedMembers,
+		});
+
+		const loginState = JSON.parse(localStorage.getItem("isLoggedIn"));
+		dispatch(fetchUserData(loginState));
+	};
+};
+
 const fetchUserData = login => {
 	return async dispatch => {
 		if (login) {
@@ -142,5 +164,3 @@ export const getAllUsers = async () => {
 	});
 	return usersArray;
 };
-
-
