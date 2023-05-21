@@ -12,10 +12,13 @@ const MembersTable = ({ members }) => {
 		register,
 		handleSubmit,
 		formState: { errors },
+		reset
 	} = useForm();
 
 	const submitHandler = data => {
-		dispatch(deleteTeamMembers(data));
+		const deleteData = !Array.isArray(data.user) ? [data.user] : [...data.user];
+		dispatch(deleteTeamMembers(deleteData));
+		reset()
 	};
 
 	return (

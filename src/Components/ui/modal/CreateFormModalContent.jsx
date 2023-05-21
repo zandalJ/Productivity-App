@@ -26,7 +26,7 @@ const CreateFormModalContent = ({ showModal, modal }) => {
 		formOutput = <AddHabitForm showModal={showModal} modal={modal} />;
 	} else if (location === "/team-members") {
 		titleText = "Add New User";
-		formOutput = <AddTeamMembersForm showModal={showModal} />;
+		formOutput = <AddTeamMembersForm showModal={showModal} modal={modal} />;
 	}
 
 	return (

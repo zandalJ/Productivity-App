@@ -16,7 +16,7 @@ const MainLayout = () => {
 
 	useEffect(() => {
 		dispatch(fetchUserAuth());
-	}, [dispatch]);
+	}, [dispatch, loginState]);
 
 	useEffect(() => {
 		if (loginState) {

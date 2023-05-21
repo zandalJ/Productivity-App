@@ -118,8 +118,8 @@ export const deleteTeamMembers = membersId => {
 		const { ref, docSnap } = await getDocSnap();
 		const teamMembers = docSnap.data().teamMembers;
 		const updatedMembers = teamMembers.filter(member => {
-			for (let i = 0; i < membersId.user.length; i++) {
-				if (member.id === membersId.user[i]) {
+			for (let i = 0; i < teamMembers.length; i++) {
+				if (member.id === membersId[i]) {
 					return false;
 				}
 			}
