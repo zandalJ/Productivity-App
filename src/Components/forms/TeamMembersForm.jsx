@@ -1,16 +1,15 @@
-import { useState, useCallback, Fragment, useEffect } from "react";
+import { useState, useCallback, Fragment } from "react";
 import styles from "./TeamMembersForm.module.scss";
 import SearchUser from "../searchUser/SearchUser";
 import Button from "../ui/Button";
 import { useSelector, useDispatch } from "react-redux";
 import { changeUserData } from "../../store/auth-actions";
 
-const TeamMembersForm = ({ showModal, modal }) => {
+const TeamMembersForm = ({ showModal }) => {
 	const dispatch = useDispatch();
-	const userData = useSelector(state => state.auth.userData);
+	const userData = useSelector(state => state.auth.userData).teamMembers;
 
 	const [selectedUsers, setSelectedUsers] = useState([]);
-	const [resetUsers, setResetUsers] = useState(false);
 
 	const addUserHandler = useCallback(user => {
 		setSelectedUsers([...user]);
@@ -20,23 +19,16 @@ const TeamMembersForm = ({ showModal, modal }) => {
 		const data = selectedUsers;
 		dispatch(changeUserData(data));
 		showModal();
-		setResetUsers(before => !before);
 	};
-
-	useEffect(() => {
-		if (!modal) setResetUsers(true);
-		if (modal) setResetUsers(false);
-	}, [modal]);
 
 	return (
 		<Fragment>
-			{userData.teamMembers && (
+			{userData && (
 				<form onSubmit={submitHandler}>
 					<SearchUser
 						className={styles["team-members"]}
-						fetchedUsers={userData.teamMembers || []}
 						addUsers={addUserHandler}
-						resetUsers={resetUsers}
+						fetchedUsers={userData || []}
 					/>
 					<Button submit>Add Users</Button>
 				</form>

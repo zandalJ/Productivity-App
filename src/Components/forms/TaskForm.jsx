@@ -20,7 +20,7 @@ const TaskForm = ({ showModal, modal, submitChange, children }) => {
 	const dispatch = useDispatch();
 	const tasks = useSelector(state => state.tasks.tasks);
 	const [task] = useState(id ? tasks[parseInt(id.replace(/\D/g, ""))] : {});
-
+	
 	const [selectedUsers, setSelectedUsers] = useState([]);
 	const [resetUsers, setResetUsers] = useState(false);
 	const [dateDefaultValue, setDateDefaultValue] = useState(
