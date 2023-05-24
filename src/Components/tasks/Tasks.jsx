@@ -6,6 +6,7 @@ import useWidth from "../../hooks/useWidth";
 import usePagination from "../../hooks/usePagination";
 import { useSelector } from "react-redux";
 import moment from "moment";
+import NoDataInfo from "../ui/NoDataInfo";
 
 const Tasks = () => {
 	const [filteredTasks, setFilteredTasks] = useState([]);
@@ -77,7 +78,7 @@ const Tasks = () => {
 					</div>
 				</Fragment>
 			) : (
-				<p className={styles["bottom-text"]}>You have no tasks created.</p>
+				<NoDataInfo message='You have no tasks created.' />
 			)}
 		</div>
 	);

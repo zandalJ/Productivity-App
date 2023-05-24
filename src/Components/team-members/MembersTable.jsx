@@ -4,6 +4,7 @@ import MembersRow from "./MembersRow";
 import Button from "../ui/Button";
 import { deleteTeamMembers } from "../../store/auth-actions";
 import { useDispatch } from "react-redux";
+import NoDataInfo from "../ui/NoDataInfo";
 
 const MembersTable = ({ members }) => {
 	const dispatch = useDispatch();
@@ -12,13 +13,13 @@ const MembersTable = ({ members }) => {
 		register,
 		handleSubmit,
 		formState: { errors },
-		reset
+		reset,
 	} = useForm();
 
 	const submitHandler = data => {
 		const deleteData = !Array.isArray(data.user) ? [data.user] : [...data.user];
 		dispatch(deleteTeamMembers(deleteData));
-		reset()
+		reset();
 	};
 
 	return (
@@ -36,7 +37,7 @@ const MembersTable = ({ members }) => {
 					);
 				})
 			) : (
-				<p className={styles["no-user-text"]}>No users data</p>
+				<NoDataInfo message='No users data.' />
 			)}
 			{errors?.user && (
 				<p className={styles["error-message"]}>{errors?.user.message}</p>

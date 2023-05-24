@@ -1,9 +1,10 @@
-import { useEffect } from "react";
+import { useEffect, Fragment } from "react";
 import styles from "./Habits.module.scss";
 import Habit from "./Habit";
 import { useSelector, useDispatch } from "react-redux";
 import moment from "moment";
 import { addHabitsToNewDay } from "../../store/habits-actions";
+import NoDataInfo from "../ui/NoDataInfo";
 
 const Habits = () => {
 	const dispatch = useDispatch();
@@ -22,9 +23,15 @@ const Habits = () => {
 
 	return (
 		<div className={styles.box}>
-			{habits.map((habit, index) => {
-				return <Habit data={habit} key={index} />;
-			})}
+			{habits.length > 0 ? (
+				<Fragment>
+					{habits.map((habit, index) => {
+						return <Habit data={habit} key={index} />;
+					})}{" "}
+				</Fragment>
+			) : (
+				<NoDataInfo message="You have no habits created."/>
+			)}
 		</div>
 	);
 };
