@@ -5,12 +5,15 @@ import { ElementsPagination } from "../pagination/Pagination";
 import AddedUsers from "./AddedUsers";
 import usePagination from "../../hooks/usePagination";
 import { getAllUsers } from "../../store/auth-actions";
+import { useLocation } from "react-router-dom";
 
 const SearchUser = ({ className, addUsers, resetUsers, fetchedUsers }) => {
 	const [users, setUsers] = useState([]);
 	const [searchText, setSearchText] = useState("");
 	const [searchEl, setSearchEl] = useState([]);
 	const [addedUsers, setAddedUsers] = useState(fetchedUsers);
+
+	const location = useLocation();
 
 	useEffect(() => {
 		const userHandler = async () => {
@@ -20,6 +23,12 @@ const SearchUser = ({ className, addUsers, resetUsers, fetchedUsers }) => {
 
 		userHandler();
 	}, []);
+
+	useEffect(() => {
+		if (location.pathname === "/team-members") {
+			setAddedUsers(fetchedUsers);
+		}
+	}, [fetchedUsers, location.pathname]);
 
 	useEffect(() => {
 		if (resetUsers) {
