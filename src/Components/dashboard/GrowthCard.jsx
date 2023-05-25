@@ -2,7 +2,7 @@ import { Fragment, useEffect, useState } from "react";
 import styles from "./GrowthCard.module.scss";
 import Card from "../ui/Card";
 import { useDispatch } from "react-redux";
-import { getLastWeekTaskInfo } from "../../store/tasks-actions";
+import { getTasksHabitsInfo } from "../../store/tasks-actions";
 const GrowthCard = ({ title, color }) => {
 	const initialTasksObject = {
 		taskCompleted: {
@@ -24,7 +24,7 @@ const GrowthCard = ({ title, color }) => {
 
 	useEffect(() => {
 		const getTasksData = async () => {
-			setTasksData(await dispatch(getLastWeekTaskInfo()));
+			setTasksData(await dispatch(getTasksHabitsInfo()));
 			setDataFetched(true);
 		};
 

@@ -78,7 +78,7 @@ export const updateTask = (data, taskId) => {
 	};
 };
 
-export const getLastWeekTaskInfo = () => {
+export const getTasksHabitsInfo = () => {
 	return async dispatch => {
 		const { docSnap } = await getDocSnap();
 		const today = moment();
@@ -100,9 +100,12 @@ export const getLastWeekTaskInfo = () => {
 		let currentWeekCompletedTasks = [];
 		let lastWeekTasks = [];
 		let lastWeekCompletedTasks = [];
+		let allTasks = [];
+		let allCompletedTasks = [];
 
 		if (docSnap.exists()) {
 			const tasks = await docSnap.data().tasks;
+			allTasks = [...tasks];
 			tasks.forEach(task => {
 				const serializedCreateTimestamp = moment(
 					task.createDate.toDate().toISOString()
@@ -115,6 +118,10 @@ export const getLastWeekTaskInfo = () => {
 					serializedCreateTimestamp < past7DaysDate
 				) {
 					lastWeekTasks.push(task);
+				}
+
+				if (task.status === "completed") {
+					allCompletedTasks.push(task);
 				}
 			});
 		}
@@ -163,6 +170,8 @@ export const getLastWeekTaskInfo = () => {
 				count: currentWeekTasks.length,
 				percentage: newTaskPercentageHandler(),
 			},
+			allTasks,
+			allCompletedTasks,
 		};
 	};
 };

@@ -18,37 +18,23 @@ const Dashboard = () => {
 				</section>
 			</LayoutHeaderWrapper>
 			<LayoutBottomWrapper>
-					<section className={`${styles.stats} ${styles.section}`}>
-						<h2 className={styles.subheading}>Tasks & Habits</h2>
-						<Stats title='All Tasks' icon={solid("infinity")} color='blue' />
-						<Stats
-							title='Completed Tasks'
-							icon={solid("check")}
-							color='purple'
-						/>
-						<Stats
-							title='New Tasks'
-							icon={solid("square-plus")}
-							color='green'
-						/>
-						<Stats
-							title='Habbits Streak'
-							icon={solid("fire-flame-curved")}
-							color='blue'
-						/>
-					</section>
-					<section className={`${styles.members} ${styles.section}`}>
-						<h2 className={styles.subheading}>Team Members</h2>
-						<Card className={styles["members__box"]}>
-							<Members />
-							<Members />
-							<Members />
-							<Members />
-							<Members />
-							<Members />
-							<Members />
-						</Card>
-					</section>
+				<section className={`${styles.stats} ${styles.section}`}>
+					<h2 className={styles.subheading}>Tasks & Habits</h2>
+					<Stats title='All Tasks' icon={solid("infinity")} color='blue' />
+					<Stats title='Completed Tasks' icon={solid("check")} color='purple' />
+					<Stats title='New Tasks' icon={solid("square-plus")} color='green' />
+					<Stats
+						title='Habbits Streak'
+						icon={solid("fire-flame-curved")}
+						color='blue'
+					/>
+				</section>
+				<section className={`${styles.members} ${styles.section}`}>
+					<h2 className={styles.subheading}>Team Members</h2>
+					<Card className={styles["members__box"]}>
+						<Members />
+					</Card>
+				</section>
 			</LayoutBottomWrapper>
 		</Fragment>
 	);
