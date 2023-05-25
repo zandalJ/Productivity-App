@@ -61,7 +61,7 @@ export const fetchTasks = () => {
 export const updateTask = (data, taskId) => {
 	return async dispatch => {
 		const { ref, docSnap } = await getDocSnap();
-		const tasks = docSnap.data().tasks;
+		const tasks = await docSnap.data().tasks;
 		const updatedTasks = tasks.map(task => {
 			if (task.id === taskId) {
 				return { ...task, ...data };
@@ -75,5 +75,94 @@ export const updateTask = (data, taskId) => {
 		});
 
 		dispatch(fetchTasks());
+	};
+};
+
+export const getLastWeekTaskInfo = () => {
+	return async dispatch => {
+		const { docSnap } = await getDocSnap();
+		const today = moment();
+
+		const serializedCurrentTimestamp = moment(
+			today,
+			"ddd MMM DD YYYY HH:mm:ss [GMT]ZZ"
+		).format();
+
+		const past7DaysDate = moment(serializedCurrentTimestamp)
+			.subtract(7, "days")
+			.format();
+
+		const past14DaysDate = moment(serializedCurrentTimestamp)
+			.subtract(14, "days")
+			.format();
+
+		let currentWeekTasks = [];
+		let currentWeekCompletedTasks = [];
+		let lastWeekTasks = [];
+		let lastWeekCompletedTasks = [];
+
+		if (docSnap.exists()) {
+			const tasks = await docSnap.data().tasks;
+			tasks.forEach(task => {
+				const serializedCreateTimestamp = moment(
+					task.createDate.toDate().toISOString()
+				).format();
+
+				if (serializedCreateTimestamp >= past7DaysDate) {
+					currentWeekTasks.push(task);
+				} else if (
+					serializedCreateTimestamp >= past14DaysDate &&
+					serializedCreateTimestamp < past7DaysDate
+				) {
+					lastWeekTasks.push(task);
+				}
+			});
+		}
+
+		if (currentWeekTasks.length > 0) {
+			currentWeekTasks.forEach(task => {
+				if (task.status === "completed") {
+					currentWeekCompletedTasks.push(task);
+				}
+			});
+		}
+
+		if (lastWeekTasks.length > 0) {
+			lastWeekTasks.forEach(task => {
+				if (task.status === "completed") {
+					lastWeekCompletedTasks.push(task);
+				}
+			});
+		}
+
+		const newTaskPercentageHandler = () => {
+			if (lastWeekTasks.length > 0) {
+				const allTasks = currentWeekTasks.length + lastWeekTasks.length;
+				return (currentWeekTasks.length / allTasks) * 100;
+			} else {
+				return currentWeekTasks.length * 100;
+			}
+		};
+
+		const taskCompletedPercentageHandler = () => {
+			if (lastWeekCompletedTasks.length > 0) {
+				const allTasks =
+					currentWeekCompletedTasks.length + lastWeekCompletedTasks.length;
+				return (currentWeekCompletedTasks.length / allTasks) * 100;
+			} else {
+				return currentWeekCompletedTasks.length * 100;
+			}
+		};
+
+		return {
+			taskCompleted: {
+				count: currentWeekCompletedTasks.length,
+				percentage: taskCompletedPercentageHandler(),
+			},
+			newTasks: {
+				count: currentWeekTasks.length,
+				percentage: newTaskPercentageHandler(),
+			},
+		};
 	};
 };

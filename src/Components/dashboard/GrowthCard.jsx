@@ -1,23 +1,61 @@
-import styles from './GrowthCard.module.scss'
+import { Fragment, useEffect, useState } from "react";
+import styles from "./GrowthCard.module.scss";
 import Card from "../ui/Card";
-const GrowthCard = ({title, color}) => {
-    return (
-			<Card className={styles['growth-card']}>
-				<div className={styles["growth-card__header-box"]}>
-					<p
-						className={`${styles["growth-card__text"]} ${styles[`growth-card__text--${color}`]}`}>
-						{title}
+import { useDispatch } from "react-redux";
+import { getLastWeekTaskInfo } from "../../store/tasks-actions";
+const GrowthCard = ({ title, color }) => {
+	const initialTasksObject = {
+		taskCompleted: {
+			count: 0,
+			percentage: 0,
+		},
+		newTasks: {
+			count: 0,
+			percentage: 0,
+		},
+	};
+
+	const [tasksData, setTasksData] = useState(initialTasksObject);
+	const [dataFetched, setDataFetched] = useState(false);
+	const dispatch = useDispatch();
+
+	const objectPropertyName =
+		title === "Tasks Completed" ? "taskCompleted" : "newTasks";
+
+	useEffect(() => {
+		const getTasksData = async () => {
+			setTasksData(await dispatch(getLastWeekTaskInfo()));
+			setDataFetched(true);
+		};
+
+		getTasksData();
+	}, [dispatch]);
+
+	return (
+		<Fragment>
+			{dataFetched && (
+				<Card className={styles["growth-card"]}>
+					<div className={styles["growth-card__header-box"]}>
+						<p
+							className={`${styles["growth-card__text"]} ${
+								styles[`growth-card__text--${color}`]
+							}`}>
+							{title}
+						</p>
+						<p className={styles["growth-card__number-count"]}>
+							{tasksData[objectPropertyName].count}
+						</p>
+					</div>
+					<p className={styles["growth-card__description"]}>
+						<span className={styles["growth-card__description--percentage"]}>
+							{`+${tasksData[objectPropertyName].percentage}%`}
+						</span>
+						more from the last week
 					</p>
-					<p className={styles["growth-card__number-count"]}>18</p>
-				</div>
-				<p className={styles["growth-card__description"]}>
-					<span className={styles["growth-card__description--percentage"]}>
-						+10%
-					</span>
-					more from the last week
-				</p>
-			</Card>
-		);
-}
+				</Card>
+			)}
+		</Fragment>
+	);
+};
 
 export default GrowthCard;
