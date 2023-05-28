@@ -13,13 +13,13 @@ import {
 	getDocs,
 } from "firebase/firestore";
 import { db } from "../firebase";
+import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 
 const getDocSnap = async () => {
 	const uid = localStorage.getItem("uid");
 	const ref = doc(db, "users", uid);
 	const docSnap = await getDoc(ref);
-
-	return { ref, docSnap };
+	return { ref, docSnap, uid };
 };
 
 export const registerUser = (authData, auth) => {
@@ -91,10 +91,13 @@ export const fetchUserAuth = () => {
 
 export const setUserData = async (userData, uid) => {
 	try {
+		const storage = getStorage();
+		const storageRef = ref(storage, `/users/${uid}/avatarUrl`);
 		await setDoc(doc(db, "users", uid), {
 			...userData,
 			uid,
 		});
+		uploadBytes(storageRef, userData.avatarUrl);
 	} catch (err) {
 		console.log(err);
 	}
@@ -110,6 +113,16 @@ export const changeUserData = changeData => {
 		const loginState = JSON.parse(localStorage.getItem("isLoggedIn"));
 
 		dispatch(fetchUserData(loginState));
+	};
+};
+
+export const changeProfileImage = img => {
+	return async dispatch => {
+		const uid = localStorage.getItem("uid");
+		const storage = getStorage();
+		const storageRef = ref(storage, `/users/${uid}/avatarUrl`);
+		uploadBytes(storageRef, img);
+		fetchUserAvatar();
 	};
 };
 
@@ -135,12 +148,24 @@ export const deleteTeamMembers = membersId => {
 	};
 };
 
+const fetchUserAvatar = async () => {
+	const storage = getStorage();
+	const uid = localStorage.getItem("uid");
+	try {
+		const url = await getDownloadURL(ref(storage, `users/${uid}/avatarUrl`));
+		return url;
+	} catch (err) {
+		console.log(err);
+	}
+};
+
 const fetchUserData = login => {
 	return async dispatch => {
 		if (login) {
+			const avatarUrl = await fetchUserAvatar();
 			const { docSnap } = await getDocSnap();
 			const data = docSnap.data();
-			dispatch(authActions.userDataHandler({ data: data }));
+			dispatch(authActions.userDataHandler({ data: { ...data, avatarUrl } }));
 		} else {
 			const anonymousData = {
 				name: "Anonymous",

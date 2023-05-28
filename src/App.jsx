@@ -15,6 +15,8 @@ import RegisterPage from "./Pages/RegisterPage";
 import HabitsPage from "./Pages/HabitsPage";
 import HabitPage from "./Pages/HabitPage";
 import TeamMembersPage from "./Pages/TeamMembersPage";
+import ProfilePage from "./Pages/ProfilePage";
+import SettingsPage from './Pages/SettingsPage'
 import { LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterMoment } from "@mui/x-date-pickers/AdapterMoment";
 
@@ -31,6 +33,8 @@ function App() {
 				<Route path='/habits' element={<HabitsPage />} />
 				<Route path='/habits/:id' element={<HabitPage />} />
 				<Route path='/team-members' element={<TeamMembersPage />} />
+				<Route path='/profile' element={<ProfilePage />} />
+				<Route path='/settings' element={<SettingsPage />} />
 			</Route>
 		)
 	);

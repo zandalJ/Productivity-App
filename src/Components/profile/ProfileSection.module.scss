@@ -1,0 +1,22 @@
+.title{
+    position: relative;
+    font-size: 2.2rem;
+    margin-bottom: 2rem;
+
+    &::before{
+        content: "";
+        position: absolute;
+        left: -7.5px;
+        width: 1px;
+        height: 100%;
+        background-color: var(--main-color);
+    }
+
+    @media(min-width:768px){
+        font-size: var(--big-size);
+    }
+
+    @media(min-width:992px){
+        font-size: var(--large-size);
+    }
+}

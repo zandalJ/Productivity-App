@@ -3,6 +3,8 @@ import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { solid } from "@fortawesome/fontawesome-svg-core/import.macro";
 import { motion } from "framer-motion";
+import { useSelector, useDispatch } from "react-redux";
+import { logoutUser } from "../../store/auth-actions";
 
 const variants = {
 	open: {
@@ -20,6 +22,15 @@ const variants = {
 };
 
 const DropdownList = ({ isClicked }) => {
+	const dispatch = useDispatch();
+	const loginState = useSelector(state => state.auth.isLoggedIn);
+
+	const logoutUserHandler = () => {
+		if (loginState) {
+			dispatch(logoutUser());
+		}
+	};
+
 	return (
 		<motion.div
 			className={styles["items-box"]}
@@ -28,19 +39,19 @@ const DropdownList = ({ isClicked }) => {
 			variants={variants}>
 			<ul>
 				<li>
-					<Link to='#'>
+					<Link to='/profile'>
 						<FontAwesomeIcon icon={solid("user")} className={styles.icon} />
 						<span>Profile</span>
 					</Link>
 				</li>
 				<li>
-					<Link to='#'>
+					<Link to='/settings'>
 						<FontAwesomeIcon icon={solid("gear")} className={styles.icon} />
 						<span>Settings</span>
 					</Link>
 				</li>
 				<li>
-					<Link to='#'>
+					<Link to='/login' onClick={logoutUserHandler}>
 						<FontAwesomeIcon
 							icon={solid("arrow-right-from-bracket")}
 							className={styles.icon}
