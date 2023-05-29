@@ -1,9 +1,17 @@
 .box {
 	width: 100%;
-	margin-bottom: 1rem;
 	padding: 1rem;
+	margin-bottom: 1rem;
+	border: 1px solid var(--main-background-color);
 	border-radius: 6px;
-	border: 2px solid var(--main-background-color);
+
+	&__main-border {
+		border-color: var(--main-background-color);
+	}
+
+	&__sec-border {
+		border-color: var(--sec-background-color);
+	}
 
 	&:nth-last-of-type(1) {
 		margin: 0;

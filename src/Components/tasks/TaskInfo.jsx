@@ -1,5 +1,5 @@
 import styles from "./TaskInfo.module.scss";
-import TaskInfoBox from "./TaskInfoBox";
+import InfoBox from "../ui/InfoBox";
 import moment from "moment";
 import UserPhoto from "../ui/UserPhoto";
 import Button from "../ui/Button";
@@ -22,11 +22,11 @@ const TaskInfo = ({ data, changeEdit }) => {
 	});
 	return (
 		<div className={styles.info}>
-			<TaskInfoBox title='Title' data={data.title} />
+			<InfoBox title='Title' data={data.title} />
 			{data.description && (
-				<TaskInfoBox title='Description' data={data.description} />
+				<InfoBox title='Description' data={data.description} />
 			)}
-			<TaskInfoBox title='Deadline' data={deadline} />
+			<InfoBox title='Deadline' data={deadline} />
 			{data.members && (
 				<div className={styles["info__members-box"]}>
 					<p className={styles["info__members__title"]}>Members</p>

@@ -1,4 +1,4 @@
-import { Fragment, useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import styles from "./Profile.module.scss";
 import ProfileSection from "./ProfileSection";
 import { useSelector, useDispatch } from "react-redux";
@@ -9,6 +9,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { solid } from "@fortawesome/fontawesome-svg-core/import.macro";
 import { changeProfileImage } from "../../store/auth-actions";
 import { useNavigate } from "react-router-dom";
+import InfoBox from "../ui/InfoBox";
 
 const Profile = () => {
 	const [selectedImage, setSelectedImage] = useState(null);
@@ -35,7 +36,7 @@ const Profile = () => {
 	}, [selectedImage, dispatch, navigate]);
 
 	return (
-		<Fragment>
+		<div className={styles.box}>
 			<ProfileSection title='Your Profile'>
 				<div className={styles["profile-header"]}>
 					<div className={styles["profile-header__img-box"]}>
@@ -65,7 +66,19 @@ const Profile = () => {
 					</div>
 				</div>
 			</ProfileSection>
-		</Fragment>
+			<ProfileSection title='Profile Information'>
+				<div className={styles["profile-information"]}>
+					<InfoBox title='Email' data={userData.email} borderColor='sec' />
+					<InfoBox
+						title='Name'
+						data={`${userData.name} ${userData.surname}`}
+						borderColor='sec'
+					/>
+					<InfoBox title='Created at' data='12.01.2023' borderColor='sec' />
+					<InfoBox title='Last login' data='22.01.2023' borderColor='sec' />
+				</div>
+			</ProfileSection>
+		</div>
 	);
 };
 

@@ -1,4 +1,4 @@
-import TaskInfoBox from "./TaskInfoBox";
+import InfoBox from "../ui/InfoBox";
 import moment from "moment";
 
 const TaskDetailsInfo = ({ data }) => {
@@ -16,9 +16,9 @@ const TaskDetailsInfo = ({ data }) => {
 
 	return (
 		<div>
-			<TaskInfoBox title='Create date' data={createTime} />
-			<TaskInfoBox title='Last edit' data={updateTime} />
-			<TaskInfoBox title='Status' data={status} />
+			<InfoBox title='Create date' data={createTime} />
+			<InfoBox title='Last edit' data={updateTime} />
+			<InfoBox title='Status' data={status} />
 		</div>
 	);
 };

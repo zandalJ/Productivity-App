@@ -25,6 +25,10 @@
 		}
 	}
 
+	input {
+		width: 100%;
+	}
+
 	&--error {
 		input {
 			border-color: var(--error-red);
@@ -33,5 +37,17 @@
 
 	&--wrap {
 		width: 45%;
+	}
+}
+
+.icon-box {
+	position: relative;
+	svg{
+		position: absolute;
+		top: 50%;
+		right: 10px;
+		font-size: 1.5rem;
+		transform: translateY(-50%);
+		cursor: pointer;
 	}
 }

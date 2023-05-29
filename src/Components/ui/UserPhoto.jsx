@@ -1,6 +1,5 @@
 import styles from "./UserPhoto.module.scss";
 const UserPhoto = ({ href, size, className }) => {
-	console.log(href);
 	return (
 		<div
 			className={`${styles["photo-box"]} ${className ? className : ""}`}
