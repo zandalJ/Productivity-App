@@ -121,8 +121,10 @@ export const changeProfileImage = img => {
 		const uid = localStorage.getItem("uid");
 		const storage = getStorage();
 		const storageRef = ref(storage, `/users/${uid}/avatarUrl`);
-		uploadBytes(storageRef, img);
-		fetchUserAvatar();
+		await uploadBytes(storageRef, img);
+
+		const loginState = JSON.parse(localStorage.getItem("isLoggedIn"));
+		await dispatch(fetchUserData(loginState));
 	};
 };
 
@@ -152,8 +154,7 @@ const fetchUserAvatar = async () => {
 	const storage = getStorage();
 	const uid = localStorage.getItem("uid");
 	try {
-		const url = await getDownloadURL(ref(storage, `users/${uid}/avatarUrl`));
-		return url;
+		return await getDownloadURL(ref(storage, `users/${uid}/avatarUrl`));
 	} catch (err) {
 		console.log(err);
 	}
@@ -165,7 +166,9 @@ const fetchUserData = login => {
 			const avatarUrl = await fetchUserAvatar();
 			const { docSnap } = await getDocSnap();
 			const data = docSnap.data();
-			dispatch(authActions.userDataHandler({ data: { ...data, avatarUrl } }));
+			await dispatch(
+				authActions.userDataHandler({ data: { ...data, avatarUrl } })
+			);
 		} else {
 			const anonymousData = {
 				name: "Anonymous",
