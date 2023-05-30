@@ -6,7 +6,10 @@ import Button from "../ui/Button";
 import { motion } from "framer-motion";
 import ChangePasswordForm from "../forms/ChangePasswordForm";
 import EditProfileForm from "../forms/EditProfileForm";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { logoutUser } from "../../store/auth-actions";
+import { Link } from "react-router-dom";
+import { userAuthDataUpdate } from "../../store/auth-actions";
 
 const variants = {
 	left: {
@@ -18,9 +21,22 @@ const variants = {
 };
 
 const ProfileSettings = () => {
+	const dispatch = useDispatch();
+
 	const [activeBtnPosition, setActiveBtnPosition] = useState(true);
 
 	const userData = useSelector(state => state.auth.userData);
+	const loginState = useSelector(state => state.auth.isLoggedIn);
+
+	const logoutUserHandler = () => {
+		if (loginState) {
+			dispatch(logoutUser());
+		}
+	};
+
+	const deleteUserHandler = () => {
+		dispatch(userAuthDataUpdate({}, false, true));
+	};
 
 	return (
 		<div className={styles.box}>
@@ -53,8 +69,12 @@ const ProfileSettings = () => {
 			</ProfileSection>
 			<ProfileSection title='Account Management'>
 				<div className={styles["account-management"]}>
-					<BorderButton className={styles.btn}>Delete Account</BorderButton>
-					<Button>Logout</Button>
+					<Link to='/register' onClick={deleteUserHandler}>
+						<BorderButton className={styles.btn}>Delete Account</BorderButton>
+					</Link>
+					<Link to='/login' onClick={logoutUserHandler}>
+						<Button>Logout</Button>
+					</Link>
 				</div>
 			</ProfileSection>
 		</div>

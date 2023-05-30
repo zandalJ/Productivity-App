@@ -3,7 +3,7 @@ import styles from "./TeamMembersForm.module.scss";
 import SearchUser from "../searchUser/SearchUser";
 import Button from "../ui/Button";
 import { useSelector, useDispatch } from "react-redux";
-import { changeUserData } from "../../store/auth-actions";
+import { handleUserTeamMembers } from "../../store/auth-actions";
 
 const TeamMembersForm = ({ showModal }) => {
 	const dispatch = useDispatch();
@@ -17,7 +17,7 @@ const TeamMembersForm = ({ showModal }) => {
 
 	const submitHandler = () => {
 		const data = selectedUsers;
-		dispatch(changeUserData(data));
+		dispatch(handleUserTeamMembers(data));
 		showModal();
 	};
 

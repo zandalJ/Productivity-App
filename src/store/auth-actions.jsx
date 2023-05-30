@@ -11,9 +11,11 @@ import {
 	updateDoc,
 	collection,
 	getDocs,
+	deleteDoc,
 } from "firebase/firestore";
 import { db } from "../firebase";
 import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import { getAuth, updatePassword, deleteUser } from "firebase/auth";
 
 const getDocSnap = async () => {
 	const uid = localStorage.getItem("uid");
@@ -103,7 +105,7 @@ export const setUserData = async (userData, uid) => {
 	}
 };
 
-export const changeUserData = changeData => {
+export const handleUserTeamMembers = changeData => {
 	return async dispatch => {
 		const { ref } = await getDocSnap();
 		await updateDoc(ref, {
@@ -200,4 +202,50 @@ export const getAllUsers = async () => {
 		}
 	});
 	return usersArray;
+};
+
+export const userAuthDataUpdate = (
+	data,
+	password = false,
+	deleteAccount = false
+) => {
+	return async dispatch => {
+		const { ref } = await getDocSnap();
+		if (password || deleteAccount) {
+			const user = getAuth().currentUser;
+			if (password) {
+				updatePassword(user, data.password)
+					.then(() => {
+						console.log("ok");
+					})
+					.catch(error => {
+						console.log(error);
+					});
+				await updateDoc(ref, {
+					...data,
+				});
+			}
+			if (deleteAccount) {
+				deleteUser(user)
+					.then(() => {
+						console.log("deleted");
+					})
+					.catch(error => {
+						console.log(error);
+					});
+			}
+		} else {
+			await updateDoc(ref, {
+				...data,
+			});
+		}
+
+		if (!deleteAccount) {
+			const loginState = JSON.parse(localStorage.getItem("isLoggedIn"));
+			dispatch(fetchUserData(loginState));
+		} else {
+			logoutUser();
+			await deleteDoc(ref);
+		}
+	};
 };
