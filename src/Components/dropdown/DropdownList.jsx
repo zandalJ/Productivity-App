@@ -21,12 +21,13 @@ const variants = {
 	},
 };
 
-const DropdownList = ({ isClicked }) => {
+const DropdownList = ({ isClicked, handleClicked }) => {
 	const dispatch = useDispatch();
 	const loginState = useSelector(state => state.auth.isLoggedIn);
 
 	const logoutUserHandler = () => {
 		if (loginState) {
+			handleClicked()
 			dispatch(logoutUser());
 		}
 	};
@@ -39,13 +40,13 @@ const DropdownList = ({ isClicked }) => {
 			variants={variants}>
 			<ul>
 				<li>
-					<Link to='/profile'>
+					<Link to='/profile' onClick={handleClicked}>
 						<FontAwesomeIcon icon={solid("user")} className={styles.icon} />
 						<span>Profile</span>
 					</Link>
 				</li>
 				<li>
-					<Link to='/settings'>
+					<Link to='/settings' onClick={handleClicked}>
 						<FontAwesomeIcon icon={solid("gear")} className={styles.icon} />
 						<span>Settings</span>
 					</Link>

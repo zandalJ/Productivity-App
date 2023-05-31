@@ -24,7 +24,7 @@ const UserDropdown = () => {
 					className={styles.icon}
 				/>
 			</div>
-			<DropdownList isClicked={clicked} />
+			<DropdownList isClicked={clicked} handleClicked={handleClicked}/>
 		</Fragment>
 	);
 };

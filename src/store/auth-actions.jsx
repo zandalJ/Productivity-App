@@ -16,6 +16,7 @@ import {
 import { db } from "../firebase";
 import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { getAuth, updatePassword, deleteUser } from "firebase/auth";
+import anonymousAvatar from "../img/anonymous-avatar.png";
 
 const getDocSnap = async () => {
 	const uid = localStorage.getItem("uid");
@@ -172,10 +173,12 @@ const fetchUserData = login => {
 				authActions.userDataHandler({ data: { ...data, avatarUrl } })
 			);
 		} else {
+			
 			const anonymousData = {
 				name: "Anonymous",
 				nickname: "Anonymous",
 				teamMembers: [],
+				avatarUrl: anonymousAvatar,
 			};
 			dispatch(authActions.userDataHandler({ data: anonymousData }));
 		}
