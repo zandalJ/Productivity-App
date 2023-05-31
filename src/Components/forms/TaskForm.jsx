@@ -20,7 +20,7 @@ const TaskForm = ({ showModal, modal, submitChange, children }) => {
 	const dispatch = useDispatch();
 	const tasks = useSelector(state => state.tasks.tasks);
 	const [task] = useState(id ? tasks[parseInt(id.replace(/\D/g, ""))] : {});
-	
+
 	const [selectedUsers, setSelectedUsers] = useState([]);
 	const [resetUsers, setResetUsers] = useState(false);
 	const [dateDefaultValue, setDateDefaultValue] = useState(
@@ -35,10 +35,16 @@ const TaskForm = ({ showModal, modal, submitChange, children }) => {
 		reset,
 	} = useForm();
 
-	const addUserHandler = user => {
-		setSelectedUsers([...user]);
-	};
+	const resetFormHandler = useCallback(() => {
+		setResetUsers(before => !before);
+		setSelectedUsers([]);
+		setDateDefaultValue(moment());
+		reset();
+	}, [reset]);
 
+	const addUserHandler = useCallback(user => {
+		setSelectedUsers([...user]);
+	}, []);
 	const addTaskHandler = data => {
 		let lastId;
 		tasks.length > 0 ? (lastId = tasks[tasks.length - 1].id) : (lastId = 0);
@@ -46,7 +52,7 @@ const TaskForm = ({ showModal, modal, submitChange, children }) => {
 			tasks.length > 0
 				? "task-" + (parseInt(lastId.match(/\d+/)[0]) + 1)
 				: "task-" + lastId;
-		const formData = { 
+		const formData = {
 			title: data.taskTitle,
 			description: "" || data.taskDescription,
 			members: [...selectedUsers] || [],
@@ -70,20 +76,12 @@ const TaskForm = ({ showModal, modal, submitChange, children }) => {
 			updateDate: currentDate._d,
 			status: "progress",
 		};
-
-		await dispatch(updateTask(formData, id));
+		dispatch(updateTask(formData, id));
 		submitChange();
 	};
 
 	const submitHandler =
 		location.pathname === "/tasks" ? addTaskHandler : changeTaskHandler;
-
-	const resetFormHandler = useCallback(() => {
-		setResetUsers(before => !before);
-		setSelectedUsers([]);
-		setDateDefaultValue(moment());
-		reset();
-	}, [reset]);
 
 	useEffect(() => {
 		if (!modal) resetFormHandler();

@@ -47,6 +47,7 @@ const TasksFilter = () => {
 		setIsClicked(before => !before);
 	};
 
+
 	return (
 		<Fragment>
 			<div className={styles["filter-wrapper"]}>

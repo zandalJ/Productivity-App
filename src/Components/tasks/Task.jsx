@@ -29,7 +29,7 @@ const Task = ({ data }) => {
 		checkPercentage = timePercentageHandler();
 		if (checkPercentage >= 100) {
 			setTimePercentageLeft(100);
-			dispatch(updateTask({ status: "completed" }, data.id));
+			dispatch(updateTask({ status: "completed" }, data.id, true));
 		} else {
 			setTimePercentageLeft(checkPercentage);
 		}

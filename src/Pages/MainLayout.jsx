@@ -10,6 +10,7 @@ import { fetchTasks } from "../store/tasks-actions";
 import { fetchHabits } from "../store/habits-actions";
 import CreateFormModalContent from "../Components/ui/modal/CreateFormModalContent";
 import LoadingSpinner from "../Components/ui/LoadingSpinner";
+import { ToastContainer } from "react-toastify";
 
 const reducer = (state, action) => {
 	switch (action.type) {
@@ -86,6 +87,7 @@ const MainLayout = () => {
 						<Outlet />
 					</main>
 				</div>
+				<ToastContainer />
 			</div>
 		</Fragment>
 	);

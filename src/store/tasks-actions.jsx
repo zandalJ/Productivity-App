@@ -2,6 +2,7 @@ import { tasksActions } from "./tasks";
 import { doc, getDoc, setDoc, updateDoc, arrayUnion } from "firebase/firestore";
 import { db } from "../firebase";
 import moment from "moment";
+import { toastify } from "../constants/toastify";
 
 const getDocSnap = async () => {
 	const uid = localStorage.getItem("uid");
@@ -13,7 +14,6 @@ const getDocSnap = async () => {
 export const addTask = data => {
 	return async dispatch => {
 		const { ref, docSnap } = await getDocSnap();
-
 		if (!docSnap.exists()) {
 			await setDoc(ref, {
 				tasks: [data],
@@ -23,6 +23,7 @@ export const addTask = data => {
 				tasks: arrayUnion(data),
 			});
 		}
+		toastify("Task added successfully");
 
 		dispatch(fetchTasks());
 	};
@@ -31,7 +32,6 @@ export const addTask = data => {
 export const fetchTasks = () => {
 	return async dispatch => {
 		const { docSnap } = await getDocSnap();
-
 		if (docSnap.exists()) {
 			const data = docSnap.data().tasks;
 			if (docSnap.data().hasOwnProperty("tasks")) {
@@ -58,7 +58,7 @@ export const fetchTasks = () => {
 	};
 };
 
-export const updateTask = (data, taskId) => {
+export const updateTask = (data, taskId, single=false) => {
 	return async dispatch => {
 		const { ref, docSnap } = await getDocSnap();
 		const tasks = await docSnap.data().tasks;
@@ -69,12 +69,12 @@ export const updateTask = (data, taskId) => {
 				return task;
 			}
 		});
-
 		await updateDoc(ref, {
 			tasks: updatedTasks,
 		});
-
 		dispatch(fetchTasks());
+		if(!single) toastify("Task updated successfully");
+		
 	};
 };
 

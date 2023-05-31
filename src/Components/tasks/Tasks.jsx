@@ -7,7 +7,6 @@ import usePagination from "../../hooks/usePagination";
 import { useSelector } from "react-redux";
 import moment from "moment";
 import NoDataInfo from "../ui/NoDataInfo";
-import LoadingSpinner from "../ui/LoadingSpinner";
 
 const Tasks = () => {
 	const [filteredTasks, setFilteredTasks] = useState([]);
@@ -56,7 +55,6 @@ const Tasks = () => {
 	if (width >= 1400) {
 		elementsPerPage = 16;
 	}
-
 	const { pageHandler, items, countEl } = usePagination(
 		elementsPerPage,
 		displayedTasks

@@ -17,6 +17,7 @@ import { db } from "../firebase";
 import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { getAuth, updatePassword, deleteUser } from "firebase/auth";
 import anonymousAvatar from "../img/anonymous-avatar.png";
+import { toastify } from "../constants/toastify";
 
 const getDocSnap = async () => {
 	const uid = localStorage.getItem("uid");
@@ -34,6 +35,7 @@ export const registerUser = (authData, auth) => {
 				authData.password
 			);
 			setUserData(authData, userCredential.user.uid);
+			toastify("Registered successfully");
 			return Promise.resolve();
 		} catch (error) {
 			return Promise.reject(error.code);
@@ -57,6 +59,7 @@ export const loginUser = authData => {
 					uid: userCredential.user.uid,
 				})
 			);
+			toastify("Login successfully");
 			return Promise.resolve();
 		} catch (error) {
 			return Promise.reject(error.code);
@@ -74,6 +77,7 @@ export const logoutUser = () => {
 				uid: "",
 			})
 		);
+		toastify("Logged out");
 	};
 };
 
@@ -94,13 +98,10 @@ export const fetchUserAuth = () => {
 
 export const setUserData = async (userData, uid) => {
 	try {
-		const storage = getStorage();
-		const storageRef = ref(storage, `/users/${uid}/avatarUrl`);
 		await setDoc(doc(db, "users", uid), {
 			...userData,
 			uid,
 		});
-		uploadBytes(storageRef, userData.avatarUrl);
 	} catch (err) {
 		console.log(err);
 	}
@@ -116,6 +117,7 @@ export const handleUserTeamMembers = changeData => {
 		const loginState = JSON.parse(localStorage.getItem("isLoggedIn"));
 
 		dispatch(fetchUserData(loginState));
+		toastify("Added users");
 	};
 };
 
@@ -128,6 +130,7 @@ export const changeProfileImage = img => {
 
 		const loginState = JSON.parse(localStorage.getItem("isLoggedIn"));
 		await dispatch(fetchUserData(loginState));
+		toastify("Profile picture updated");
 	};
 };
 
@@ -150,6 +153,7 @@ export const deleteTeamMembers = membersId => {
 
 		const loginState = JSON.parse(localStorage.getItem("isLoggedIn"));
 		dispatch(fetchUserData(loginState));
+		toastify("Deleted team members");
 	};
 };
 
@@ -227,6 +231,7 @@ export const userAuthDataUpdate = (
 					await updateDoc(ref, {
 						...data,
 					});
+					toastify("Password updated");
 				}
 			}
 			if (deleteAccount) {
@@ -237,11 +242,13 @@ export const userAuthDataUpdate = (
 					.catch(error => {
 						console.log(error);
 					});
+				toastify("Account deleted");
 			}
 		} else {
 			await updateDoc(ref, {
 				...data,
 			});
+			toastify("Profile updated");
 		}
 
 		if (!deleteAccount) {
