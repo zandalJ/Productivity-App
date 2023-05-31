@@ -7,6 +7,7 @@ import usePagination from "../../hooks/usePagination";
 import { useSelector } from "react-redux";
 import moment from "moment";
 import NoDataInfo from "../ui/NoDataInfo";
+import LoadingSpinner from "../ui/LoadingSpinner";
 
 const Tasks = () => {
 	const [filteredTasks, setFilteredTasks] = useState([]);

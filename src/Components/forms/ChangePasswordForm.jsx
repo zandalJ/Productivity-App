@@ -16,14 +16,11 @@ const ChangePasswordForm = ({ userData }) => {
 	} = useForm();
 
 	const submitHandler = async data => {
-		try {
-			await dispatch(userAuthDataUpdate({ password: data.newPassword }, true));
-		} catch (error) {
-			setError("currentPassword", {
-				message:
-					"The last login was too long ago, log in again to change your password",
-			});
-		}
+		await dispatch(
+			userAuthDataUpdate({ password: data.newPassword }, true)
+		).catch(error => {
+			setError("currentPassword", { message: error });
+		});
 	};
 
 	return (

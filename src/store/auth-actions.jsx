@@ -173,7 +173,6 @@ const fetchUserData = login => {
 				authActions.userDataHandler({ data: { ...data, avatarUrl } })
 			);
 		} else {
-			
 			const anonymousData = {
 				name: "Anonymous",
 				nickname: "Anonymous",
@@ -217,16 +216,18 @@ export const userAuthDataUpdate = (
 		if (password || deleteAccount) {
 			const user = getAuth().currentUser;
 			if (password) {
-				updatePassword(user, data.password)
-					.then(() => {
-						console.log("ok");
-					})
-					.catch(error => {
-						console.log(error);
+				try {
+					await updatePassword(user, data.password);
+					return Promise.resolve();
+				} catch (error) {
+					return Promise.reject(
+						"The last login was too long ago, log in again to change your password"
+					);
+				} finally {
+					await updateDoc(ref, {
+						...data,
 					});
-				await updateDoc(ref, {
-					...data,
-				});
+				}
 			}
 			if (deleteAccount) {
 				deleteUser(user)
