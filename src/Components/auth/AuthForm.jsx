@@ -195,6 +195,7 @@ const AuthForm = () => {
 						maxLength: 25,
 					}}
 					errors={errors}
+					passwordInput
 				/>
 				{registerPage && (
 					<FormInput
@@ -211,6 +212,7 @@ const AuthForm = () => {
 							},
 						}}
 						errors={errors}
+						passwordInput
 					/>
 				)}
 				<Link
