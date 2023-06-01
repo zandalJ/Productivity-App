@@ -1,10 +1,10 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-const initiialState = { filter: "all", sort: "ca", isChanged:false};
+const initialState = { filter: "all", sort: "ca", isChanged:false};
 
 const filterSortingSlice = createSlice({
 	name: "filter sorting",
-	initialState: initiialState,
+	initialState: initialState,
 	reducers: {
 		filterChanger(state, action) {
 			state.filter = action.payload.filter 

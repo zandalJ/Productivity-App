@@ -2,6 +2,7 @@ import styles from "./CreateFormModalContent.module.scss";
 import AddTaskForm from "../../forms/TaskForm";
 import AddHabitForm from "../../forms/HabitForm";
 import AddTeamMembersForm from "../../forms/TeamMembersForm";
+import DeleteAccountConfirm from "../../profile/DeleteAccountConfirm";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { solid } from "@fortawesome/fontawesome-svg-core/import.macro";
 import Button from "../Button";
@@ -27,6 +28,9 @@ const CreateFormModalContent = ({ showModal, modal }) => {
 	} else if (location === "/team-members") {
 		titleText = "Add New User";
 		formOutput = <AddTeamMembersForm showModal={showModal} modal={modal} />;
+	} else if (location === "/settings") {
+		titleText = "Delete your account?";
+		formOutput = <DeleteAccountConfirm showModal={showModal} modal={modal} />;
 	}
 
 	return (

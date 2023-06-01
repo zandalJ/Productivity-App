@@ -251,12 +251,14 @@ export const userAuthDataUpdate = (
 			toastify("Profile updated");
 		}
 
-		if (!deleteAccount) {
+		if (deleteAccount) {
+			dispatch(logoutUser());
+			await deleteDoc(ref);
 			const loginState = JSON.parse(localStorage.getItem("isLoggedIn"));
 			dispatch(fetchUserData(loginState));
 		} else {
-			logoutUser();
-			await deleteDoc(ref);
+			const loginState = JSON.parse(localStorage.getItem("isLoggedIn"));
+			dispatch(fetchUserData(loginState));
 		}
 	};
 };

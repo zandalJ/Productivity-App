@@ -32,6 +32,7 @@ const reducer = (state, action) => {
 const MainLayout = () => {
 	const reduxDispatch = useDispatch();
 	const loginState = useSelector(state => state.auth.isLoggedIn);
+	const settingsModalState = useSelector(state => state.modal.openModal);
 
 	const [state, reducerDispatch] = useReducer(reducer, {
 		tasksHabitsLoading: true,
@@ -62,12 +63,21 @@ const MainLayout = () => {
 	const renderModal =
 		location === "/tasks" ||
 		location === "/habits" ||
-		location === "/team-members";
+		location === "/team-members" ||
+		location === "/settings";
 
 	const showModalHandler = () => setShowModal(before => !before);
 
-	if (state.tasksHabitsLoading || state.userAuthLoading)
-		return <LoadingSpinner main />;
+	useEffect(() => {
+		showModalHandler();
+	}, [settingsModalState]);
+
+	if (loginState) {
+		if (state.tasksHabitsLoading || state.userAuthLoading)
+			return <LoadingSpinner main />;
+	} else {
+		if (state.userAuthLoading) return <LoadingSpinner main />;
+	}
 
 	return (
 		<Fragment>

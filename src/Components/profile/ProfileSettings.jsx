@@ -10,6 +10,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { logoutUser } from "../../store/auth-actions";
 import { Link } from "react-router-dom";
 import { userAuthDataUpdate } from "../../store/auth-actions";
+import { modalSettingsActions } from "../../store/modal";
 
 const variants = {
 	left: {
@@ -35,7 +36,7 @@ const ProfileSettings = () => {
 	};
 
 	const deleteUserHandler = () => {
-		dispatch(userAuthDataUpdate({}, false, true));
+		dispatch(modalSettingsActions.modalStateToggler());
 	};
 
 	return (
@@ -69,7 +70,7 @@ const ProfileSettings = () => {
 			</ProfileSection>
 			<ProfileSection title='Account Management'>
 				<div className={styles["account-management"]}>
-					<Link to='/register' onClick={deleteUserHandler}>
+					<Link onClick={deleteUserHandler}>
 						<BorderButton className={styles.btn}>Delete Account</BorderButton>
 					</Link>
 					<Link to='/login' onClick={logoutUserHandler}>
