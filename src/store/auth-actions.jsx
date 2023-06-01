@@ -170,7 +170,7 @@ const fetchUserAvatar = async () => {
 const fetchUserData = login => {
 	return async dispatch => {
 		if (login) {
-			const avatarUrl = await fetchUserAvatar();
+			const avatarUrl = (await fetchUserAvatar()) || anonymousAvatar;
 			const { docSnap } = await getDocSnap();
 			const data = docSnap.data();
 			await dispatch(
