@@ -10,9 +10,11 @@ import { solid } from "@fortawesome/fontawesome-svg-core/import.macro";
 import { changeProfileImage } from "../../store/auth-actions";
 import { useNavigate } from "react-router-dom";
 import InfoBox from "../ui/InfoBox";
+import LoadingSpinner from "../ui/LoadingSpinner";
 
 const Profile = () => {
 	const [selectedImage, setSelectedImage] = useState(null);
+	const [isLoading, setIsLoading] = useState(false);
 
 	const dispatch = useDispatch();
 	const userData = useSelector(state => state.auth.userData);
@@ -22,11 +24,12 @@ const Profile = () => {
 	useEffect(() => {
 		const changeProfileImageHandler = async () => {
 			try {
+				setIsLoading(true);
 				await dispatch(changeProfileImage(selectedImage));
 			} catch (err) {
 				console.log(err);
 			} finally {
-				navigate(0);
+				setIsLoading(false);
 			}
 		};
 
@@ -34,6 +37,8 @@ const Profile = () => {
 			changeProfileImageHandler();
 		}
 	}, [selectedImage, dispatch, navigate]);
+
+	if (isLoading) return <LoadingSpinner />;
 
 	return (
 		<div className={styles.box}>

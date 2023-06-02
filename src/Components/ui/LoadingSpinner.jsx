@@ -1,11 +1,18 @@
+import { Fragment } from "react";
+import { createPortal } from "react-dom";
 import styles from "./LoadingSpinner.module.scss";
 import CircularProgress from "@mui/material/CircularProgress";
 
-const LoadingSpinner = ({ main = false }) => {
+const LoadingSpinner = () => {
 	return (
-		<div className={main ? `${styles.box} ${styles["box__main"]}` : styles.box}>
-			<CircularProgress />
-		</div>
+		<Fragment>
+			{createPortal(
+				<div className={styles.box}>
+					<CircularProgress />
+				</div>,
+				document.getElementById('spinner-root')
+			)}
+		</Fragment>
 	);
 };
 

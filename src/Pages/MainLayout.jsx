@@ -74,9 +74,9 @@ const MainLayout = () => {
 
 	if (loginState) {
 		if (state.tasksHabitsLoading || state.userAuthLoading)
-			return <LoadingSpinner main />;
+			return <LoadingSpinner />;
 	} else {
-		if (state.userAuthLoading) return <LoadingSpinner main />;
+		if (state.userAuthLoading) return <LoadingSpinner />;
 	}
 
 	return (

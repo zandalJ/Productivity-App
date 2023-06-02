@@ -1,3 +1,5 @@
+import { Fragment } from "react";
+import { createPortal } from "react-dom";
 import styles from "./Modal.module.scss";
 const Modal = ({ modal, showModal, children }) => {
 	const closeModalHandler = e => {
@@ -7,14 +9,19 @@ const Modal = ({ modal, showModal, children }) => {
 	};
 
 	return (
-		<div
-			className={`${styles.modal} ${
-				modal ? styles["modal--show"] : styles["modal--hidden"]
-			}`}
-			data-element='modal'
-			onClick={closeModalHandler}>
-			{children}
-		</div>
+		<Fragment>
+			{createPortal(
+				<div
+					className={`${styles.modal} ${
+						modal ? styles["modal--show"] : styles["modal--hidden"]
+					}`}
+					data-element='modal'
+					onClick={closeModalHandler}>
+					{children}
+				</div>,
+				document.getElementById("modal-root")
+			)}
+		</Fragment>
 	);
 };
 

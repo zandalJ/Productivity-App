@@ -17,7 +17,7 @@ const GrowthCard = ({ data, title, color }) => {
 				</div>
 				<p className={styles["growth-card__description"]}>
 					<span className={styles["growth-card__description--percentage"]}>
-						{`+${data.percentage}%`}
+						{`+${Math.round(data.percentage)}%`}
 					</span>
 					more from the last week
 				</p>

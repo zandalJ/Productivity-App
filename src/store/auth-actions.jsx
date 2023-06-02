@@ -130,7 +130,6 @@ export const changeProfileImage = img => {
 
 		const loginState = JSON.parse(localStorage.getItem("isLoggedIn"));
 		await dispatch(fetchUserData(loginState));
-		toastify("Profile picture updated");
 	};
 };
 
