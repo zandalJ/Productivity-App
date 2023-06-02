@@ -1,0 +1,27 @@
+.box {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+
+	h1 {
+		font-size: 2.2rem;
+		margin: 1rem 0 2rem 0;
+	}
+
+	img {
+		width: 75%;
+		height: 75%;
+	}
+
+	@media (min-width: 768px) {
+		h1 {
+			font-size: var(--big-size);
+		}
+	}
+
+	@media (min-width: 992px) {
+		h1 {
+			font-size: var(--large-size);
+		}
+	}
+}

@@ -3,12 +3,15 @@ import Button from "../ui/Button";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { solid } from "@fortawesome/fontawesome-svg-core/import.macro";
 import { userAuthDataUpdate } from "../../store/auth-actions";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
 const DeleteAccountConfirm = ({ showModal }) => {
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
+
+	const tasksCount = useSelector(state => state.tasks.tasks.length);
+	const habitsCount = useSelector(state => state.habits.habits.length);
 
 	const deleteAccountHandler = async () => {
 		await dispatch(userAuthDataUpdate({}, false, true));
@@ -26,9 +29,15 @@ const DeleteAccountConfirm = ({ showModal }) => {
 				<p className={styles["warning-box__heading"]}>Warning</p>
 				<p className={styles["warning-box__text"]}>
 					By deleting this account
-					<span className={styles["warning-box__text--bold"]}> 7 tasks </span>
+					<span className={styles["warning-box__text--bold"]}>
+						{" "}
+						{tasksCount} tasks{" "}
+					</span>
 					and
-					<span className={styles["warning-box__text--bold"]}> 4 habits </span>
+					<span className={styles["warning-box__text--bold"]}>
+						{" "}
+						{habitsCount} habits{" "}
+					</span>
 					will also be deleted.
 				</p>
 				<div className={styles["warning-box__icon"]}>

@@ -16,14 +16,15 @@ import HabitsPage from "./Pages/HabitsPage";
 import HabitPage from "./Pages/HabitPage";
 import TeamMembersPage from "./Pages/TeamMembersPage";
 import ProfilePage from "./Pages/ProfilePage";
-import SettingsPage from './Pages/SettingsPage'
+import SettingsPage from "./Pages/SettingsPage";
+import ErrorPage from "./Pages/ErrorPage";
 import { LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterMoment } from "@mui/x-date-pickers/AdapterMoment";
 
 function App() {
 	const router = createHashRouter(
 		createRoutesFromElements(
-			<Route path='/' element={<MainLayout />}>
+			<Route path='/' element={<MainLayout />} errorElement={<ErrorPage />}>
 				<Route index path='/' element={<HomePage />} />
 				<Route path='/dashboard' element={<DashboardPage />} />
 				<Route path='/tasks' element={<TasksPage />} />
