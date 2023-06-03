@@ -73,7 +73,6 @@ export const resetHabitValue = habitId => {
 	return async dispatch => {
 		const { ref, docSnap } = await getDocSnap();
 		const habits = docSnap.data().habits;
-		const currentDate = moment().format("DD-MM-YYYY");
 		const updatedHabits = habits.map(habit => {
 			if (habit.id === habitId) {
 				const resetDays = habit.days.map((day, index) => {

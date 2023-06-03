@@ -1,9 +1,7 @@
+import { useState, useEffect, Fragment, useCallback } from "react";
 import styles from "./HeadingText.module.scss";
-import { useState, useEffect, useCallback } from "react";
 import moment from "moment";
 import { useSelector } from "react-redux";
-
-let isInitial = true;
 
 const HeadingText = () => {
 	const userName = useSelector(state => state.auth.userData.name);
@@ -13,7 +11,7 @@ const HeadingText = () => {
 	const [weekDayName, setWeekDayName] = useState(moment().format("dddd"));
 	const [month, setMonth] = useState(moment().format("MMMM"));
 	const [monthDay, setMonthDay] = useState(moment().format("D"));
-	const [welcomeText, setWelcomeText] = useState("Hello");
+	const [welcomeText, setWelcomeText] = useState(null);
 
 	const newDayHandler = useCallback(() => {
 		const endOfDay = moment().endOf("day");
@@ -31,17 +29,16 @@ const HeadingText = () => {
 		}, timeToEndDay);
 	}, []);
 
-	const welcomeTextHandler = useCallback(hour => {
+	const welcomeTextHandler = hour => {
 		if (hour >= 6 && hour < 12) setWelcomeText("Good Morning");
 		else if (hour >= 12 && hour < 18) setWelcomeText("Good Afternoon");
 		else if (hour >= 18 && hour < 22) setWelcomeText("Good Evening");
 		else setWelcomeText("Good Night");
-	}, [])
+	};
 
 	const hoursHandler = useCallback(() => {
 		const currentHour = moment().format("HH");
-		welcomeTextHandler(currentHour);
-
+		welcomeTextHandler(+currentHour);
 		const endOfHour = moment().endOf("hour");
 		const timeToEndHour = endOfHour.diff(moment());
 
@@ -51,33 +48,29 @@ const HeadingText = () => {
 			setTimeout(() => {
 				setIsNewHour(false);
 			}, 1000);
-
 			const newHour = moment().add(1, "hour").startOf("hour").format("HH");
-			welcomeTextHandler(newHour);
+			welcomeTextHandler(+newHour);
 		}, timeToEndHour);
-	}, [welcomeTextHandler]);
+	}, []);
 
 	useEffect(() => {
-		if (isInitial) {
-			newDayHandler();
-			hoursHandler();
-			isInitial = false;
-		}
-
-		if (isNewDay) newDayHandler();
-
-		if (isNewHour) hoursHandler();
+		newDayHandler();
+		hoursHandler();
 	}, [newDayHandler, isNewDay, hoursHandler, isNewHour]);
 
 	return (
-		<div className={styles.box}>
-			<p>
-				{weekDayName}, {month} {monthDay}
-			</p>
-			<h1>
-				{welcomeText}, {userName}
-			</h1>
-		</div>
+		<Fragment>
+			{welcomeText && (
+				<div className={styles.box}>
+					<p>
+						{weekDayName}, {month} {monthDay}
+					</p>
+					<h1>
+						{welcomeText}, {userName}
+					</h1>
+				</div>
+			)}
+		</Fragment>
 	);
 };
 
