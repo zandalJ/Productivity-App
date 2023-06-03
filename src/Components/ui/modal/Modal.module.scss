@@ -5,7 +5,7 @@
 	right: 0;
 	bottom: 0;
 	z-index: 100;
-	background-color: rgb(189, 205, 214,.25);
+	background-color: rgb(189, 205, 214, 0.25);
 
 	&--show {
 		display: block;
@@ -13,5 +13,9 @@
 
 	&--hidden {
 		display: none;
+	}
+
+	&--higher {
+		z-index: 101;
 	}
 }

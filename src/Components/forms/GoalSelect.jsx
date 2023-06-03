@@ -99,7 +99,7 @@ const GoalSelect = ({
 					</p>
 				)}
 			</div>
-			<Modal showModal={showModalHandler} modal={showModal}>
+			<Modal showModal={showModalHandler} modal={showModal} top>
 				<div className={styles["units-box"]}>
 					<div className={styles["units-box__row"]}>
 						<button type='button' data-unit='m' onClick={unitHandler}>

@@ -49,7 +49,7 @@ const ColorSelect = ({ setValue, resetColor, control, defaultValue }) => {
 					)}
 				/>
 			</div>
-			<Modal showModal={showModalHandler} modal={showModal}>
+			<Modal showModal={showModalHandler} modal={showModal} top>
 				<div className={styles["color-pallete-box"]}>
 					<button
 						type='button'
