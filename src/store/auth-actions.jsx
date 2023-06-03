@@ -117,7 +117,8 @@ export const handleUserTeamMembers = changeData => {
 		const loginState = JSON.parse(localStorage.getItem("isLoggedIn"));
 
 		dispatch(fetchUserData(loginState));
-		toastify("Added users");
+		const toastifyText = changeData.length === 1 ? "Added user" : "Added users";
+		toastify(toastifyText);
 	};
 };
 
@@ -152,7 +153,9 @@ export const deleteTeamMembers = membersId => {
 
 		const loginState = JSON.parse(localStorage.getItem("isLoggedIn"));
 		dispatch(fetchUserData(loginState));
-		toastify("Deleted team members");
+		const toastifyText =
+			membersId.lentgh === 1 ? "Deleted team member" : "Deleted team members";
+		toastify(toastifyText);
 	};
 };
 

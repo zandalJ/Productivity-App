@@ -2,6 +2,7 @@ import { habitsActions } from "./habits";
 import { doc, getDoc, setDoc, updateDoc, arrayUnion } from "firebase/firestore";
 import { db } from "../firebase";
 import moment from "moment";
+import { toastify } from "../constants/toastify";
 
 const getDocSnap = async () => {
 	const uid = localStorage.getItem("uid");
@@ -37,6 +38,7 @@ export const addHabit = data => {
 			});
 		}
 
+		toastify("Added habit");
 		dispatch(fetchHabits());
 	};
 };
@@ -64,6 +66,7 @@ export const updateHabit = (data, habitId, goal = false) => {
 		await updateDoc(ref, {
 			habits: updatedHabits,
 		});
+		toastify("Habit edited");
 
 		dispatch(fetchHabits());
 	};
