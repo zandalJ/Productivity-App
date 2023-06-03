@@ -5,12 +5,16 @@ import ProgressCircle from "./ProgressCircle";
 import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { solid } from "@fortawesome/fontawesome-svg-core/import.macro";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { resetHabitValue } from "../../store/habits-actions";
 import Modal from "../ui/modal/Modal";
 import AddHabitValue from "./AddHabitValue";
 
 const Habit = ({ data, detail, className }) => {
+
+	const habits = useSelector(state => state.habits.habits)
+	const habit = habits.filter(habit => habit.id === data.id)
+
 	const [showModal, setShowModal] = useState(false);
 
 	const showModalHandler = () => {
@@ -35,7 +39,7 @@ const Habit = ({ data, detail, className }) => {
 							unit={data.goal.unit}
 							maxValue={data.goal.maxValue}
 							currentValue={data.goal.currentValue}
-							habitColor={data.color}
+							habitColor={habit[0].color}
 						/>
 						<div className={styles["habit-card__detail-tools"]}>
 							<button
@@ -65,7 +69,7 @@ const Habit = ({ data, detail, className }) => {
 						unit={data.goal.unit}
 						maxValue={data.goal.maxValue}
 						currentValue={data.goal.currentValue}
-						habitColor={data.color}
+						habitColor={habit[0].color}
 					/>
 				</Card>
 			)}

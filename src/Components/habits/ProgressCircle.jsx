@@ -6,6 +6,7 @@ const ProgressCircle = ({ unit, maxValue, currentValue, habitColor }) => {
 	const progressValue = currentValue / maxValue;
 	const circleMaxProgressValue = Math.round(283 * progressValue);
 
+
 	return (
 		<div className={styles["circle-box"]}>
 			<svg className={styles["circle-box__svg"]} viewBox='0 0 100 100'>

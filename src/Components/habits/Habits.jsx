@@ -1,4 +1,4 @@
-import { useEffect, Fragment } from "react";
+import { useEffect, Fragment, useCallback, useState } from "react";
 import styles from "./Habits.module.scss";
 import Habit from "./Habit";
 import { useSelector, useDispatch } from "react-redux";
@@ -10,16 +10,24 @@ const Habits = () => {
 	const dispatch = useDispatch();
 	const habits = useSelector(state => state.habits.habits);
 
-	const msTillEndOfDay = moment()
-		.endOf("day")
-		.add(1, "seconds")
-		.diff(moment(), "milliseconds");
+	const [isNewDay, setIsNewDay] = useState(false);
+
+	const newDayHandler = useCallback(() => {
+		const endOfDay = moment().endOf("day");
+		const timeToEndDay = endOfDay.diff(moment());
+
+		setTimeout(() => {
+			setIsNewDay(true);
+			setTimeout(() => {
+				setIsNewDay(false);
+			}, 1000);
+			dispatch(addHabitsToNewDay(habits));
+		}, timeToEndDay);
+	}, [dispatch, habits]);
 
 	useEffect(() => {
-		setTimeout(() => {
-			dispatch(addHabitsToNewDay(habits));
-		}, [msTillEndOfDay]);
-	}, [msTillEndOfDay, dispatch, habits]);
+		newDayHandler();
+	}, [newDayHandler, isNewDay]);
 
 	return (
 		<div className={styles.box}>
@@ -30,7 +38,7 @@ const Habits = () => {
 					})}{" "}
 				</Fragment>
 			) : (
-				<NoDataInfo message="You have no habits created."/>
+				<NoDataInfo message='You have no habits created.' />
 			)}
 		</div>
 	);
