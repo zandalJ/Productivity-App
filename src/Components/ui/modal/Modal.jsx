@@ -7,6 +7,7 @@ const Modal = ({ modal, showModal, children }) => {
 			showModal();
 		}
 	};
+	
 
 	return (
 		<Fragment>

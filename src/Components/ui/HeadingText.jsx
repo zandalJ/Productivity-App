@@ -1,109 +1,82 @@
 import styles from "./HeadingText.module.scss";
-// import { useState, useEffect } from "react";
-// import moment from "moment";
+import { useState, useEffect, useCallback } from "react";
+import moment from "moment";
+import { useSelector } from "react-redux";
+
+let isInitial = true;
+
 const HeadingText = () => {
-	// const [date, setDate] = useState({
-	// 	day: moment().date(),
-	// 	weekDay: moment().day(),
-	// 	month: moment().month(),
-	// });
-	// const [welcomeText, setWelcomeText] = useState("Hi");
-	// useEffect(() => {
-	// 	let lastTimeout = 0;
-	// 	let setReload = function () {
-	// 		let timeUntilMidnight;
-	// 		if (moment().hour() >= 23 && moment().hour() < 0) {
-	// 			timeUntilMidnight = moment().diff(
-	// 				moment().endOf("day").add(1, "s"),
-	// 				"s"
-	// 			);
-	// 		}
+	const userName = useSelector(state => state.auth.userData.name);
 
-	// 		if (moment().hour() < 23 && moment().hour() >= 0) {
-	// 			timeUntilMidnight = moment().diff(
-	// 				moment().endOf("day").add(1, "h"),
-	// 				"h"
-	// 			);
-	// 		}
-	// 		return setTimeout(function () {
-	// 			setDate({
-	// 				day: moment().date(),
-	// 				weekDay: moment().day(),
-	// 				month: moment().month(),
-	// 			});
-	// 			lastTimeout = setReload();
-	// 		}, timeUntilMidnight);
-	// 	};
+	const [isNewDay, setIsNewDay] = useState(false);
+	const [isNewHour, setIsNewHour] = useState(false);
+	const [weekDayName, setWeekDayName] = useState(moment().format("dddd"));
+	const [month, setMonth] = useState(moment().format("MMMM"));
+	const [monthDay, setMonthDay] = useState(moment().format("D"));
+	const [welcomeText, setWelcomeText] = useState("Hello");
 
-	// 	lastTimeout = setReload();
-	// 	return () => {
-	// 		clearInterval(lastTimeout);
-	// 	};
-	// }, [date]);
+	const newDayHandler = useCallback(() => {
+		const endOfDay = moment().endOf("day");
+		const timeToEndDay = endOfDay.diff(moment());
 
-	// function getMonthName(monthNum) {
-	// 	const date = new Date();
-	// 	date.setMonth(monthNum);
-	// 	const formatter = new Intl.DateTimeFormat("en-us", { month: "long" });
+		setTimeout(() => {
+			setIsNewDay(true);
+			setTimeout(() => {
+				setIsNewDay(false);
+			}, 1000);
+			const newDate = moment().add(1, "day").startOf("day");
+			setWeekDayName(newDate.format("dddd"));
+			setMonth(newDate.format("MMMM"));
+			setMonthDay(newDate.format("D"));
+		}, timeToEndDay);
+	}, []);
 
-	// 	return formatter.format(date);
-	// }
+	const welcomeTextHandler = useCallback(hour => {
+		if (hour >= 6 && hour < 12) setWelcomeText("Good Morning");
+		else if (hour >= 12 && hour < 18) setWelcomeText("Good Afternoon");
+		else if (hour >= 18 && hour < 22) setWelcomeText("Good Evening");
+		else setWelcomeText("Good Night");
+	}, [])
 
-	// function getWeekName(dayNum) {
-	// 	const days = [
-	// 		"Sunday",
-	// 		"Monday",
-	// 		"Tuesday",
-	// 		"Wednesday",
-	// 		"Thursday",
-	// 		"Friday",
-	// 		"Saturday",
-	// 	];
+	const hoursHandler = useCallback(() => {
+		const currentHour = moment().format("HH");
+		welcomeTextHandler(currentHour);
 
-	// 	return days[dayNum];
-	// }
+		const endOfHour = moment().endOf("hour");
+		const timeToEndHour = endOfHour.diff(moment());
 
-	// useEffect(() => {
-	// 	let lastTimeout = 0;
-	// 	let setReload = function () {
-	// 		const timeUntilNewHour = moment().diff(
-	// 			moment().endOf("hour").add(1, "s"),
-	// 			"s"
-	// 		);
-	// 		return setTimeout(function () {
-	// 			if (moment().hour() >= 6 && moment().hour() < 12) {
-	// 				setWelcomeText("Good Morning");
-	// 			}
-	// 			if (moment().hour() >= 12 && moment().hour() < 13) {
-	// 				setWelcomeText("Good Noon");
-	// 			}
-	// 			if (moment().hour() >= 13 && moment().hour() < 20) {
-	// 				setWelcomeText("Good Afternoon");
-	// 			}
-	// 			if (moment().hour() >= 20 && moment().hour() < 23) {
-	// 				setWelcomeText("Good Evening");
-	// 			}
-	// 			if (moment().hour() >= 23 && moment().hour() < 6) {
-	// 				setWelcomeText("Good Night");
-	// 			}
-	// 			lastTimeout = setReload();
-	// 		}, timeUntilNewHour);
-	// 	};
+		setTimeout(() => {
+			setIsNewHour(true);
 
-	// 	lastTimeout = setReload();
-	// 	return () => {
-	// 		clearInterval(lastTimeout);
-	// 	};
-	// }, []);
+			setTimeout(() => {
+				setIsNewHour(false);
+			}, 1000);
+
+			const newHour = moment().add(1, "hour").startOf("hour").format("HH");
+			welcomeTextHandler(newHour);
+		}, timeToEndHour);
+	}, [welcomeTextHandler]);
+
+	useEffect(() => {
+		if (isInitial) {
+			newDayHandler();
+			hoursHandler();
+			isInitial = false;
+		}
+
+		if (isNewDay) newDayHandler();
+
+		if (isNewHour) hoursHandler();
+	}, [newDayHandler, isNewDay, hoursHandler, isNewHour]);
 
 	return (
 		<div className={styles.box}>
 			<p>
-				{/* {getWeekName(date.weekDay)}, {getMonthName(date.month)} {date.day} */}
-				Saturday, March 18
+				{weekDayName}, {month} {monthDay}
 			</p>
-			{/* <h1>{welcomeText}, Fabian</h1> */}
-			<h1>Good Morning, Fabian</h1>
+			<h1>
+				{welcomeText}, {userName}
+			</h1>
 		</div>
 	);
 };
