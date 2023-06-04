@@ -17,6 +17,7 @@ const Members = () => {
 							surname={member.surname}
 							avatarUrl={member.avatarUrl}
 							email={member.email}
+							uid={member.id}
 						/>
 					);
 				})

@@ -16,7 +16,8 @@ const TaskInfo = ({ data, changeEdit }) => {
 			<UserPhoto
 				key={member.id}
 				size='40'
-				href='https://images.unsplash.com/photo-1628157588553-5eeea00af15c?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=880&q=80'
+				href={member.avatarUrl}
+				uid={member.id}
 			/>
 		);
 	});

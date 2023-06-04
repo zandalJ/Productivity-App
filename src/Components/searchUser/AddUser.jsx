@@ -18,10 +18,7 @@ const AddUser = ({ elements, addUsers }) => {
 		return (
 			<div key={el.id} className={styles.box}>
 				<div className={styles["box--left"]}>
-					<UserPhoto
-						href='https://images.unsplash.com/photo-1633332755192-727a05c4013d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=880&q=80'
-						size={photoSize}
-					/>
+					<UserPhoto href={el.avatarUrl} size={photoSize} uid={el.id} />
 					<div className={styles["user-data-box"]}>
 						<p className={styles["user-data-box--data"]}>{el.name}</p>
 						<p
@@ -42,7 +39,15 @@ const AddUser = ({ elements, addUsers }) => {
 		);
 	});
 
-	return <Fragment>{elements.length > 0 ? output : <p className={styles.text}>No users found.</p>}</Fragment>;
+	return (
+		<Fragment>
+			{elements.length > 0 ? (
+				output
+			) : (
+				<p className={styles.text}>No users found.</p>
+			)}
+		</Fragment>
+	);
 };
 
 export default AddUser;

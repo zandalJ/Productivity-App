@@ -15,7 +15,7 @@ const MembersCell = ({
 			{firstCell ? (
 				<div className={styles["first-cell-box"]}>
 					<Checkbox register={register} userId={userId} />
-					<UserPhoto size={25} href={photoUrl} />
+					<UserPhoto size={25} href={photoUrl} uid={userId}/>
 					<p>{data}</p>
 				</div>
 			) : (

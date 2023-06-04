@@ -9,6 +9,7 @@ import { regex } from "../../constants/regex";
 import { auth } from "../../firebase";
 import { registerUser, loginUser } from "../../store/auth-actions";
 import anonymousAvatar from "../../img/anonymous-avatar.png";
+import { toastify } from "../../constants/toastify";
 
 const AuthForm = () => {
 	const location = useLocation();
@@ -100,6 +101,7 @@ const AuthForm = () => {
 				try {
 					await dispatch(registerUser(authData, auth));
 					navigate("/login");
+					toastify("Registered successfully");
 				} catch (error) {
 					setRegisterError(error);
 				}
@@ -113,6 +115,7 @@ const AuthForm = () => {
 						})
 					);
 					navigate("/");
+					toastify("Login successfully");
 				} catch (error) {
 					setLoginError(error);
 				}

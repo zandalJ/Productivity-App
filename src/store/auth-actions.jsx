@@ -117,7 +117,7 @@ export const handleUserTeamMembers = changeData => {
 		const loginState = JSON.parse(localStorage.getItem("isLoggedIn"));
 
 		dispatch(fetchUserData(loginState));
-		const toastifyText = changeData.length === 1 ? "Added user" : "Added users";
+		const toastifyText = changeData.length === 1 ? "Added team member" : "Added team members";
 		toastify(toastifyText);
 	};
 };
@@ -165,7 +165,7 @@ const fetchUserAvatar = async () => {
 	try {
 		return await getDownloadURL(ref(storage, `users/${uid}/avatarUrl`));
 	} catch (err) {
-		console.log(err);
+		// console.log(err);
 	}
 };
 

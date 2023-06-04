@@ -2,7 +2,7 @@ import styles from "./Members.module.scss";
 import useWidth from "../../hooks/useWidth";
 import UserPhoto from "../ui/UserPhoto";
 
-const Member = ({ name, surname, email, avatarUrl }) => {
+const Member = ({ name, surname, email, avatarUrl, uid }) => {
 	const width = useWidth();
 	let membersPhotoSize;
 	if (width < 576) {
@@ -19,7 +19,7 @@ const Member = ({ name, surname, email, avatarUrl }) => {
 	}
 	return (
 		<div className={styles.member}>
-			<UserPhoto href={avatarUrl} size={membersPhotoSize} />
+			<UserPhoto href={avatarUrl} size={membersPhotoSize} uid={uid} />
 			<div className={styles["member__data"]}>
 				<p className={styles["member__names"]}>{`${name} ${surname}`}</p>
 				<p className={styles["member__email"]}>{email}</p>
