@@ -20,7 +20,7 @@ const UserNavInfo = ({ open, animationVariants, photoSize }) => {
 				isOwner
 				href={userData.avatarUrl}
 				size={photoSize}
-				uid={userData.id}
+				uid={userData.uid}
 			/>
 			<div className={styles["names-box"]}>
 				<p className={styles.name}>{name}</p>

@@ -22,7 +22,7 @@ const UserDropdown = () => {
 					isOwner
 					href={userData.avatarUrl}
 					size={photoSize}
-					uid={userData.id}
+					uid={userData.uid}
 				/>
 				<FontAwesomeIcon
 					icon={clicked ? solid("chevron-up") : solid("chevron-down")}
