@@ -9,6 +9,9 @@ const modalSettingsSlice = createSlice({
 		modalStateToggler(state) {
 			state.openModal = !state.openModal;
 		},
+		modalStateChanger(state, action) {
+			state.openModal = action.payload;
+		},
 	},
 });
 

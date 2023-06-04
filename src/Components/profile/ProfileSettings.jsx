@@ -9,7 +9,6 @@ import EditProfileForm from "../forms/EditProfileForm";
 import { useSelector, useDispatch } from "react-redux";
 import { logoutUser } from "../../store/auth-actions";
 import { Link } from "react-router-dom";
-import { userAuthDataUpdate } from "../../store/auth-actions";
 import { modalSettingsActions } from "../../store/modal";
 
 const variants = {

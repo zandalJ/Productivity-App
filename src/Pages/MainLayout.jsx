@@ -11,6 +11,7 @@ import { fetchHabits } from "../store/habits-actions";
 import CreateFormModalContent from "../Components/ui/modal/CreateFormModalContent";
 import LoadingSpinner from "../Components/ui/LoadingSpinner";
 import { ToastContainer } from "react-toastify";
+import { modalSettingsActions } from "../store/modal";
 
 const reducer = (state, action) => {
 	switch (action.type) {
@@ -69,8 +70,13 @@ const MainLayout = () => {
 	const showModalHandler = () => setShowModal(before => !before);
 
 	useEffect(() => {
-		showModalHandler();
-	}, [settingsModalState]);
+		if (location === "/settings" && !showModal) {
+			reduxDispatch(modalSettingsActions.modalStateChanger(false));
+		}
+		if (location === "/settings" && settingsModalState) {
+			showModalHandler();
+		}
+	}, [showModal, location, reduxDispatch, settingsModalState]);
 
 	if (loginState) {
 		if (state.tasksHabitsLoading || state.userAuthLoading)
