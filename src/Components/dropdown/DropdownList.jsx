@@ -27,7 +27,7 @@ const DropdownList = ({ isClicked, handleClicked }) => {
 
 	const logoutUserHandler = () => {
 		if (loginState) {
-			handleClicked()
+			handleClicked();
 			dispatch(logoutUser());
 		}
 	};
