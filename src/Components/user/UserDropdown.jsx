@@ -18,13 +18,18 @@ const UserDropdown = () => {
 	return (
 		<Fragment>
 			<div className={styles["dropdown-box"]} onClick={handleClicked}>
-				<UserPhoto isOwner href={userData.avatarUrl} size={photoSize} />
+				<UserPhoto
+					isOwner
+					href={userData.avatarUrl}
+					size={photoSize}
+					uid={userData.id}
+				/>
 				<FontAwesomeIcon
 					icon={clicked ? solid("chevron-up") : solid("chevron-down")}
 					className={styles.icon}
 				/>
 			</div>
-			<DropdownList isClicked={clicked} handleClicked={handleClicked}/>
+			<DropdownList isClicked={clicked} handleClicked={handleClicked} />
 		</Fragment>
 	);
 };

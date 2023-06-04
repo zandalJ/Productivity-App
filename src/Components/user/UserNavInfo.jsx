@@ -16,7 +16,12 @@ const UserNavInfo = ({ open, animationVariants, photoSize }) => {
 			animate={open ? "open" : "closed"}
 			initial={open ? "open" : "closed"}
 			variants={animationVariants}>
-			<UserPhoto isOwner href={userData.avatarUrl} size={photoSize} />
+			<UserPhoto
+				isOwner
+				href={userData.avatarUrl}
+				size={photoSize}
+				uid={userData.id}
+			/>
 			<div className={styles["names-box"]}>
 				<p className={styles.name}>{name}</p>
 				<p className={styles.nickname}>{nick}</p>
