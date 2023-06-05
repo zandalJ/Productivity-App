@@ -12,6 +12,7 @@ import CreateFormModalContent from "../Components/ui/modal/CreateFormModalConten
 import LoadingSpinner from "../Components/ui/LoadingSpinner";
 import { ToastContainer } from "react-toastify";
 import { modalSettingsActions } from "../store/modal";
+import { sendFilterData } from "../store/filter-actions";
 
 const reducer = (state, action) => {
 	switch (action.type) {
@@ -34,6 +35,9 @@ const MainLayout = () => {
 	const reduxDispatch = useDispatch();
 	const loginState = useSelector(state => state.auth.isLoggedIn);
 	const settingsModalState = useSelector(state => state.modal.openModal);
+	const filterSortingChangeState = useSelector(
+		state => state.filterSorting.isChanged
+	);
 
 	const [state, reducerDispatch] = useReducer(reducer, {
 		tasksHabitsLoading: true,
@@ -56,9 +60,14 @@ const MainLayout = () => {
 			reducerDispatch({ type: "user_auth_loading", loading: false });
 		};
 
-		if (loginState) getTasksHabitsData();
+		if (loginState) {
+			getTasksHabitsData();
+			if (!filterSortingChangeState) {
+				reduxDispatch(sendFilterData({ filter: "all", sort: "ca" }));
+			}
+		}
 		getUserAuth();
-	}, [reduxDispatch, loginState]);
+	}, [reduxDispatch, loginState, filterSortingChangeState]);
 
 	let location = useLocation().pathname;
 	const renderModal =
