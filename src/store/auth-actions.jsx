@@ -82,7 +82,7 @@ export const logoutUser = () => {
 };
 
 export const fetchUserAuth = () => {
-	return dispatch => {
+	return async dispatch => {
 		const loginState = JSON.parse(localStorage.getItem("isLoggedIn"));
 		const uid = localStorage.getItem("uid");
 		dispatch(
@@ -92,7 +92,7 @@ export const fetchUserAuth = () => {
 				auth: false,
 			})
 		);
-		dispatch(fetchUserData(loginState));
+		await dispatch(fetchUserData(loginState));
 	};
 };
 
@@ -117,7 +117,8 @@ export const handleUserTeamMembers = changeData => {
 		const loginState = JSON.parse(localStorage.getItem("isLoggedIn"));
 
 		dispatch(fetchUserData(loginState));
-		const toastifyText = changeData.length === 1 ? "Added team member" : "Added team members";
+		const toastifyText =
+			changeData.length === 1 ? "Added team member" : "Added team members";
 		toastify(toastifyText);
 	};
 };
@@ -169,15 +170,20 @@ const fetchUserAvatar = async () => {
 	}
 };
 
-const fetchUserData = login => {
+export const fetchUserData = login => {
 	return async dispatch => {
 		if (login) {
-			const avatarUrl = (await fetchUserAvatar()) || anonymousAvatar;
-			const { docSnap } = await getDocSnap();
-			const data = docSnap.data();
-			await dispatch(
-				authActions.userDataHandler({ data: { ...data, avatarUrl } })
-			);
+			try {
+				const avatarUrl = (await fetchUserAvatar()) || anonymousAvatar;
+				const { docSnap } = await getDocSnap();
+				const data = docSnap.data();
+				await dispatch(
+					authActions.userDataHandler({ data: { ...data, avatarUrl } })
+				);
+				return Promise.resolve();
+			} catch (error) {
+				return Promise.reject(error);
+			}
 		} else {
 			const anonymousData = {
 				name: "Anonymous",

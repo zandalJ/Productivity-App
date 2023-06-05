@@ -8,6 +8,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchUserAuth } from "../store/auth-actions";
 import { fetchTasks } from "../store/tasks-actions";
 import { fetchHabits } from "../store/habits-actions";
+import { fetchUserData } from "../store/auth-actions";
 import CreateFormModalContent from "../Components/ui/modal/CreateFormModalContent";
 import LoadingSpinner from "../Components/ui/LoadingSpinner";
 import { ToastContainer } from "react-toastify";
@@ -56,7 +57,8 @@ const MainLayout = () => {
 
 		const getUserAuth = async () => {
 			reducerDispatch({ type: "user_auth_loading", loading: true });
-			await reduxDispatch(fetchUserAuth());
+			reduxDispatch(await fetchUserAuth());
+			reduxDispatch(await fetchUserData(loginState));
 			reducerDispatch({ type: "user_auth_loading", loading: false });
 		};
 
