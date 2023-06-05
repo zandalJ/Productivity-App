@@ -1,27 +1,48 @@
+import { useState } from "react";
 import styles from "./ChangePasswordForm.module.scss";
 import { useForm } from "react-hook-form";
 import FormInput from "./FormInput";
 import Button from "../ui/Button";
 import { userAuthDataUpdate } from "../../store/auth-actions";
 import { useDispatch } from "react-redux";
+import { toastify } from "../../constants/toastify";
+import { updateDoc } from "firebase/firestore";
+import LoadingSpinner from "../ui/LoadingSpinner";
+import { fetchUserData } from "../../store/auth-actions";
 
 const ChangePasswordForm = ({ userData }) => {
 	const dispatch = useDispatch();
+
+	const [isLoading, setIsLoading] = useState(false);
 
 	const {
 		register,
 		handleSubmit,
 		setError,
+		reset,
 		formState: { errors },
 	} = useForm();
 
 	const submitHandler = async data => {
-		await dispatch(
-			userAuthDataUpdate({ password: data.newPassword }, true)
-		).catch(error => {
-			setError("currentPassword", { message: error });
-		});
+		setIsLoading(true);
+		const loginState = JSON.parse(localStorage.getItem("isLoggedIn"));
+		await dispatch(userAuthDataUpdate({ password: data.newPassword }, true))
+			.then(async ref => {
+				await updateDoc(ref, {
+					password: data.newPassword,
+				});
+				await dispatch(fetchUserData(loginState));
+				setIsLoading(false);
+				reset();
+				toastify("Password updated");
+			})
+			.catch(error => {
+				setIsLoading(false);
+				setError("currentPassword", { message: error });
+			});
 	};
+
+	if (isLoading) return <LoadingSpinner />;
 
 	return (
 		<form onSubmit={handleSubmit(submitHandler)} className={styles.form}>

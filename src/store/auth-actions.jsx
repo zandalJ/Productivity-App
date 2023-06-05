@@ -230,16 +230,11 @@ export const userAuthDataUpdate = (
 			if (password) {
 				try {
 					await updatePassword(user, data.password);
-					return Promise.resolve();
+					return Promise.resolve(ref);
 				} catch (error) {
 					return Promise.reject(
 						"The last login was too long ago, log in again to change your password"
 					);
-				} finally {
-					await updateDoc(ref, {
-						...data,
-					});
-					toastify("Password updated");
 				}
 			}
 			if (deleteAccount) {
