@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { Fragment, useRef } from "react";
 import useSetFilter from "../../hooks/useSetFilter";
 import { useSelector } from "react-redux";
 import { useSearchParams } from "react-router-dom";
@@ -24,7 +24,8 @@ const RadioButtons = ({ options, type }) => {
 				name={type}
 				className={option[1]}
 				ref={element => (elements.current[index] = element)}
-				defaultChecked={filter === option[1]}
+				checked={filter === option[1]}
+				onChange={() => {}}
 			/>
 			<label
 				data-type='filter'
@@ -37,7 +38,11 @@ const RadioButtons = ({ options, type }) => {
 		</div>
 	));
 
-	return <div className={styles.wrapper}>{output}</div>;
+	return (
+		<Fragment>
+			{output && <div className={styles.wrapper}>{output}</div>}
+		</Fragment>
+	);
 };
 
 export default RadioButtons;
