@@ -45,7 +45,7 @@ const Profile = () => {
 			<ProfileSection title='Your Profile'>
 				<div className={styles["profile-header"]}>
 					<div className={styles["profile-header__img-box"]}>
-						<UserPhoto href={userData.avatarUrl} className={styles.img} />
+						<UserPhoto href={userData.avatarUrl} className={styles.img} uid={userData.uid}/>
 						<Tooltip title='Change photo' sx={{ fontSize: "2rem" }}>
 							<IconButton
 								color='primary'
