@@ -36,6 +36,7 @@ const TaskForm = ({ showModal, modal, submitChange, children }) => {
 	} = useForm();
 
 	const resetFormHandler = useCallback(() => {
+		console.log("reset form handler");
 		setResetUsers(before => !before);
 		setSelectedUsers([]);
 		setDateDefaultValue(moment());
@@ -45,6 +46,7 @@ const TaskForm = ({ showModal, modal, submitChange, children }) => {
 	const addUserHandler = useCallback(user => {
 		setSelectedUsers([...user]);
 	}, []);
+
 	const addTaskHandler = data => {
 		let lastId;
 		tasks.length > 0 ? (lastId = tasks[tasks.length - 1].id) : (lastId = 0);
@@ -84,9 +86,10 @@ const TaskForm = ({ showModal, modal, submitChange, children }) => {
 		location.pathname === "/tasks" ? addTaskHandler : changeTaskHandler;
 
 	useEffect(() => {
-		if (!modal) resetFormHandler();
-		if (modal) setResetUsers(false);
-		console.log(modal);
+		if (location.pathname === "/tasks") {
+			if (!modal) resetFormHandler();
+			if (modal) setResetUsers(false);
+		}
 	}, [modal, resetFormHandler]);
 
 	return (
