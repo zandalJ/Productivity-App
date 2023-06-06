@@ -89,66 +89,70 @@ const TaskForm = ({ showModal, modal, submitChange, children }) => {
 	}, [modal, resetFormHandler]);
 
 	return (
-		<form onSubmit={handleSubmit(submitHandler)}>
-			<div className={`${styles2["input-box"]} ${styles["input-box"]}`}>
-				<FormInput
-					title='Enter Task Title'
-					name='taskTitle'
-					type='text'
-					defaultValue={task.title || ""}
-					register={register}
-					rules={{
-						required: true,
-						maxLength: 15,
-					}}
-					errors={errors}
-				/>
-			</div>
-			<div className={`${styles2["input-box"]} ${styles["input-box"]}`}>
-				<label>Enter Task Description</label>
-				<textarea
-					{...register("taskDescription", {
-						required: false,
-					})}
-					defaultValue={task.description || ""}
-					placeholder='Enter Task Description'></textarea>
-			</div>
-			<Fragment>
-				<Controller
-					control={control}
-					name='taskDeadline'
-					defaultValue={dateDefaultValue}
-					rules={{
-						required: "Choose Date",
-						validate: {
-							min: date =>
-								moment(date).isAfter(moment(task.createDate) || moment()) ||
-								"Enter a valid date",
-						},
-					}}
-					render={({ field: { onChange, onBlur, value } }) => (
-						<DateTimePicker
-							label='Choose Deadline'
-							className={styles.date}
-							value={value}
-							onChange={onChange}
-							onBlur={onBlur}
-							desktopModeMediaQuery='@media(min-width:992px)'
+		<Fragment>
+			{task && (
+				<form onSubmit={handleSubmit(submitHandler)}>
+					<div className={`${styles2["input-box"]} ${styles["input-box"]}`}>
+						<FormInput
+							title='Enter Task Title'
+							name='taskTitle'
+							type='text'
+							defaultValue={task.title || ""}
+							register={register}
+							rules={{
+								required: true,
+								maxLength: 15,
+							}}
+							errors={errors}
 						/>
-					)}
-				/>
-				{errors.taskDeadline && (
-					<ErrorMessage message={errors.taskDeadline.message} />
-				)}
-			</Fragment>
-			<SearchUser
-				className={styles2["input-box"]}
-				addUsers={addUserHandler}
-				resetUsers={resetUsers}
-				fetchedUsers={task.members || []}
-			/>
-			{children}
-		</form>
+					</div>
+					<div className={`${styles2["input-box"]} ${styles["input-box"]}`}>
+						<label>Enter Task Description</label>
+						<textarea
+							{...register("taskDescription", {
+								required: false,
+							})}
+							defaultValue={task.description || ""}
+							placeholder='Enter Task Description'></textarea>
+					</div>
+					<Fragment>
+						<Controller
+							control={control}
+							name='taskDeadline'
+							defaultValue={dateDefaultValue}
+							rules={{
+								required: "Choose Date",
+								validate: {
+									min: date =>
+										moment(date).isAfter(moment(task.createDate) || moment()) ||
+										"Enter a valid date",
+								},
+							}}
+							render={({ field: { onChange, onBlur, value } }) => (
+								<DateTimePicker
+									label='Choose Deadline'
+									className={styles.date}
+									value={value}
+									onChange={onChange}
+									onBlur={onBlur}
+									desktopModeMediaQuery='@media(min-width:992px)'
+								/>
+							)}
+						/>
+						{errors.taskDeadline && (
+							<ErrorMessage message={errors.taskDeadline.message} />
+						)}
+					</Fragment>
+					<SearchUser
+						className={styles2["input-box"]}
+						addUsers={addUserHandler}
+						resetUsers={resetUsers}
+						fetchedUsers={task.members || []}
+					/>
+					{children}
+				</form>
+			)}
+		</Fragment>
 	);
 };
 
