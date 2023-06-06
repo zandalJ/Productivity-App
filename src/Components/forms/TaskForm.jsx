@@ -36,7 +36,6 @@ const TaskForm = ({ showModal, modal, submitChange, children }) => {
 	} = useForm();
 
 	const resetFormHandler = useCallback(() => {
-		console.log("reset form handler");
 		setResetUsers(before => !before);
 		setSelectedUsers([]);
 		setDateDefaultValue(moment());

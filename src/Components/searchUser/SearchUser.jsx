@@ -25,14 +25,12 @@ const SearchUser = ({ className, addUsers, resetUsers, fetchedUsers }) => {
 
 	useEffect(() => {
 		if (location.pathname === "/team-members") {
-			console.log('location');
 			setAddedUsers(fetchedUsers);
 		}
 	}, [fetchedUsers, location.pathname]);
 
 	useEffect(() => {
 		if (resetUsers) {
-			console.log('rest');
 			setSearchEl(users);
 			setAddedUsers([]);
 			setSearchText("");
@@ -74,7 +72,6 @@ const SearchUser = ({ className, addUsers, resetUsers, fetchedUsers }) => {
 	};
 
 	const addUsersHandler = arr => {
-		console.log('add');
 		setSearchEl(searchEl.filter(el => el.id !== arr[0]));
 		users.forEach(user => {
 			arr.forEach(el => {
@@ -87,7 +84,6 @@ const SearchUser = ({ className, addUsers, resetUsers, fetchedUsers }) => {
 	};
 
 	const removeUserHandler = e => {
-		console.log('remove');
 		const user = e.target.hasAttribute("data-id")
 			? e.target
 			: e.target.closest("[data-id]");
