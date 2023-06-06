@@ -89,7 +89,7 @@ const TaskForm = ({ showModal, modal, submitChange, children }) => {
 			if (!modal) resetFormHandler();
 			if (modal) setResetUsers(false);
 		}
-	}, [modal, resetFormHandler]);
+	}, [modal, resetFormHandler, location.pathname]);
 
 	return (
 		<Fragment>

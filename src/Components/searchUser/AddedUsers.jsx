@@ -4,7 +4,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { solid } from "@fortawesome/fontawesome-svg-core/import.macro";
 
 const AddedUsers = ({ users, removeUser }) => {
-	console.log(users);
 	const output = users.map(user => {
 		return (
 			<div key={user.id} className={styles["users--user-box"]}>
