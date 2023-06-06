@@ -31,7 +31,7 @@ export const addTask = data => {
 
 export const fetchTasks = () => {
 	return async dispatch => {
-		const { docSnap } = await getDocSnap();
+		const { ref, docSnap } = await getDocSnap();
 		if (docSnap.exists()) {
 			const data = docSnap.data().tasks;
 			if (docSnap.data().hasOwnProperty("tasks")) {
@@ -54,11 +54,15 @@ export const fetchTasks = () => {
 				});
 				dispatch(tasksActions.getTasks({ tasks: data }));
 			}
+		} else {
+			await setDoc(ref, {
+				tasks: [],
+			});
 		}
 	};
 };
 
-export const updateTask = (data, taskId, single=false) => {
+export const updateTask = (data, taskId, single = false) => {
 	return async dispatch => {
 		const { ref, docSnap } = await getDocSnap();
 		const tasks = await docSnap.data().tasks;
@@ -73,8 +77,7 @@ export const updateTask = (data, taskId, single=false) => {
 			tasks: updatedTasks,
 		});
 		dispatch(fetchTasks());
-		if(!single) toastify("Task updated successfully");
-		
+		if (!single) toastify("Task updated successfully");
 	};
 };
 

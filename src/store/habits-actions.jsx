@@ -13,13 +13,17 @@ const getDocSnap = async () => {
 
 export const fetchHabits = () => {
 	return async dispatch => {
-		const { docSnap } = await getDocSnap();
+		const { ref, docSnap } = await getDocSnap();
 
 		if (docSnap.exists()) {
 			const data = docSnap.data().habits;
 			if (docSnap.data().hasOwnProperty("habits")) {
 				dispatch(habitsActions.getHabits({ habits: data }));
 			}
+		} else {
+			await setDoc(ref, {
+				habits: [],
+			});
 		}
 	};
 };

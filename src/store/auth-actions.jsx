@@ -18,6 +18,8 @@ import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { getAuth, updatePassword, deleteUser } from "firebase/auth";
 import anonymousAvatar from "../img/anonymous-avatar.png";
 import { toastify } from "../constants/toastify";
+import { fetchTasks } from "./tasks-actions";
+import { fetchHabits } from "./habits-actions";
 
 const getDocSnap = async () => {
 	const uid = localStorage.getItem("uid");
@@ -59,7 +61,10 @@ export const loginUser = authData => {
 					uid: userCredential.user.uid,
 				})
 			);
+			dispatch(fetchTasks());
+			dispatch(fetchHabits());
 			toastify("Login successfully");
+
 			return Promise.resolve();
 		} catch (error) {
 			return Promise.reject(error.code);

@@ -10,6 +10,7 @@ import { auth } from "../../firebase";
 import { registerUser, loginUser } from "../../store/auth-actions";
 import anonymousAvatar from "../../img/anonymous-avatar.png";
 import { toastify } from "../../constants/toastify";
+import LoadingSpinner from "../ui/LoadingSpinner";
 
 const AuthForm = () => {
 	const location = useLocation();
@@ -21,6 +22,7 @@ const AuthForm = () => {
 
 	const [loginError, setLoginError] = useState(null);
 	const [registerError, setRegisterError] = useState(null);
+	const [isLoading, setIsLoading] = useState(false);
 
 	const {
 		register,
@@ -98,14 +100,18 @@ const AuthForm = () => {
 				avatarUrl: anonymousAvatar,
 			};
 			if (registerPage) {
+				setIsLoading(true);
 				try {
 					await dispatch(registerUser(authData, auth));
 					navigate("/login");
+					setIsLoading(false);
 					toastify("Registered successfully");
 				} catch (error) {
 					setRegisterError(error);
+					setIsLoading(false);
 				}
 			} else {
+				setIsLoading(true)
 				try {
 					await dispatch(
 						loginUser({
@@ -115,9 +121,11 @@ const AuthForm = () => {
 						})
 					);
 					navigate("/");
+					setIsLoading(false);
 					toastify("Login successfully");
 				} catch (error) {
 					setLoginError(error);
+					setIsLoading(false);
 				}
 			}
 		},
@@ -127,6 +135,8 @@ const AuthForm = () => {
 	const formFooterText = registerPage
 		? "Do you have an account? Log in"
 		: "You don't have an account? Register";
+
+	if (isLoading) return <LoadingSpinner />;
 
 	return (
 		<div className={styles["form-wrapper"]}>
