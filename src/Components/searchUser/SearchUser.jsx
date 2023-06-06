@@ -14,7 +14,6 @@ const SearchUser = ({ className, addUsers, resetUsers, fetchedUsers }) => {
 	const [addedUsers, setAddedUsers] = useState(fetchedUsers);
 
 	const location = useLocation();
-	console.log(fetchedUsers);
 	useEffect(() => {
 		const userHandler = async () => {
 			const usersArray = await getAllUsers();
