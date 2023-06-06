@@ -86,6 +86,7 @@ const TaskForm = ({ showModal, modal, submitChange, children }) => {
 	useEffect(() => {
 		if (!modal) resetFormHandler();
 		if (modal) setResetUsers(false);
+		console.log(modal);
 	}, [modal, resetFormHandler]);
 
 	return (
