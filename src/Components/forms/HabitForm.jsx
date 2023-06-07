@@ -85,10 +85,12 @@ const HabitForm = ({ showModal, modal, habitData }) => {
 	}, [reset]);
 
 	useEffect(() => {
-		if (!modal) resetFormHandler();
-		if (modal) {
-			setResetColor(false);
-			setResetGoal(false);
+		if (location.pathname === "/habits") {
+			if (!modal) resetFormHandler();
+			if (modal) {
+				setResetColor(false);
+				setResetGoal(false);
+			}
 		}
 	}, [modal, resetFormHandler]);
 

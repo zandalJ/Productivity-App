@@ -13,7 +13,6 @@ const GoalSelect = ({
 }) => {
 	const [showModal, setShowModal] = useState(false);
 	const showModalHandler = () => setShowModal(before => !before);
-	console.log(defaultValue);
 
 	const defaultGoal = defaultValue ? defaultValue.currentValue : 1;
 	const defaultUnit = defaultValue ? defaultValue.unit : "ml";
@@ -35,7 +34,7 @@ const GoalSelect = ({
 
 	useEffect(() => {
 		if (resetGoal) {
-			setGoalValue(6);
+			setGoalValue(0);
 			setUnit("ml");
 			setFrequency("day");
 		}
