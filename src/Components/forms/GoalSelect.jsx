@@ -13,6 +13,7 @@ const GoalSelect = ({
 }) => {
 	const [showModal, setShowModal] = useState(false);
 	const showModalHandler = () => setShowModal(before => !before);
+	console.log(defaultValue);
 
 	const defaultGoal = defaultValue ? defaultValue.currentValue : 1;
 	const defaultUnit = defaultValue ? defaultValue.unit : "ml";

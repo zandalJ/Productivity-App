@@ -16,7 +16,7 @@ const ColorSelect = ({ setValue, resetColor, control, defaultValue }) => {
 
 	const defaultColor = defaultValue ? defaultValue : "#2192ff"
 	const [colorValue, setColorValue] = useState(defaultColor);
-
+	console.log(defaultValue);
 	const colorHandler = e => {
 		setValue("habitColor", colors[e.target.dataset.color]);
 		setColorValue(colors[e.target.dataset.color]);
