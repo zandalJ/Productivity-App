@@ -92,7 +92,7 @@ const HabitForm = ({ showModal, modal, habitData }) => {
 				setResetGoal(false);
 			}
 		}
-	}, [modal, resetFormHandler]);
+	}, [modal, resetFormHandler, location.pathname]);
 
 	const submitHandler =
 		location.pathname === "/habits" ? addHabitHandler : updateHabitHandler;
