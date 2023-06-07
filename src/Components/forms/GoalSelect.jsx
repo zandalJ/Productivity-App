@@ -14,7 +14,7 @@ const GoalSelect = ({
 	const [showModal, setShowModal] = useState(false);
 	const showModalHandler = () => setShowModal(before => !before);
 
-	const defaultGoal = defaultValue ? defaultValue.maxValue : 1;
+	const defaultGoal = defaultValue ? defaultValue.currentValue : 1;
 	const defaultUnit = defaultValue ? defaultValue.unit : "ml";
 	const defaultFrequency = defaultValue ? defaultValue.frequency : "day";
 	const [goalValue, setGoalValue] = useState(defaultGoal);
